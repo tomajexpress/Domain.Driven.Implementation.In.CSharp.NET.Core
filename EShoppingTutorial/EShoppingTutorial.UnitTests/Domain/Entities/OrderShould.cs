@@ -26,11 +26,11 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
         public void Test_OrderItemsProperty_AddingOrderItemToReadOnlyCollection_ExpectsNotSupportedException()
         {
             // arrange
-            var order = new Order(new OrderItem[] { new OrderItem(1, new Price { Unit = MoneyUnit.Dollar }) });
+            var order = new Order(new OrderItem[] { new OrderItem(1, new Price(1, MoneyUnit.Dollar)) });
 
 
             // act
-            TestDelegate testDelegate = () => order.OrderItems.Add(new OrderItem());
+            TestDelegate testDelegate = () => order.OrderItems.Add(new OrderItem(1, new Price(1, MoneyUnit.Dollar)));
 
 
             // assert
@@ -43,9 +43,9 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
         {
             // arrange
 
-            var orderItem1 = new OrderItem(1, new Price { Amount = 5000, Unit = MoneyUnit.Dollar });
+            var orderItem1 = new OrderItem(1, new Price (5000, MoneyUnit.Dollar));
 
-            var orderItem2 = new OrderItem(2, new Price { Amount = 6000, Unit = MoneyUnit.Dollar });
+            var orderItem2 = new OrderItem(2, new Price(6000, MoneyUnit.Dollar));
 
             // act
             TestDelegate testDelegate = () =>
@@ -66,9 +66,9 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
         {
             // arrange
 
-            var orderItem1 = new OrderItem(1, new Price { Amount = 5000, Unit = MoneyUnit.Dollar });
+            var orderItem1 = new OrderItem(1, new Price(5000, MoneyUnit.Dollar));
 
-            var orderItem2 = new OrderItem(2, new Price { Amount = 6000, Unit = MoneyUnit.Dollar });
+            var orderItem2 = new OrderItem(2, new Price(6000, MoneyUnit.Dollar));
 
             // act
             TestDelegate testDelegate = () =>
@@ -81,25 +81,6 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
             var ex = Assert.Throws<BusinessRuleBrokenException>(testDelegate);
 
             Assert.That(ex.Message.ToLower().Contains("maximum price"));
-        }
-
-
-        [Test]
-        public void Test_InstantiateOrder_WithOrderItems_That_MoneyUnitIsNotDefined_ExpectsBusinessRuleBrokenException()
-        {
-            // arrange
-            var orderItem = new OrderItem(1, new Price { Amount = 5000 });
-
-            // act
-            TestDelegate testDelegate = () =>
-            {
-                new Order(new OrderItem[] { orderItem });
-            };
-
-            // assert
-            var ex = Assert.Throws<BusinessRuleBrokenException>(testDelegate);
-
-            Assert.That(ex.Message.ToLower().Contains("money unit"));
         }
 
     }

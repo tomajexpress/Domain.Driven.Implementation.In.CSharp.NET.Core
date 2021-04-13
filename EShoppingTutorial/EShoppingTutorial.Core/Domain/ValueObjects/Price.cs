@@ -6,11 +6,24 @@ namespace EShoppingTutorial.Core.Domain.ValueObjects
     [ComplexType]
     public class Price
     {
-        /// <example>1000</example>
-        public int Amount { get; set; }
+        protected Price()
+        {
 
-        /// <example>1</example>
-        public MoneyUnit Unit { get; set; } = MoneyUnit.UnSpecified;
+        }
+
+        public Price(int amount, MoneyUnit unit)
+        {
+            Amount = amount;
+
+            Unit = unit;
+        }
+
+
+        public int Amount { get; protected set; }
+
+
+        public MoneyUnit Unit { get; protected set; } = MoneyUnit.UnSpecified;
+
 
         public bool HasValue
         {

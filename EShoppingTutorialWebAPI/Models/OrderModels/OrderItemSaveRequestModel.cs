@@ -7,6 +7,6 @@ namespace EShoppingTutorialWebAPI.Models.OrderModels
         /// <example>1</example>
         public int? ProductId { get; set; }
    
-        public Price Price { get; set; }
+        public PriceSaveRequestModel Price { get; set; }
     }
 }

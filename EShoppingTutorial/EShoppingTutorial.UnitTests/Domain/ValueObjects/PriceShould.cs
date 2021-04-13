@@ -10,26 +10,13 @@ namespace EShoppingTutorial.UnitTests.Domain.ValueObjects
         public void Test_ToString_For_SpecifiedUnitType()
         {
             // arrange
-            var price = new Price { Amount = 14, Unit = MoneyUnit.Dollar };
+            var price = new Price(14, MoneyUnit.Dollar);
 
             // act
             var actualResult = price.ToString();
             
             // assert
             Assert.That(actualResult.Equals("14 $"));
-        }
-
-        [Test]
-        public void Test_ToString_For_UnSpecifiedUnitType()
-        {
-            // arrange
-            var price = new Price { Amount = 14, Unit = MoneyUnit.UnSpecified };
-
-            // act
-            var actualResult = price.ToString();
-
-            // assert
-            Assert.That(actualResult.Equals("14"));
         }
     }
 }

@@ -36,10 +36,7 @@ namespace EShoppingTutorial.UnitTests.Repositories
             // arrange
             var order = new Order(new OrderItem[]
                                     {
-                                        new OrderItem (3, new Price
-                                        {
-                                            Amount = 2000, Unit = MoneyUnit.Euro
-                                        })
+                                        new OrderItem (3, new Price(2000, MoneyUnit.Euro))
                                     });
 
             // act
