@@ -1,5 +1,4 @@
-﻿using System;
-using GenericRepositoryEntityFramework;
+﻿using GenericRepositoryEntityFramework;
 using EShoppingTutorial.Core.Domain.Entities;
 using EShoppingTutorial.Core.Domain.Repositories;
 
@@ -20,7 +19,7 @@ namespace EShoppingTutorial.Core.Persistence.Repositories
 
         public override void Add(Order entity)
         {
-            entity.TrackingNumber = Guid.NewGuid();
+            // We can override repository virtual methods in order to customize repository behavior, Template Method Pattern
 
             base.Add(entity);
         }

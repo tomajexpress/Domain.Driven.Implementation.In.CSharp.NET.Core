@@ -7,13 +7,13 @@ namespace EShoppingTutorial.Core.Domain.Entities
 {
     public class Order
     {
-        public int Id { get; set; }
+        public int Id { get; protected set; }
 
-        public Guid? TrackingNumber { get; set; }
+        public Guid? TrackingNumber { get; protected set; }
 
-        public string ShippingAdress { get; set; }
+        public string ShippingAdress { get; protected set; }
 
-        public DateTime OrderDate { get; set; }
+        public DateTime OrderDate { get; protected set; }
 
 
         private List<OrderItem> _orderItems;
@@ -32,6 +32,8 @@ namespace EShoppingTutorial.Core.Domain.Entities
         /// <param name="orderItems"></param>
         public Order(IEnumerable<OrderItem> orderItems) : this()
         {
+            TrackingNumber = Guid.NewGuid();
+
             if (!orderItems.Any())
                 throw new BusinessRuleBrokenException("No Order Item has been added !");
 
