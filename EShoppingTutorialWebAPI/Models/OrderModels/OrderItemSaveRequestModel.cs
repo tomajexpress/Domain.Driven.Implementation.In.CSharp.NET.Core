@@ -4,7 +4,7 @@ namespace EShoppingTutorialWebAPI.Models.OrderModels
 {
     public class OrderItemSaveRequestModel
     {
-        /// <example>IRAN Tehran Persia</example>
+        /// <example>1</example>
         public int? ProductId { get; set; }
    
         public Price Price { get; set; }
