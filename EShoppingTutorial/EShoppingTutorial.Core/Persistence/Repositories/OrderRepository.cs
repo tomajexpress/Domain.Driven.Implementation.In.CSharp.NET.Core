@@ -20,6 +20,7 @@ namespace EShoppingTutorial.Core.Persistence.Repositories
         public override void Add(Order entity)
         {
             // We can override repository virtual methods in order to customize repository behavior, Template Method Pattern
+            // Code here
 
             base.Add(entity);
         }
