@@ -26,7 +26,7 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
         public void Test_OrderItemsProperty_AddingOrderItemToReadOnlyCollection_ExpectsNotSupportedException()
         {
             // arrange
-            var order = new Order(new OrderItem[] { new OrderItem { } });
+            var order = new Order(new OrderItem[] { new OrderItem { Price = new Price { Unit = MoneyUnit.Dollar } } });
 
 
             // act
