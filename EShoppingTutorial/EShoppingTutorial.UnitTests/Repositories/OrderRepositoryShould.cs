@@ -34,7 +34,7 @@ namespace EShoppingTutorial.UnitTests.Repositories
         public async Task Test_MethodAdd_TrackingNumberMustNotBeNull_Ok()
         {
             // arrange
-            var order = new Order(new OrderItem[]
+            var order = new Order("IRAN", new OrderItem[]
                                     {
                                         new OrderItem (3, new Price(2000, MoneyUnit.Euro))
                                     });

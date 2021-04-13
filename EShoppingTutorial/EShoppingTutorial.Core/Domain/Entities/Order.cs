@@ -30,20 +30,23 @@ namespace EShoppingTutorial.Core.Domain.Entities
         /// Throws Exception if Maximum price has been reached, or if no Order Item has been added to this Order
         /// </summary>
         /// <param name="orderItems"></param>
-        public Order(IEnumerable<OrderItem> orderItems) : this()
+        public Order(string shippingAdress, IEnumerable<OrderItem> orderItems) : this()
         {
-            CheckForBrokenRules(orderItems);
+            CheckForBrokenRules(shippingAdress, orderItems);
+
+            AddOrderItens(orderItems);
+
+
+            ShippingAdress = shippingAdress;
 
             TrackingNumber = Guid.NewGuid();
 
             OrderDate = DateTime.Now;
-
-            AddOrderItens(orderItems);
         }
 
-        private void CheckForBrokenRules(IEnumerable<OrderItem> orderItems)
+        private void CheckForBrokenRules(string shippingAdress, IEnumerable<OrderItem> orderItems)
         {
-            if (string.IsNullOrWhiteSpace(ShippingAdress))
+            if (string.IsNullOrWhiteSpace(shippingAdress))
                 throw new BusinessRuleBrokenException("You must supply ShippingAdress!");
 
             if (orderItems is null || (!orderItems.Any()))

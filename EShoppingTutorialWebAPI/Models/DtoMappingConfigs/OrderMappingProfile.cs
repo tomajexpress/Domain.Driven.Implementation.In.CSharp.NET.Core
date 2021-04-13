@@ -15,8 +15,7 @@ namespace EShoppingTutorialWebAPI.Models.DtoMappingConfigs
             CreateMap<OrderSaveRequestModel, Order>()
             .ConstructUsing((src, res) =>
             {
-                return new Order(
-                    orderItems: res.Mapper.Map<IEnumerable<OrderItem>>(src.OrderItemsDtoModel)
+                return new Order(src.ShippingAdress, orderItems: res.Mapper.Map<IEnumerable<OrderItem>>(src.OrderItemsDtoModel)
                 );
             });
 

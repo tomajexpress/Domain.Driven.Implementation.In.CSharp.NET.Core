@@ -14,7 +14,7 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
         public void Test_InstantiatingOrder_WithEmptyOrderItems_ExpectsBusinessRuleBrokenException()
         {
             // act
-            TestDelegate testDelegate = () => new Order(new OrderItem[] { });
+            TestDelegate testDelegate = () => new Order("IRAN", new OrderItem[] { });
 
 
             // assert
@@ -26,7 +26,7 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
         public void Test_OrderItemsProperty_AddingOrderItemToReadOnlyCollection_ExpectsNotSupportedException()
         {
             // arrange
-            var order = new Order(new OrderItem[] { new OrderItem(1, new Price(1, MoneyUnit.Dollar)) });
+            var order = new Order("IRAN", new OrderItem[] { new OrderItem(1, new Price(1, MoneyUnit.Dollar)) });
 
 
             // act
@@ -50,7 +50,7 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
             // act
             TestDelegate testDelegate = () =>
             {
-                new Order(new OrderItem[] { orderItem1, orderItem2 });
+                new Order("IRAN",new OrderItem[] { orderItem1, orderItem2 });
             };
 
 
@@ -73,7 +73,7 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
             // act
             TestDelegate testDelegate = () =>
             {
-                new Order(new OrderItem[] { orderItem1, orderItem2 });
+                new Order("IRAN", new OrderItem[] { orderItem1, orderItem2 });
             };
 
 
