@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using FluentValidation.AspNetCore;
 
 namespace EShoppingTutorialWebAPI
 {
@@ -58,7 +58,16 @@ namespace EShoppingTutorialWebAPI
                 c.IncludeXmlComments(xmlPath);
             });
 
-            services.AddMvcCore().AddApiExplorer();
+            services
+                .AddMvcCore()
+                .AddApiExplorer()
+                .AddFluentValidation(s =>
+                {
+                    s.RegisterValidatorsFromAssemblyContaining<Startup>();
+                    s.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
+                    s.AutomaticValidationEnabled = true;
+                    s.ImplicitlyValidateChildProperties = true;
+                });
 
             // Register the Swagger services
             services.AddSwaggerDocument();
