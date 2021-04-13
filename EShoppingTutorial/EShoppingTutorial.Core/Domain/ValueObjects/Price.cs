@@ -1,4 +1,5 @@
 ﻿using EShoppingTutorial.Core.Domain.Enums;
+using SharedKernel.Exceptions;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EShoppingTutorial.Core.Domain.ValueObjects
@@ -13,6 +14,9 @@ namespace EShoppingTutorial.Core.Domain.ValueObjects
 
         public Price(int amount, MoneyUnit unit)
         {
+            if (MoneyUnit.UnSpecified == unit)
+                throw new BusinessRuleBrokenException("You must supply a valid money unit!");
+
             Amount = amount;
 
             Unit = unit;
