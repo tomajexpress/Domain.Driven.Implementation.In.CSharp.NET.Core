@@ -1,14 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using EShoppingTutorial.Core.Domain.ValueObjects;
+﻿using EShoppingTutorial.Core.Domain.ValueObjects;
 
 namespace EShoppingTutorialWebAPI.Models.OrderModels
 {
     public class OrderItemSaveRequestModel
     {
-        [Required(ErrorMessage = "Please enter the product Id")]
+        /// <example>IRAN Tehran Persia</example>
         public int? ProductId { get; set; }
-
-        [Required(ErrorMessage = "Please enter order item price")]
+   
         public Price Price { get; set; }
     }
 }

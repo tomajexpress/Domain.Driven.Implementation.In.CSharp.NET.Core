@@ -6,8 +6,10 @@ namespace EShoppingTutorial.Core.Domain.ValueObjects
     [ComplexType]
     public class Price
     {
+        /// <example>1000</example>
         public int Amount { get; set; }
 
+        /// <example>1</example>
         public MoneyUnit Unit { get; set; } = MoneyUnit.UnSpecified;
 
         public bool HasValue
