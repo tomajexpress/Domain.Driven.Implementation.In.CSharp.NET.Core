@@ -4,17 +4,25 @@ namespace EShoppingTutorial.Core.Domain.Entities
 {
     public class OrderItem
     {
+        public int Id { get; protected set; }
+
+        public int ProductId { get; protected set; }
+
+        public Price Price { get; protected set; }
+
+        public int OrderId { get; protected set; }
+
+
         public OrderItem()
         {
             Price = new Price();
         }
 
-        public int Id { get; set; }
+        public OrderItem(int productId, Price price)
+        {
+            ProductId = productId;
 
-        public int ProductId { get; set; }
-
-        public Price Price { get; set; }
-
-        public int OrderId { get; set; }
+            Price = price;
+        }
     }
 }

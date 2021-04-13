@@ -26,7 +26,7 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
         public void Test_OrderItemsProperty_AddingOrderItemToReadOnlyCollection_ExpectsNotSupportedException()
         {
             // arrange
-            var order = new Order(new OrderItem[] { new OrderItem { Price = new Price { Unit = MoneyUnit.Dollar } } });
+            var order = new Order(new OrderItem[] { new OrderItem(1, new Price { Unit = MoneyUnit.Dollar }) });
 
 
             // act
@@ -43,9 +43,9 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
         {
             // arrange
 
-            var orderItem1 = new OrderItem { Price = new Price { Amount = 5000, Unit = MoneyUnit.Dollar } };
+            var orderItem1 = new OrderItem(1, new Price { Amount = 5000, Unit = MoneyUnit.Dollar });
 
-            var orderItem2 = new OrderItem { Price = new Price { Amount = 6000, Unit = MoneyUnit.Dollar } };
+            var orderItem2 = new OrderItem(2, new Price { Amount = 6000, Unit = MoneyUnit.Dollar });
 
             // act
             TestDelegate testDelegate = () =>
@@ -66,9 +66,9 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
         {
             // arrange
 
-            var orderItem1 = new OrderItem { Price = new Price { Amount = 5000, Unit = MoneyUnit.Euro } };
+            var orderItem1 = new OrderItem(1, new Price { Amount = 5000, Unit = MoneyUnit.Dollar });
 
-            var orderItem2 = new OrderItem { Price = new Price { Amount = 4500, Unit = MoneyUnit.Euro } };
+            var orderItem2 = new OrderItem(2, new Price { Amount = 6000, Unit = MoneyUnit.Dollar });
 
             // act
             TestDelegate testDelegate = () =>
@@ -88,7 +88,7 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
         public void Test_InstantiateOrder_WithOrderItems_That_MoneyUnitIsNotDefined_ExpectsBusinessRuleBrokenException()
         {
             // arrange
-            var orderItem = new OrderItem { Price = new Price { Amount = 5000} };
+            var orderItem = new OrderItem(1, new Price { Amount = 5000 });
 
             // act
             TestDelegate testDelegate = () =>
