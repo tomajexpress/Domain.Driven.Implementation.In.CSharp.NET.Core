@@ -35,7 +35,7 @@ namespace EShoppingTutorial.Core.Domain.Entities
         {
             CheckForBrokenRules(shippingAdress, orderItems);
 
-            AddOrderItens(orderItems);
+            AddOrderItems(orderItems);
 
 
             ShippingAdress = shippingAdress;
@@ -54,7 +54,7 @@ namespace EShoppingTutorial.Core.Domain.Entities
                 throw new BusinessRuleBrokenException("You must supply an Order Item!");
         }
 
-        private void AddOrderItens(IEnumerable<OrderItem> orderItems)
+        private void AddOrderItems(IEnumerable<OrderItem> orderItems)
         {
             var maximumPriceLimit = MaximumPriceLimits.GetMaximumPriceLimit(orderItems.First().Price.Unit);
 
