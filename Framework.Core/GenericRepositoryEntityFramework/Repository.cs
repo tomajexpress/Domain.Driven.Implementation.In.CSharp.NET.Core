@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace GenericRepositoryEntityFramework
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IAggregateRoot
     {
         protected readonly DbContext Context;
 

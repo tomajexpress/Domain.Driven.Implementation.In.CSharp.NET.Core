@@ -2,10 +2,11 @@
 using System.Linq;
 using System.Collections.Generic;
 using SharedKernel.Exceptions;
+using SharedKernel.Models;
 
 namespace EShoppingTutorial.Core.Domain.Entities
 {
-    public class Order
+    public class Order : IAggregateRoot
     {
         public int Id { get; protected set; }
 

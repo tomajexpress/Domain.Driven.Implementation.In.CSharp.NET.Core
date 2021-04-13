@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace GenericRepositoryEntityFramework
 {
-    public interface IRepository<TEntity> where TEntity : class
+    public interface IRepository<TEntity> where TEntity : IAggregateRoot
     {
         void Add(TEntity entity);
 
