@@ -20,7 +20,7 @@ namespace EShoppingTutorial.Core.Domain.Entities
         public ICollection<OrderItem> OrderItems { get { return _orderItems.AsReadOnly(); } }
 
 
-        protected Order()
+        protected Order() // For Entity Framework Core
         {
             _orderItems = new List<OrderItem>();
         }

@@ -1,4 +1,5 @@
 ﻿using EShoppingTutorial.Core.Domain.ValueObjects;
+using SharedKernel.Exceptions;
 
 namespace EShoppingTutorial.Core.Domain.Entities
 {
@@ -13,7 +14,7 @@ namespace EShoppingTutorial.Core.Domain.Entities
         public int OrderId { get; protected set; }
 
 
-        protected OrderItem()
+        protected OrderItem() // For Entity Framework Core
         {
             
         }
@@ -23,6 +24,17 @@ namespace EShoppingTutorial.Core.Domain.Entities
             ProductId = productId;
 
             Price = price;
+
+            CheckForBrokenRules();
+        }
+
+        private void CheckForBrokenRules()
+        {
+            if (ProductId == 0)
+                throw new BusinessRuleBrokenException("You must supply valid Product!");
+
+            if (Price is null)
+                throw new BusinessRuleBrokenException("You must supply an Order Item!");
         }
     }
 }
