@@ -32,13 +32,26 @@ namespace EShoppingTutorial.Core.Domain.Entities
         /// <param name="orderItems"></param>
         public Order(IEnumerable<OrderItem> orderItems) : this()
         {
-            TrackingNumber = Guid.NewGuid();
+            CheckForBrokenRules(orderItems);
 
-            if (!orderItems.Any())
-                throw new BusinessRuleBrokenException("No Order Item has been added !");
+            TrackingNumber = Guid.NewGuid();
 
             OrderDate = DateTime.Now;
 
+            AddOrderItens(orderItems);
+        }
+
+        private void CheckForBrokenRules(IEnumerable<OrderItem> orderItems)
+        {
+            if (string.IsNullOrWhiteSpace(ShippingAdress))
+                throw new BusinessRuleBrokenException("You must supply ShippingAdress!");
+
+            if (orderItems is null || (!orderItems.Any()))
+                throw new BusinessRuleBrokenException("You must supply an Order Item!");
+        }
+
+        private void AddOrderItens(IEnumerable<OrderItem> orderItems)
+        {
             var maximumPriceLimit = MaximumPriceLimits.GetMaximumPriceLimit(orderItems.First().Price.Unit);
 
             foreach (var orderItem in orderItems)
