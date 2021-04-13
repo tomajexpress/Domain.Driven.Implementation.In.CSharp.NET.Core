@@ -7,7 +7,7 @@ namespace EShoppingTutorial.Core.Domain.ValueObjects
     [ComplexType]
     public class Price
     {
-        protected Price()
+        protected Price() // For Entity Framework Core
         {
 
         }
