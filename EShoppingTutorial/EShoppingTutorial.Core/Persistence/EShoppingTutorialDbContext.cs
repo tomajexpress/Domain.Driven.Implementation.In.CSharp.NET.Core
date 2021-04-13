@@ -7,7 +7,6 @@ namespace EShoppingTutorial.Core.Persistence
     public class EShoppingTutorialDbContext : DbContext
     {
         public virtual DbSet<Order> Orders { get; set; }
-        public virtual DbSet<OrderItem> OrderItems { get; set; }
 
         public EShoppingTutorialDbContext(DbContextOptions<EShoppingTutorialDbContext> dbContextOptions) 
             : base(dbContextOptions)
