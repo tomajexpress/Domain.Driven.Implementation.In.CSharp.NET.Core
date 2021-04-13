@@ -12,7 +12,7 @@ namespace EShoppingTutorial.Core.Persistence.Repositories
             
         }
 
-        public EShoppingTutorialDbContext SadraDbContext
+        public EShoppingTutorialDbContext EShoppingTutorialDbContext
         {
             get { return Context as EShoppingTutorialDbContext; }
         }
