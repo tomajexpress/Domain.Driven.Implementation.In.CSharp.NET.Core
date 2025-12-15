@@ -6,9 +6,6 @@
 
 		private int _pageSize = 10;
 
-		/// <summary>
-		/// اندازه صفحه
-		/// </summary>
 		public int PageSize
 		{
 			get
@@ -21,9 +18,6 @@
 			}
 		}
 
-		/// <summary>
-		/// شماره صفحه
-		/// </summary>
 		public int PageNumber { get; set; } = 1;
 	}
 }
