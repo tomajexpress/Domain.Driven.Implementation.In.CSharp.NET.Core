@@ -7,7 +7,7 @@ namespace EShoppingTutorialWebAPI.Models.OrderModels
         /// <example>100</example>
         public int? Amount { get; set; }
 
-        /// <example>MoneyUnit.Rial</example>
+        /// <example>MoneyUnit.Euro</example>
         public MoneyUnit? Unit { get; set; } = MoneyUnit.UnSpecified;
     }
 }

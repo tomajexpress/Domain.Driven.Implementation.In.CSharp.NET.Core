@@ -1,17 +1,21 @@
-using System;
-using System.IO;
-using System.Reflection;
+using AutoMapper;
 using EShoppingTutorial.Core.Domain;
+using EShoppingTutorial.Core.Domain.Entities;
+using EShoppingTutorial.Core.Domain.ValueObjects;
 using EShoppingTutorial.Core.Persistence;
 using EShoppingTutorialWebAPI.Filters;
-using Microsoft.OpenApi.Models;
-using Microsoft.Extensions.Hosting;
+using EShoppingTutorialWebAPI.Models.OrderModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using FluentValidation.AspNetCore;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 
 namespace EShoppingTutorialWebAPI
 {
@@ -27,8 +31,27 @@ namespace EShoppingTutorialWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers(options =>
-                options.Filters.Add(new AopExceptionHandlerFilter()));
+            services
+                .AddControllers(options =>
+                    options.Filters.Add(new AopExceptionHandlerFilter()));
+
+            // Register AutoMapper: scans loaded assemblies for Profile implementations.
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.CreateMap<Order, OrderViewModel>();
+                cfg.CreateMap<OrderSaveRequestModel, Order>()
+                .ConstructUsing((src, res) =>
+                {
+                    return new Order(src.ShippingAdress, orderItems: res.Mapper.Map<IEnumerable<OrderItem>>(src.OrderItemsDtoModel)
+                    );
+                });
+
+                cfg.CreateMap<OrderItem, OrderItemViewModel>();
+
+                cfg.CreateMap<OrderItemSaveRequestModel, OrderItem>();
+
+                cfg.CreateMap<PriceSaveRequestModel, Price>().ConvertUsing(x => new Price(x.Amount.Value, x.Unit.Value));
+            });
 
             // Register the Swagger generator, defining 1 or more Swagger documents 
             services.AddSwaggerGen(c =>
@@ -61,16 +84,8 @@ namespace EShoppingTutorialWebAPI
                 }
             });
 
-            services
-                .AddMvcCore()
-                .AddApiExplorer()
-                .AddFluentValidation(s =>
-                {
-                    s.RegisterValidatorsFromAssemblyContaining<Startup>();
-                    s.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
-                    s.AutomaticValidationEnabled = true;
-                    s.ImplicitlyValidateChildProperties = true;
-                });
+            // This line registers IMapper and scans the assembly where 'Program' is located
+            // for any classes that inherit from 'Profile' and loads their mappings.
 
             // Register the Swagger services
             services.AddSwaggerDocument();
@@ -78,8 +93,6 @@ namespace EShoppingTutorialWebAPI
             services.AddDbContext<EShoppingTutorialDbContext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:EShoppingTutorialDB"]));
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-            services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -93,10 +106,7 @@ namespace EShoppingTutorialWebAPI
             app.UseHttpsRedirection();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger(c =>
-            {
-                c.SerializeAsV2 = true;
-            });
+            app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
@@ -110,8 +120,6 @@ namespace EShoppingTutorialWebAPI
 
             // Register the Swagger generator and the Swagger UI middlewares
             app.UseOpenApi();
-
-            app.UseSwaggerUi3();
 
             app.UseRouting();
 

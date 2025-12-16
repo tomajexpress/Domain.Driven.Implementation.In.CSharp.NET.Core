@@ -46,9 +46,9 @@ namespace EShoppingTutorial.UnitTests.Repositories
             var actualOrder = await _orderRepository.GetByIdAsync(1);
 
             // assert
-            Assert.IsNotNull(actualOrder);
+            Assert.That(actualOrder, Is.Not.Null);
 
-            Assert.IsNotNull(actualOrder.TrackingNumber);
+            Assert.That(actualOrder.TrackingNumber, Is.Not.Null);
         }
 
 

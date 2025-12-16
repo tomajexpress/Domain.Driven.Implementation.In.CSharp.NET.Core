@@ -19,9 +19,6 @@ namespace EShoppingTutorialWebAPI.Models.DtoMappingConfigs
                 );
             });
 
-
-            
-
             CreateMap<OrderItem, OrderItemViewModel>();
 
             CreateMap<OrderItemSaveRequestModel, OrderItem>();
