@@ -10,15 +10,18 @@ namespace EShoppingTutorialWebAPI
     {
         internal static void AddAutoMapperConfigs(IMapperConfigurationExpression cfg)
         {
-            cfg.CreateMap<Order, OrderViewModel>();
-            cfg.CreateMap<OrderSaveRequestModel, Order>()
-            .ConstructUsing((src, res) =>
-            {
-                return new Order(src.ShippingAdress, orderItems: res.Mapper.Map<IEnumerable<OrderItem>>(src.OrderItemsDtoModel)
-                );
-            });
+            cfg.CreateMap<Order, OrderViewModel>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.Value));
 
-            cfg.CreateMap<OrderItem, OrderItemViewModel>();
+            cfg.CreateMap<OrderSaveRequestModel, Order>()
+                .ConstructUsing((src, res) =>
+                {
+                    return new Order(src.ShippingAdress, orderItems: res.Mapper.Map<IEnumerable<OrderItem>>(src.OrderItemsDtoModel));
+                });
+
+            cfg.CreateMap<OrderItem, OrderItemViewModel>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.Value))
+                .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId.Value));
 
             cfg.CreateMap<OrderItemSaveRequestModel, OrderItem>();
 

@@ -13,9 +13,10 @@ namespace EShoppingTutorial.Core.Persistence.Mappings
 
             builder.HasKey(o => o.Id);
 
-            builder.Property(o => o.Id).HasConversion(
-                id => id.Value,
-                value => new OrderItemId(value));
+            builder.Property(o => o.Id)
+                .HasConversion(
+                    id => id.Value,
+                    value => new OrderItemId(value));
 
             builder.Property(o => o.Id).ValueGeneratedOnAdd().HasColumnName("Id");
 
@@ -31,6 +32,12 @@ namespace EShoppingTutorial.Core.Persistence.Mappings
 
                 price.Property(x => x.Unit).HasColumnName("Unit");
             });
+
+            // Configure OrderId as foreign key
+            builder.Property(x => x.OrderId)
+                .HasConversion(
+                    id => id.Value,
+                    value => new OrderId(value));
         }
     }
 }
