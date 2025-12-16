@@ -1,11 +1,9 @@
 ﻿using EShoppingTutorial.Core.Domain.Enums;
 using SharedKernel.Exceptions;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EShoppingTutorial.Core.Domain.ValueObjects
 {
-    [ComplexType]
-    public class Price
+    public record Price
     {
         protected Price() // For Entity Framework Core
         {
@@ -22,21 +20,9 @@ namespace EShoppingTutorial.Core.Domain.ValueObjects
             Unit = unit;
         }
 
-
         public int Amount { get; protected set; }
 
-
         public MoneyUnit Unit { get; protected set; } = MoneyUnit.UnSpecified;
-
-
-        public bool HasValue
-        {
-            get
-            {
-                return (Unit != MoneyUnit.UnSpecified);
-            }
-        }
-
 
         public override string ToString()
         {
