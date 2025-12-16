@@ -4,7 +4,6 @@ using EShoppingTutorial.Core.Domain;
 using EShoppingTutorial.Core.Domain.Entities;
 using EShoppingTutorialWebAPI.Models.OrderModels;
 using SharedKernel.Models;
-
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
@@ -39,7 +38,6 @@ namespace EShoppingTutorialWebAPI.Controllers
             return Ok(mappedOrder);
         }
 
-
         [HttpGet]
         [Route("GetAll")]
         public async Task<IActionResult> GetAll()
@@ -54,7 +52,6 @@ namespace EShoppingTutorialWebAPI.Controllers
             return Ok(new QueryResult<OrderViewModel>(mappedOrders, mappedOrders.Count()));
         }
 
-
         [HttpPost]
         [Route("GetPaged")]
         public async Task<IActionResult> GetPaged([FromBody] QueryObjectParams queryObject)
@@ -68,7 +65,6 @@ namespace EShoppingTutorialWebAPI.Controllers
 
             return Ok(new QueryResult<OrderViewModel>(mappedOrders, queryResult.TotalCount));
         }
-
 
         [HttpPost]
         [Route("Add")]
