@@ -1,31 +1,29 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
+﻿using EShoppingTutorial.Core.Domain.ValueObjects;
 using SharedKernel.Exceptions;
 using SharedKernel.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EShoppingTutorial.Core.Domain.Entities
 {
     public class Order : IAggregateRoot
     {
-        public int Id { get; protected set; }
+        public OrderId Id { get; protected set; }
 
         public Guid? TrackingNumber { get; protected set; }
 
         public string ShippingAdress { get; protected set; }
 
-        public DateTime OrderDate { get; protected set; }
+        public DateTime OrderDate { get; protected set; } = DateTime.Now;
 
-
-        private List<OrderItem> _orderItems;
+        private List<OrderItem> _orderItems = [];
         public ICollection<OrderItem> OrderItems { get { return _orderItems.AsReadOnly(); } }
-
 
         protected Order() // For Entity Framework Core
         {
-            _orderItems = new List<OrderItem>();
-        }
 
+        }
 
         /// <summary>
         /// Throws Exception if Maximum price has been reached, or if no Order Item has been added to this Order
@@ -36,7 +34,6 @@ namespace EShoppingTutorial.Core.Domain.Entities
             CheckForBrokenRules(shippingAdress, orderItems);
 
             AddOrderItems(orderItems);
-
 
             ShippingAdress = shippingAdress;
 
@@ -62,8 +59,6 @@ namespace EShoppingTutorial.Core.Domain.Entities
                 AddOrderItem(orderItem, maximumPriceLimit);
         }
 
-
-
         /// <summary>
         /// Throws Exception if Maximum price has been reached
         /// </summary>
@@ -79,6 +74,5 @@ namespace EShoppingTutorial.Core.Domain.Entities
 
             _orderItems.Add(orderItem);
         }
-
     }
 }

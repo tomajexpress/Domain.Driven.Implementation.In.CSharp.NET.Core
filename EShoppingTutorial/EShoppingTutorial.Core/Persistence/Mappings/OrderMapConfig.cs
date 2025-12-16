@@ -1,4 +1,5 @@
 ﻿using EShoppingTutorial.Core.Domain.Entities;
+using EShoppingTutorial.Core.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,6 +12,10 @@ namespace EShoppingTutorial.Core.Persistence.Mappings
             builder.ToTable("Orders");
 
             builder.HasKey(o => o.Id);
+
+            builder.Property(o => o.Id).HasConversion(
+                id => id.Value,
+                value => new OrderId(value));
 
             builder.Property(o => o.Id).ValueGeneratedOnAdd().HasColumnName("Id");
 

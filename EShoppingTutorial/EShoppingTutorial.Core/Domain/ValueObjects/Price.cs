@@ -24,6 +24,14 @@ namespace EShoppingTutorial.Core.Domain.ValueObjects
 
         public MoneyUnit Unit { get; protected set; } = MoneyUnit.UnSpecified;
 
+        public bool HasValue
+        {
+            get
+            {
+                return Unit != MoneyUnit.UnSpecified && Amount != 0;
+            }
+        }
+
         public override string ToString()
         {
             return 

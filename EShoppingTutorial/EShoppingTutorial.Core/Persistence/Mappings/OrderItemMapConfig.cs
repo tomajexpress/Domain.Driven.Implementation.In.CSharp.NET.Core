@@ -1,4 +1,5 @@
 ﻿using EShoppingTutorial.Core.Domain.Entities;
+using EShoppingTutorial.Core.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,9 +13,17 @@ namespace EShoppingTutorial.Core.Persistence.Mappings
 
             builder.HasKey(o => o.Id);
 
+            builder.Property(o => o.Id).HasConversion(
+                id => id.Value,
+                value => new OrderItemId(value));
+
             builder.Property(o => o.Id).ValueGeneratedOnAdd().HasColumnName("Id");
 
             builder.Property(en => en.ProductId).HasColumnName("ProductId").IsRequired();
+
+            builder.Property(o => o.ProductId).HasConversion(
+                id => id.Value,
+                value => new ProductId(value));
 
             builder.OwnsOne(en => en.Price, price =>
             {

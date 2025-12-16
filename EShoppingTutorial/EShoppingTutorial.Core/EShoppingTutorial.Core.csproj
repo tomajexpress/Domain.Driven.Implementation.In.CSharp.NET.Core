@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="StronglyTypedId" Version="0.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Framework.Core\GenericRepositoryEntityFramework\GenericRepositoryEntityFramework.csproj" />
     <ProjectReference Include="..\..\Framework.Core\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>

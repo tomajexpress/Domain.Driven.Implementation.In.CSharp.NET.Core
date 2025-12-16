@@ -5,13 +5,13 @@ namespace EShoppingTutorial.Core.Domain.Entities
 {
     public class OrderItem
     {
-        public int Id { get; protected set; }
+        public OrderItemId Id { get; protected set; }
 
-        public int ProductId { get; protected set; }
+        public ProductId ProductId { get; protected set; }
 
         public Price Price { get; protected set; }
 
-        public int OrderId { get; protected set; }
+        public OrderId OrderId { get; protected set; }
 
 
         protected OrderItem() // For Entity Framework Core
@@ -19,7 +19,7 @@ namespace EShoppingTutorial.Core.Domain.Entities
             
         }
 
-        public OrderItem(int productId, Price price)
+        public OrderItem(ProductId productId, Price price)
         {
             ProductId = productId;
 
@@ -30,11 +30,11 @@ namespace EShoppingTutorial.Core.Domain.Entities
 
         private void CheckForBrokenRules()
         {
-            if (ProductId == 0)
+            if (ProductId.Value == 0)
                 throw new BusinessRuleBrokenException("You must supply valid Product!");
 
-            if (Price is null)
-                throw new BusinessRuleBrokenException("You must supply an Order Item!");
+            if (!Price.HasValue)
+                throw new BusinessRuleBrokenException("You must supply valid Price!");
         }
     }
 }
