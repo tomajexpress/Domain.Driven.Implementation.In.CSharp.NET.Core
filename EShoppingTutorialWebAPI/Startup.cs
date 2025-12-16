@@ -1,10 +1,6 @@
-using AutoMapper;
 using EShoppingTutorial.Core.Domain;
-using EShoppingTutorial.Core.Domain.Entities;
-using EShoppingTutorial.Core.Domain.ValueObjects;
 using EShoppingTutorial.Core.Persistence;
 using EShoppingTutorialWebAPI.Filters;
-using EShoppingTutorialWebAPI.Models.OrderModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
@@ -31,26 +26,13 @@ namespace EShoppingTutorialWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services
-                .AddControllers(options =>
-                    options.Filters.Add(new AopExceptionHandlerFilter()));
+            services.AddControllers(options => options.Filters.Add(new AopExceptionHandlerFilter()));
 
             // Register AutoMapper: scans loaded assemblies for Profile implementations.
+
             services.AddAutoMapper(cfg =>
             {
-                cfg.CreateMap<Order, OrderViewModel>();
-                cfg.CreateMap<OrderSaveRequestModel, Order>()
-                .ConstructUsing((src, res) =>
-                {
-                    return new Order(src.ShippingAdress, orderItems: res.Mapper.Map<IEnumerable<OrderItem>>(src.OrderItemsDtoModel)
-                    );
-                });
-
-                cfg.CreateMap<OrderItem, OrderItemViewModel>();
-
-                cfg.CreateMap<OrderItemSaveRequestModel, OrderItem>();
-
-                cfg.CreateMap<PriceSaveRequestModel, Price>().ConvertUsing(x => new Price(x.Amount.Value, x.Unit.Value));
+                AutoMappingProfileConfigs.AddAutoMapperConfigs(cfg);
             });
 
             // Register the Swagger generator, defining 1 or more Swagger documents 
