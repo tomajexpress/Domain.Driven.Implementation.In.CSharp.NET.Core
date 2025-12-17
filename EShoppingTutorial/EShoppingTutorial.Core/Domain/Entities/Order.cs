@@ -18,7 +18,7 @@ namespace EShoppingTutorial.Core.Domain.Entities
         public CustomerId CustomerId { get; protected set; }
         public DateTime OrderDate { get; protected set; } = DateTime.Now;
         public OrderStatus OrderStatus { get; protected set; }
-        public IReadOnlyCollection<OrderItem> OrderItems => _orderItems.AsReadOnly();
+        public ICollection<OrderItem> OrderItems => _orderItems.AsReadOnly();
 
         protected Order() { }
 

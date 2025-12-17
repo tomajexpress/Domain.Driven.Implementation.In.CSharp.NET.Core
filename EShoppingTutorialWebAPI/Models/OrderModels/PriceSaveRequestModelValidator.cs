@@ -13,6 +13,7 @@ namespace EShoppingTutorialWebAPI.Models.OrderModels
             RuleFor(x => x.Unit)
             .NotNull()
             .IsInEnum()
+            .Must(unit => unit != EShoppingTutorial.Core.Domain.Enums.MoneyUnit.UnSpecified)
             .WithMessage("Please enter a valid money unit!");
         }
     }

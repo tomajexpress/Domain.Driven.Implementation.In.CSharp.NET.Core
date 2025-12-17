@@ -1,8 +1,11 @@
 using EShoppingTutorial.Core.Domain;
+using EShoppingTutorial.Core.Domain.Services;
 using EShoppingTutorial.Core.Persistence;
 using EShoppingTutorialWebAPI.Filters;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +30,15 @@ namespace EShoppingTutorialWebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers(options => options.Filters.Add(new AopExceptionHandlerFilter()));
+
+            services
+                .AddMvcCore()
+                .AddApiExplorer()
+                .AddFluentValidation(s =>
+                {
+                    s.RegisterValidatorsFromAssemblyContaining<Startup>();
+                    s.AutomaticValidationEnabled = true;
+                });
 
             // Register AutoMapper: scans loaded assemblies for Profile implementations.
 
@@ -75,6 +87,8 @@ namespace EShoppingTutorialWebAPI
             services.AddDbContext<EShoppingTutorialDbContext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:EShoppingTutorialDB"]));
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<IOrderDomainService, OrderDomainService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

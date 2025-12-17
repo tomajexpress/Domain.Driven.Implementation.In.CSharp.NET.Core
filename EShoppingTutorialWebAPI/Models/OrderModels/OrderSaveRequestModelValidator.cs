@@ -9,6 +9,8 @@ namespace EShoppingTutorialWebAPI.Models.OrderModels
             RuleFor(x => x.ShippingAdress)
            .NotNull()
            .NotEmpty()
+           .NotEqual(string.Empty)
+           .NotEqual("string")
            .Length(2, 100);
 
             RuleFor(x => x.CustomerId)
