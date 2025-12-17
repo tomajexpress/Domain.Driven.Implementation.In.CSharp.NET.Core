@@ -1,4 +1,5 @@
-﻿using EShoppingTutorial.Core.Domain.ValueObjects;
+﻿using EShoppingTutorial.Core.Domain.Enums;
+using EShoppingTutorial.Core.Domain.ValueObjects;
 using SharedKernel.Exceptions;
 using SharedKernel.Models;
 using System;
@@ -13,9 +14,11 @@ namespace EShoppingTutorial.Core.Domain.Entities
 
         public Guid? TrackingNumber { get; protected set; }
 
-        public string ShippingAdress { get; protected set; }
+        public string ShippingAddress { get; protected set; }
 
         public DateTime OrderDate { get; protected set; } = DateTime.Now;
+
+        public OrderStatus OrderStatus { get; protected set; }
 
         private List<OrderItem> _orderItems = [];
         public ICollection<OrderItem> OrderItems { get { return _orderItems.AsReadOnly(); } }
@@ -32,14 +35,11 @@ namespace EShoppingTutorial.Core.Domain.Entities
         public Order(string shippingAdress, IEnumerable<OrderItem> orderItems) : this()
         {
             CheckForBrokenRules(shippingAdress, orderItems);
-
             AddOrderItems(orderItems);
-
-            ShippingAdress = shippingAdress;
-
+            ShippingAddress = shippingAdress;
             TrackingNumber = Guid.NewGuid();
-
             OrderDate = DateTime.Now;
+            OrderStatus = OrderStatus.Created;
         }
 
         private void CheckForBrokenRules(string shippingAdress, IEnumerable<OrderItem> orderItems)
@@ -73,6 +73,16 @@ namespace EShoppingTutorial.Core.Domain.Entities
             }
 
             _orderItems.Add(orderItem);
+        }
+
+        public void MarkAsShipped()
+        {
+            if (OrderStatus != OrderStatus.Created)
+            {
+                throw new BusinessRuleBrokenException("Order cannot be shipped in its current state.");
+            }
+
+            OrderStatus = OrderStatus.Shipped;
         }
     }
 }

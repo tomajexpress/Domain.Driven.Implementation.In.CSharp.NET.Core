@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace EShoppingTutorial.Core.Migrations
 {
     [DbContext(typeof(EShoppingTutorialDbContext))]
@@ -15,24 +17,29 @@ namespace EShoppingTutorial.Core.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.3")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "10.0.1")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("EShoppingTutorial.Core.Domain.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("Id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnName("Id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("OrderDate")
                         .HasMaxLength(10)
                         .HasColumnType("datetime2")
                         .HasColumnName("OrderDate");
 
-                    b.Property<string>("ShippingAdress")
+                    b.Property<int>("OrderStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ShippingAddress")
                         .IsRequired()
                         .HasMaxLength(100)
                         .IsUnicode(true)
@@ -49,7 +56,7 @@ namespace EShoppingTutorial.Core.Migrations
                         .IsUnique()
                         .HasFilter("[TrackingNumber] IS NOT NULL");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("EShoppingTutorial.Core.Domain.Entities.OrderItem", b =>
@@ -57,10 +64,11 @@ namespace EShoppingTutorial.Core.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("Id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnName("Id");
 
-                    b.Property<int>("OrderId")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<int>("ProductId")
@@ -71,23 +79,19 @@ namespace EShoppingTutorial.Core.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("EShoppingTutorial.Core.Domain.Entities.OrderItem", b =>
                 {
                     b.HasOne("EShoppingTutorial.Core.Domain.Entities.Order", null)
                         .WithMany("OrderItems")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OrderId");
 
                     b.OwnsOne("EShoppingTutorial.Core.Domain.ValueObjects.Price", "Price", b1 =>
                         {
                             b1.Property<int>("OrderItemId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<int>("Amount")
                                 .HasColumnType("int")

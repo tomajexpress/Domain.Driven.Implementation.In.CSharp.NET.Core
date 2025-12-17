@@ -1,10 +1,14 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace EShoppingTutorial.Core.Migrations
 {
-    public partial class addingordertables : Migration
+    /// <inheritdoc />
+    public partial class firstmigration : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -15,7 +19,8 @@ namespace EShoppingTutorial.Core.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TrackingNumber = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ShippingAdress = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    OrderDate = table.Column<DateTime>(type: "datetime2", maxLength: 10, nullable: false)
+                    OrderDate = table.Column<DateTime>(type: "datetime2", maxLength: 10, nullable: false),
+                    OrderStatus = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,7 +36,7 @@ namespace EShoppingTutorial.Core.Migrations
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<int>(type: "int", nullable: true),
                     Unit = table.Column<int>(type: "int", nullable: true),
-                    OrderId = table.Column<int>(type: "int", nullable: false)
+                    OrderId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -40,8 +45,7 @@ namespace EShoppingTutorial.Core.Migrations
                         name: "FK_OrderItems_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -57,6 +61,7 @@ namespace EShoppingTutorial.Core.Migrations
                 filter: "[TrackingNumber] IS NOT NULL");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

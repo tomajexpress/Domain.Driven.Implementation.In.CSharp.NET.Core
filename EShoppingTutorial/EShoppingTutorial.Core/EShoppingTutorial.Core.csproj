@@ -19,4 +19,8 @@
     <ProjectReference Include="..\..\Framework.Core\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

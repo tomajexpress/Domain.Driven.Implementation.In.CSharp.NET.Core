@@ -23,7 +23,7 @@ namespace EShoppingTutorial.Core.Persistence.Mappings
 
             builder.HasIndex(en => en.TrackingNumber).IsUnique();
 
-            builder.Property(en => en.ShippingAdress).HasColumnName("ShippingAdress").HasMaxLength(100).IsUnicode().IsRequired();
+            builder.Property(en => en.ShippingAddress).HasColumnName("ShippingAdress").HasMaxLength(100).IsUnicode().IsRequired();
 
             builder.Property(en => en.OrderDate).HasColumnName("OrderDate").HasMaxLength(10).IsRequired();
         }
