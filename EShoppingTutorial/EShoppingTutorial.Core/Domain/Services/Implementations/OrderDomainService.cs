@@ -1,4 +1,5 @@
 ﻿using EShoppingTutorial.Core.Domain.Entities;
+using EShoppingTutorial.Core.Domain.ValueObjects;
 using SharedKernel.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace EShoppingTutorial.Core.Domain.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Order?> GetOrderByIdAsync(int id)
+        public async Task<Order?> GetOrderByIdAsync(OrderId id)
         {
             return await _unitOfWork.OrderRepository.GetByIdAsync(id).ConfigureAwait(false);
         }
@@ -35,7 +36,7 @@ namespace EShoppingTutorial.Core.Domain.Services
             await _unitOfWork.CompleteAsync().ConfigureAwait(false);
         }
 
-        public async Task<bool> DeleteOrderAsync(int id)
+        public async Task<bool> DeleteOrderAsync(OrderId id)
         {
             var order = await _unitOfWork.OrderRepository.GetByIdAsync(id).ConfigureAwait(false);
 

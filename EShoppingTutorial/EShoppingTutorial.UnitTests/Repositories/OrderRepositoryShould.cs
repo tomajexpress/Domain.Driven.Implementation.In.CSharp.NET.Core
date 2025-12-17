@@ -42,7 +42,7 @@ namespace EShoppingTutorial.UnitTests.Repositories
 
             _orderRepository.Add(order);
 
-            var actualOrder = await _orderRepository.GetByIdAsync(1);
+            var actualOrder = await _orderRepository.GetByIdAsync(order.Id);
 
             // assert
             Assert.That(actualOrder, Is.Not.Null);

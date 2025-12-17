@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using EShoppingTutorial.Core.Domain.Services;
+using EShoppingTutorial.Core.Domain.ValueObjects;
 
 namespace EShoppingTutorialWebAPI.Controllers
 {
@@ -28,7 +29,7 @@ namespace EShoppingTutorialWebAPI.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetOrder(int id)
         {
-            var order = await _orderDomainService.GetOrderByIdAsync(id).ConfigureAwait(false);
+            var order = await _orderDomainService.GetOrderByIdAsync(new OrderId(id)).ConfigureAwait(false);
 
             if (order == null)
                 return NotFound();
@@ -81,7 +82,7 @@ namespace EShoppingTutorialWebAPI.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var isDeleted = await _orderDomainService.DeleteOrderAsync(id).ConfigureAwait(false);
+            var isDeleted = await _orderDomainService.DeleteOrderAsync(new OrderId(id)).ConfigureAwait(false);
 
             if (!isDeleted)
             {

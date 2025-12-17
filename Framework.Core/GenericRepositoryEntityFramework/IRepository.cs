@@ -1,5 +1,4 @@
 ﻿using SharedKernel.Models;
-
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -16,20 +15,15 @@ namespace GenericRepositoryEntityFramework
 
         void Update(TEntity entity);
 
-
-        Task<TEntity> GetByIdAsync(object id);
-
+        Task<TEntity> GetByIdAsync(StronglyTypedBaseId id);
 
         Task<IEnumerable<TEntity>> GetAllAsync();
 
         Task<IEnumerable<TEntity>> GetAllAsync<TProperty>(Expression<Func<TEntity, TProperty>> include);
 
-
         Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
 
-
         Task<QueryResult<TEntity>> GetPageAsync(QueryObjectParams queryObjectParams);
-
 
         Task<QueryResult<TEntity>> GetPageAsync(QueryObjectParams queryObjectParams, Expression<Func<TEntity, bool>> predicate);
 

@@ -1,7 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using SharedKernel.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EShoppingTutorial.Core.Domain.ValueObjects
 {
     [NotMapped]
-    public record ProductId(int Value);
+    public record ProductId(int Value): StronglyTypedBaseId(Value);
 }
