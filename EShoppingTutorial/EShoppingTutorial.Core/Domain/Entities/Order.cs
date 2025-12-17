@@ -10,79 +10,120 @@ namespace EShoppingTutorial.Core.Domain.Entities
 {
     public class Order : IAggregateRoot
     {
+        private readonly List<OrderItem> _orderItems = new();
+
         public OrderId Id { get; protected set; }
-
         public Guid? TrackingNumber { get; protected set; }
-
         public string ShippingAddress { get; protected set; }
-
+        public CustomerId CustomerId { get; protected set; }
         public DateTime OrderDate { get; protected set; } = DateTime.Now;
-
         public OrderStatus OrderStatus { get; protected set; }
+        public IReadOnlyCollection<OrderItem> OrderItems => _orderItems.AsReadOnly();
 
-        private List<OrderItem> _orderItems = [];
-        public ICollection<OrderItem> OrderItems { get { return _orderItems.AsReadOnly(); } }
+        protected Order() { }
 
-        protected Order() // For Entity Framework Core
+        public Order(CustomerId customerId, string shippingAddress, IEnumerable<OrderItem> orderItems) : this()
         {
+            ValidateCustomerId(customerId);
+            ValidateShippingAddress(shippingAddress);
+            ValidateOrderItems(orderItems);
 
-        }
-
-        /// <summary>
-        /// Throws Exception if Maximum price has been reached, or if no Order Item has been added to this Order
-        /// </summary>
-        /// <param name="orderItems"></param>
-        public Order(string shippingAdress, IEnumerable<OrderItem> orderItems) : this()
-        {
-            CheckForBrokenRules(shippingAdress, orderItems);
-            AddOrderItems(orderItems);
-            ShippingAddress = shippingAdress;
+            CustomerId = customerId;
+            ShippingAddress = shippingAddress;
             TrackingNumber = Guid.NewGuid();
             OrderDate = DateTime.Now;
             OrderStatus = OrderStatus.Created;
-        }
 
-        private void CheckForBrokenRules(string shippingAdress, IEnumerable<OrderItem> orderItems)
-        {
-            if (string.IsNullOrWhiteSpace(shippingAdress))
-                throw new BusinessRuleBrokenException("You must supply ShippingAdress!");
-
-            if (orderItems is null || (!orderItems.Any()))
-                throw new BusinessRuleBrokenException("You must supply an Order Item!");
-        }
-
-        private void AddOrderItems(IEnumerable<OrderItem> orderItems)
-        {
-            var maximumPriceLimit = MaximumPriceLimits.GetMaximumPriceLimit(orderItems.First().Price.Unit);
-
-            foreach (var orderItem in orderItems)
-                AddOrderItem(orderItem, maximumPriceLimit);
+            AddOrderItems(orderItems);
         }
 
         /// <summary>
-        /// Throws Exception if Maximum price has been reached
+        /// Creates a new order for the specified customer with the provided shipping address.
         /// </summary>
-        /// <param name="orderItem"></param>
-        private void AddOrderItem(OrderItem orderItem, int maximumPriceLimit)
+        /// <param name="customerId">The unique identifier of the customer placing the order. Must be a valid, existing customer ID.</param>
+        /// <param name="shippingAddress">The shipping address where the order will be delivered. Cannot be null or empty.</param>
+        /// <returns>A new instance of the Order class initialized with the specified customer and shipping address.</returns>
+        public static Order Create(CustomerId customerId, string shippingAddress)
         {
-            var sumPriceOfOrderItems = _orderItems.Sum(en => en.Price.Amount);
+            ValidateCustomerId(customerId);
+            ValidateShippingAddress(shippingAddress);
 
-            if (sumPriceOfOrderItems + orderItem.Price.Amount > maximumPriceLimit)
+            return new Order
             {
-                throw new BusinessRuleBrokenException("Maximum price has been reached !");
-            }
+                CustomerId = customerId,
+                ShippingAddress = shippingAddress,
+                TrackingNumber = Guid.NewGuid(),
+                OrderDate = DateTime.Now,
+                OrderStatus = OrderStatus.Created
+            };
+        }
 
+        /// <summary>
+        /// Adds the specified order item to the current order.
+        /// </summary>
+        /// <param name="orderItem">The order item to add. Cannot be null.</param>
+        /// <exception cref="BusinessRuleBrokenException">Thrown if <paramref name="orderItem"/> is null or if the order item violates business rules, such as
+        /// exceeding the maximum allowed price.</exception>
+        public void AddOrderItem(OrderItem orderItem)
+        {
+            if (orderItem is null)
+                throw new BusinessRuleBrokenException("You must supply an Order Item!");
+
+            ValidateMaxPriceLimit(orderItem);
             _orderItems.Add(orderItem);
+        }
+
+        public void MarkAsCancelled()
+        {
+            if (OrderStatus != OrderStatus.Created)
+                throw new BusinessRuleBrokenException("Only Created orders can be cancelled.");
+
+            OrderStatus = OrderStatus.Cancelled;
         }
 
         public void MarkAsShipped()
         {
             if (OrderStatus != OrderStatus.Created)
-            {
-                throw new BusinessRuleBrokenException("Order cannot be shipped in its current state.");
-            }
+                throw new BusinessRuleBrokenException($"Order cannot be shipped in its current state: {OrderStatus}.");
 
             OrderStatus = OrderStatus.Shipped;
+        }
+
+        private void AddOrderItems(IEnumerable<OrderItem> orderItems)
+        {
+            foreach (var orderItem in orderItems)
+            {
+                ValidateMaxPriceLimit(orderItem);
+                _orderItems.Add(orderItem);
+            }
+        }
+
+        private void ValidateMaxPriceLimit(OrderItem orderItem)
+        {
+            var unit = orderItem.Price.Unit;
+            var maximumPriceLimit = MaximumPriceLimits.GetMaximumPriceLimit(unit);
+            var sumPriceOfOrderItems = _orderItems.Sum(en => en.Price.Amount);
+
+            if (sumPriceOfOrderItems + orderItem.Price.Amount > maximumPriceLimit)
+                throw new BusinessRuleBrokenException("Maximum price has been reached!");
+        }
+
+        private static void ValidateCustomerId(CustomerId customerId)
+        {
+            if (customerId is null || customerId.Value == 0)
+                throw new BusinessRuleBrokenException("You must supply Customer Id!");
+        }
+
+        private static void ValidateShippingAddress(string shippingAddress)
+        {
+            if (string.IsNullOrWhiteSpace(shippingAddress))
+                throw new BusinessRuleBrokenException("You must supply Shipping Address!");
+        }
+
+        private static void ValidateOrderItems(IEnumerable<OrderItem> orderItems)
+        {
+            if (orderItems is null || !orderItems.Any())
+                throw new BusinessRuleBrokenException("You must supply an Order Item!");
         }
     }
 }

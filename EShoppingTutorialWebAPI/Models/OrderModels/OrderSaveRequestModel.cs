@@ -6,6 +6,8 @@ namespace EShoppingTutorialWebAPI.Models.OrderModels
     {
         public string ShippingAdress { get; set; }
 
+        public int CustomerId { get; set; }
+
         public IEnumerable<OrderItemSaveRequestModel> OrderItemsDtoModel { get; set; }
     }
 }

@@ -7,11 +7,13 @@ namespace EShoppingTutorialWebAPI.Models.OrderModels
         public PriceSaveRequestModelValidator()
         {
             RuleFor(x => x.Amount)
-                .NotNull();
+            .NotNull()
+            .GreaterThan(0).WithMessage("Please enter a valid amount!");
 
             RuleFor(x => x.Unit)
-                .NotNull()
-                .IsInEnum();
+            .NotNull()
+            .IsInEnum()
+            .WithMessage("Please enter a valid money unit!");
         }
     }
 }

@@ -26,6 +26,12 @@ namespace EShoppingTutorial.Core.Persistence.Mappings
             builder.Property(en => en.ShippingAddress).HasColumnName("ShippingAdress").HasMaxLength(100).IsUnicode().IsRequired();
 
             builder.Property(en => en.OrderDate).HasColumnName("OrderDate").HasMaxLength(10).IsRequired();
+
+            builder.Property(en => en.CustomerId).HasColumnName("CustomerId").IsRequired();
+
+            builder.Property(o => o.CustomerId).HasConversion(
+                id => id.Value,
+                value => new CustomerId(value));
         }
     }
 }

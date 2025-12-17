@@ -13,7 +13,7 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
         public void Test_InstantiatingOrder_WithEmptyOrderItems_ExpectsBusinessRuleBrokenException()
         {
             // arrange - act
-            static void testDelegate() => new Order("Germany", []);
+            static void testDelegate() => new Order(new CustomerId(1), "Germany", []);
 
             // assert
             var ex = Assert.Throws<BusinessRuleBrokenException>(testDelegate);
@@ -25,7 +25,7 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
             // arrange
             ProductId productId = new(1);
 
-            var order = new Order("IRAN", [new OrderItem(productId, new Price(amount: 1, MoneyUnit.Dollar))]);
+            var order = new Order(new CustomerId(1), "Germany", [new OrderItem(productId, new Price(amount: 1, MoneyUnit.Dollar))]);
 
             // act
             void testDelegate() => order.OrderItems.Add(new OrderItem(productId, new Price(1, MoneyUnit.Dollar)));
@@ -33,7 +33,6 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
             // assert
             var ex = Assert.Throws<NotSupportedException>(testDelegate);
         }
-
 
         [Test]
         public void Test_InstantiateOrder_WithOrderItems_ThatExccedsTotalPriceOf_10000_Dollar_ExpectsBusinessRuleBrokenException()
@@ -48,7 +47,7 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
             // act
             void testDelegate()
             {
-                new Order("Germany", [orderItem1, orderItem2]);
+                new Order(new CustomerId(1), "Germany", [orderItem1, orderItem2]);
             }
 
             // assert
@@ -56,7 +55,6 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
 
             Assert.That(ex.Message.Contains("maximum price", StringComparison.CurrentCultureIgnoreCase));
         }
-
 
         [Test]
         public void Test_InstantiateOrder_WithOrderItems_ThatExccedsTotalPriceOf_9000_Euro_ExpectsBusinessRuleBrokenException()
@@ -71,15 +69,13 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
             // act
             void testDelegate()
             {
-                new Order("Germany", new OrderItem[] { orderItem1, orderItem2 });
+                new Order(new CustomerId(1), "Germany", new OrderItem[] { orderItem1, orderItem2 });
             }
-
 
             // assert
             var ex = Assert.Throws<BusinessRuleBrokenException>(testDelegate);
 
             Assert.That(ex.Message.ToLower().Contains("maximum price"));
         }
-
     }
 }

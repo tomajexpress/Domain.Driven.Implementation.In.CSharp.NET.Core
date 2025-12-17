@@ -14,9 +14,14 @@ namespace EShoppingTutorialWebAPI
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.Value));
 
             cfg.CreateMap<OrderSaveRequestModel, Order>()
+                .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => new CustomerId(src.CustomerId)))
                 .ConstructUsing((src, res) =>
                 {
-                    return new Order(src.ShippingAdress, orderItems: res.Mapper.Map<IEnumerable<OrderItem>>(src.OrderItemsDtoModel));
+                    return new Order(
+                        new CustomerId(src.CustomerId),
+                        src.ShippingAdress,
+                        orderItems: res.Mapper.Map<IEnumerable<OrderItem>>(src.OrderItemsDtoModel)
+                    );
                 });
 
             cfg.CreateMap<OrderItem, OrderItemViewModel>()
@@ -25,7 +30,7 @@ namespace EShoppingTutorialWebAPI
 
             cfg.CreateMap<OrderItemSaveRequestModel, OrderItem>();
 
-            cfg.CreateMap<PriceSaveRequestModel, Price>().ConvertUsing(x => new Price(x.Amount.Value, x.Unit.Value));
+            cfg.CreateMap<PriceSaveRequestModel, Price>().ConvertUsing(x => new Price(x.Amount, x.Unit.Value));
         }
     }
 }
