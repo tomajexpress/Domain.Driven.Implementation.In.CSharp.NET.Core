@@ -8,7 +8,7 @@ using System;
 
 namespace EShoppingTutorial.UnitTests.Domain.Entities
 {
-    public class OrderShould
+    public class OrderUnitTests
     {
         [Test]
         public void InstantiatingOrder_WithEmptyOrderItems_ExpectsBusinessRuleBrokenException()

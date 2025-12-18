@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace EShoppingTutorial.UnitTests.Domain.ValueObjects
 {
-    public class PriceShould
+    public class PriceUnitTests
     {
         [Test]
         public void ToString_ForSpecifiedUnitType_MustReturnCorrectValue()

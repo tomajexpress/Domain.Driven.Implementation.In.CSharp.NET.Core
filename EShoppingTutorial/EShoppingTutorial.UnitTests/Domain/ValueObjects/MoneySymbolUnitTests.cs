@@ -3,7 +3,7 @@ using EShoppingTutorial.Core.Domain.ValueObjects;
 
 namespace EShoppingTutorial.UnitTests.Domain.ValueObjects
 {
-    public class MoneySymbolShould
+    public class MoneySymbolUnitTests
     {
         [Test]
         public void GetSymbol_ForSpecifiedType_MustReturnCorrectValue()
