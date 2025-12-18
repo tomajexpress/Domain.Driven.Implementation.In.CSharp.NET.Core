@@ -6,7 +6,7 @@ namespace EShoppingTutorial.UnitTests.Domain.ValueObjects
     public class MoneySymbolShould
     {
         [Test]
-        public void Test_GetSymbol_For_SpecifiedType()
+        public void GetSymbol_ForSpecifiedType_MustReturnCorrectValue()
         {
             // act
             var actualResult = MoneySymbols.GetSymbol(Core.Domain.Enums.MoneyUnit.Dollar);
@@ -16,7 +16,7 @@ namespace EShoppingTutorial.UnitTests.Domain.ValueObjects
         }
 
         [Test]
-        public void Test_GetSymbol_For_UnSpecifiedType()
+        public void GetSymbol_For_UnSpecifiedType_MustReturnEmptyString()
         {
             // act
             var actualResult = MoneySymbols.GetSymbol(Core.Domain.Enums.MoneyUnit.UnSpecified);

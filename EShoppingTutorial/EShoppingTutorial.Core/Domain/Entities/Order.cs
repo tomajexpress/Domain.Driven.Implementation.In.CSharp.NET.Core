@@ -83,7 +83,7 @@ namespace EShoppingTutorial.Core.Domain.Entities
 
         public void MarkAsShipped()
         {
-            if (OrderStatus != OrderStatus.Created)
+            if (OrderStatus != OrderStatus.Created && OrderStatus != OrderStatus.Pending)
                 throw new BusinessRuleBrokenException($"Order cannot be shipped in its current state: {OrderStatus}.");
 
             OrderStatus = OrderStatus.Shipped;

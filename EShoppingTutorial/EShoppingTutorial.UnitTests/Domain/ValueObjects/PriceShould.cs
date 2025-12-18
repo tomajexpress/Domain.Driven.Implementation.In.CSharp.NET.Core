@@ -7,7 +7,7 @@ namespace EShoppingTutorial.UnitTests.Domain.ValueObjects
     public class PriceShould
     {
         [Test]
-        public void Test_ToString_For_SpecifiedUnitType()
+        public void ToString_ForSpecifiedUnitType_MustReturnCorrectValue()
         {
             // arrange
             var price = new Price(14, MoneyUnit.Dollar);

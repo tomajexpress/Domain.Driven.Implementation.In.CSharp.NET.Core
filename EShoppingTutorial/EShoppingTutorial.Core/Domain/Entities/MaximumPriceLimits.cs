@@ -19,16 +19,17 @@ namespace EShoppingTutorial.Core.Domain.Entities
 
                 { MoneyUnit.Dollar, 10000 },
 
-                { MoneyUnit.Rial, 100000 },
+                { MoneyUnit.Rial, 12000 },
             };
         }
 
-        
         public static int GetMaximumPriceLimit(MoneyUnit unit)
         {
             if (unit == MoneyUnit.UnSpecified)
+            {
                 throw new BusinessRuleBrokenException("Money Unit is not defined !");
-            
+            }
+
             return _maximumPriceLimits[unit];
         }
     }

@@ -29,7 +29,7 @@ namespace EShoppingTutorial.UnitTests.Repositories
         }
 
         [Test]
-        public async Task Test_MethodAdd_TrackingNumberMustNotBeNull_Ok()
+        public async Task MethodAdd_TrackingNumber_MustNotBeNull()
         {
             // arrange
             ProductId productId = new(1);
