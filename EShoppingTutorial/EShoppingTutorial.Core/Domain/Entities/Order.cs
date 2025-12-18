@@ -1,4 +1,5 @@
 ﻿using EShoppingTutorial.Core.Domain.Enums;
+using EShoppingTutorial.Core.Domain.InvariantRules;
 using EShoppingTutorial.Core.Domain.ValueObjects;
 using SharedKernel.Exceptions;
 using SharedKernel.Models;
@@ -40,9 +41,6 @@ namespace EShoppingTutorial.Core.Domain.Entities
         /// <summary>
         /// Creates a new order for the specified customer with the provided shipping address.
         /// </summary>
-        /// <param name="customerId">The unique identifier of the customer placing the order. Must be a valid, existing customer ID.</param>
-        /// <param name="shippingAddress">The shipping address where the order will be delivered. Cannot be null or empty.</param>
-        /// <returns>A new instance of the Order class initialized with the specified customer and shipping address.</returns>
         public static Order Create(CustomerId customerId, string shippingAddress)
         {
             ValidateCustomerId(customerId);

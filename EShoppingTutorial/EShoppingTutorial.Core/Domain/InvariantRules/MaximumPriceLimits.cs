@@ -2,7 +2,7 @@
 using SharedKernel.Exceptions;
 using System.Collections.Generic;
 
-namespace EShoppingTutorial.Core.Domain.Entities
+namespace EShoppingTutorial.Core.Domain.InvariantRules
 {
     public static class MaximumPriceLimits
     {
