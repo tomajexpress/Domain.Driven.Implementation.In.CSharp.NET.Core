@@ -15,7 +15,7 @@ namespace GenericRepositoryEntityFramework
 
         void Update(TEntity entity);
 
-        Task<TEntity> GetByIdAsync(StronglyTypedBaseId id);
+        Task<TEntity> GetByIdAsync(object id);
 
         Task<IEnumerable<TEntity>> GetAllAsync();
 

@@ -4,5 +4,5 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace EShoppingTutorial.Core.Domain.ValueObjects
 {
     [NotMapped]
-    public record OrderItemId(int Value) : StronglyTypedBaseId(Value);
+    public record OrderItemId(int Value);
 }

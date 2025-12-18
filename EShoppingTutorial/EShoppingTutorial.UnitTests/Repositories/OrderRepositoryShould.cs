@@ -17,7 +17,6 @@ namespace EShoppingTutorial.UnitTests.Repositories
 
         private OrderRepository _orderRepository;
 
-
         [OneTimeSetUp]
         public void Setup()
         {
@@ -28,7 +27,6 @@ namespace EShoppingTutorial.UnitTests.Repositories
 
             _orderRepository = new OrderRepository(_dbContext);
         }
-
 
         [Test]
         public async Task Test_MethodAdd_TrackingNumberMustNotBeNull_Ok()
@@ -49,7 +47,6 @@ namespace EShoppingTutorial.UnitTests.Repositories
 
             Assert.That(actualOrder.TrackingNumber, Is.Not.Null);
         }
-
 
         [OneTimeTearDown]
         public void CleanUp()

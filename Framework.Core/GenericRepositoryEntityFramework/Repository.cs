@@ -40,7 +40,7 @@ namespace GenericRepositoryEntityFramework
             _dbSet.Update(entity);
         }
 
-        public async Task<TEntity> GetByIdAsync(StronglyTypedBaseId id)
+        public async Task<TEntity> GetByIdAsync(object id)
         {
             return await _dbSet.FindAsync(id).ConfigureAwait(false);
         }
