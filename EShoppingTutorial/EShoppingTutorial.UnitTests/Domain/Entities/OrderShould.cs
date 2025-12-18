@@ -62,6 +62,33 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
             Assert.That(ex.Message.Contains("Maximum price has been reached", StringComparison.CurrentCultureIgnoreCase));
         }
 
+        [TestCase(OrderStatus.Created)]
+        [TestCase(OrderStatus.Pending)]
+        public void MarkAsShipped_ShouldSetStatusToShipped_WhenOrderIsCreatedOrPending(OrderStatus initialStatus)
+        {
+            // Arrange
+            var order = Mock.Of<Order>(x => x.OrderStatus == initialStatus); // To directly test the AddOrderItem method, we mock the initialization step of the Order class.
+
+            // Act
+            order.MarkAsShipped();
+
+            // Assert
+            Assert.That(order.OrderStatus, Is.EqualTo(OrderStatus.Shipped));
+        }
+
+        [TestCase(OrderStatus.Shipped)]
+        [TestCase(OrderStatus.Delivered)]
+        [TestCase(OrderStatus.Cancelled)]
+        public void MarkAsShipped_ShouldThrowException_WhenOrderIsNotCreatedOrPending(OrderStatus initialStatus)
+        {
+            // Arrange
+            var order = Mock.Of<Order>(x => x.OrderStatus == initialStatus); // To directly test the AddOrderItem method, we mock the initialization step of the Order class.
+
+            // Act & Assert
+            var ex = Assert.Throws<BusinessRuleBrokenException>(order.MarkAsShipped);
+            Assert.That(ex.Message.Contains("Order cannot be shipped", StringComparison.CurrentCultureIgnoreCase));
+        }
+
         [Test]
         public void AddOrderItem_ShouldAddItem_WhenValid()
         {
@@ -91,43 +118,5 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
             var ex = Assert.Throws<BusinessRuleBrokenException>(() => order.AddOrderItem(expensiveItem));
             Assert.That(ex.Message.Contains("Maximum price has been reached", StringComparison.CurrentCultureIgnoreCase));
         }
-
-        [Test]
-        public void MarkAsShipped_ShouldSetStatusToShipped_WhenOrderIsCreated()
-        {
-            // Arrange
-            var order = Mock.Of<Order>(x=> x.OrderStatus == OrderStatus.Created); // To directly test the AddOrderItem method, we mock the initialization step of the Order class.
-
-            // Act
-            order.MarkAsShipped();
-
-            // Assert
-            Assert.That(order.OrderStatus, Is.EqualTo(OrderStatus.Shipped));
-        }
-
-        [Test]
-        public void MarkAsShipped_ShouldSetStatusToShipped_WhenOrderIsPending()
-        {
-            // Arrange
-            var order = Mock.Of<Order>(x => x.OrderStatus == OrderStatus.Pending); // To directly test the AddOrderItem method, we mock the initialization step of the Order class.
-
-            // Act
-            order.MarkAsShipped();
-
-            // Assert
-            Assert.That(order.OrderStatus, Is.EqualTo(OrderStatus.Shipped));
-        }
-
-        [Test]
-        public void MarkAsShipped_ShouldThrowException_WhenOrderIsNotCreatedOrPending()
-        {
-            // Arrange
-            var order = Mock.Of<Order>(x => x.OrderStatus == OrderStatus.Delivered); // To directly test the AddOrderItem method, we mock the initialization step of the Order class.
-
-            // Act & Assert
-            var ex = Assert.Throws<BusinessRuleBrokenException>(order.MarkAsShipped);
-            Assert.That(ex.Message.Contains("Order cannot be shipped", StringComparison.CurrentCultureIgnoreCase));
-        }
-
     }
 }
