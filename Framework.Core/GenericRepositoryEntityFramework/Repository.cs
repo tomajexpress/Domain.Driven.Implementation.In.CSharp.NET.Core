@@ -1,134 +1,78 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SharedKernel.Models;
-
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
-namespace GenericRepositoryEntityFramework
+namespace GenericRepositoryEntityFramework;
+
+public class Repository<TEntity>(DbContext context) : IRepository<TEntity>
+    where TEntity : class, IAggregateRoot
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IAggregateRoot
+    protected readonly DbContext Context = context ?? throw new ArgumentNullException(nameof(context));
+    private readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
+
+    public virtual void Add(TEntity entity) => _dbSet.Add(entity);
+    public virtual void Update(TEntity entity) => _dbSet.Update(entity);
+    public virtual void Remove(TEntity entity) => _dbSet.Remove(entity);
+
+    public async Task<TEntity?> GetByIdAsync(object id) => await _dbSet.FindAsync(id).ConfigureAwait(false);
+    public virtual async Task<TEntity?> GetAsync(
+    Expression<Func<TEntity, bool>> predicate,
+    params Expression<Func<TEntity, object>>[] includes)
     {
-        protected readonly DbContext Context;
+        IQueryable<TEntity> query = _dbSet;
 
-        private readonly DbSet<TEntity> _dbSet;
-
-        public Repository(DbContext context)
+        if (includes is { Length: > 0 })
         {
-            Context = context;
-
-            if (context != null)
-            {
-                _dbSet = context.Set<TEntity>();
-            }
-        }
-
-        public virtual void Add(TEntity entity)
-        {
-            _dbSet.Add(entity);
-        }
-
-        public virtual void Remove(TEntity entity)
-        {
-            _dbSet.Remove(entity);
-        }
-
-        public virtual void Update(TEntity entity)
-        {
-            _dbSet.Update(entity);
-        }
-
-        public async Task<TEntity> GetByIdAsync(object id)
-        {
-            return await _dbSet.FindAsync(id).ConfigureAwait(false);
-        }
-
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
-        {
-            return await _dbSet.ToListAsync().ConfigureAwait(false);
-        }
-
-        public async Task<IEnumerable<TEntity>> GetAllAsync<TProperty>(Expression<Func<TEntity, TProperty>> include)
-        {
-            IQueryable<TEntity> query = _dbSet.Include(include);
-
-            return await query.ToListAsync().ConfigureAwait(false);
-        }
-
-        public async Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            return await _dbSet.SingleOrDefaultAsync(predicate).ConfigureAwait(false);
-        }
-
-        public virtual async Task<QueryResult<TEntity>> GetPageAsync(QueryObjectParams queryObjectParams)
-        {
-            return await GetOrderedPageQueryResultAsync(queryObjectParams, _dbSet).ConfigureAwait(false);
-        }
-
-        public virtual async Task<QueryResult<TEntity>> GetPageAsync(QueryObjectParams queryObjectParams, Expression<Func<TEntity, bool>> predicate)
-        {
-            IQueryable<TEntity> query = _dbSet;
-
-            if (predicate is not null)
-            {
-                query = query.Where(predicate);
-            }
-
-            return await GetOrderedPageQueryResultAsync(queryObjectParams, query).ConfigureAwait(false);
-        }
-
-        public virtual async Task<QueryResult<TEntity>> GetPageAsync(QueryObjectParams queryObjectParams, List<Expression<Func<TEntity, object>>> includes)
-        {
-            IQueryable<TEntity> query = _dbSet;
-
             query = includes.Aggregate(query, (current, include) => current.Include(include));
-
-            return await GetOrderedPageQueryResultAsync(queryObjectParams, query).ConfigureAwait(false);
         }
 
-        public virtual async Task<QueryResult<TEntity>> GetPageAsync<TProperty>(QueryObjectParams queryObjectParams, Expression<Func<TEntity, bool>> predicate, List<Expression<Func<TEntity, TProperty>>> includes = null)
+        return await query.FirstOrDefaultAsync(predicate).ConfigureAwait(false);
+    }
+
+    public async Task<IEnumerable<TEntity>> GetAllAsync() => await _dbSet.ToListAsync().ConfigureAwait(false);
+
+    public async Task<IEnumerable<TEntity>> GetAllAsync<TProperty>(Expression<Func<TEntity, TProperty>> include)
+    {
+        return await _dbSet.Include(include).ToListAsync().ConfigureAwait(false);
+    }
+
+    public async Task<TEntity?> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate) =>
+        await _dbSet.SingleOrDefaultAsync(predicate).ConfigureAwait(false);
+
+    public virtual async Task<QueryResult<TEntity>> GetPageAsync(
+        QueryObjectParams queryObjectParams,
+        Expression<Func<TEntity, bool>>? predicate = null,
+        params Expression<Func<TEntity, object>>[] includes)
+    {
+        IQueryable<TEntity> query = _dbSet;
+
+        if (includes is { Length: > 0 })
         {
-            IQueryable<TEntity> query = _dbSet;
-
-            if (includes != null)
-            {
-                query = includes.Aggregate(query, (current, include) => current.Include(include));
-            }
-
-            if (predicate != null)
-            {
-                query = query.Where(predicate);
-            }
-
-            return await GetOrderedPageQueryResultAsync(queryObjectParams, query).ConfigureAwait(false);
+            query = includes.Aggregate(query, (current, include) => current.Include(include));
         }
 
-        public virtual async Task<QueryResult<TEntity>> GetOrderedPageQueryResultAsync(QueryObjectParams queryObjectParams, IQueryable<TEntity> query)
+        if (predicate is not null)
         {
-            IQueryable<TEntity> OrderedQuery = query;
-
-            if (queryObjectParams.SortingParams != null && queryObjectParams.SortingParams.Count > 0)
-            {
-                OrderedQuery = SortingExtension.GetOrdering(query, queryObjectParams.SortingParams);
-            }
-
-            var totalCount = await query.CountAsync().ConfigureAwait(false);
-
-            if (OrderedQuery != null)
-            {
-                var fecthedItems = await GetPagePrivateQuery(OrderedQuery, queryObjectParams).ToListAsync().ConfigureAwait(false);
-
-                return new QueryResult<TEntity>(fecthedItems, totalCount);
-            }
-
-            return new QueryResult<TEntity>(await GetPagePrivateQuery(_dbSet, queryObjectParams).ToListAsync().ConfigureAwait(false), totalCount);
+            query = query.Where(predicate);
         }
 
-        private IQueryable<TEntity> GetPagePrivateQuery(IQueryable<TEntity> query, QueryObjectParams queryObjectParams)
+        var totalCount = await query.CountAsync().ConfigureAwait(false);
+
+        if (queryObjectParams.SortingParams is { Count: > 0 })
         {
-            return query.Skip((queryObjectParams.PageNumber - 1) * queryObjectParams.PageSize).Take(queryObjectParams.PageSize);
+            query = SortingExtension.GetOrdering(query, queryObjectParams.SortingParams);
         }
+
+        var items = await query
+            .Skip((queryObjectParams.PageNumber - 1) * queryObjectParams.PageSize)
+            .Take(queryObjectParams.PageSize)
+            .ToListAsync()
+            .ConfigureAwait(false);
+
+        return new QueryResult<TEntity>(items, totalCount);
     }
 }
