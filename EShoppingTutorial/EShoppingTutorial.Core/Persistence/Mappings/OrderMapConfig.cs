@@ -19,19 +19,27 @@ namespace EShoppingTutorial.Core.Persistence.Mappings
 
             builder.Property(o => o.Id).ValueGeneratedOnAdd().HasColumnName("Id");
 
-            builder.Property(en => en.TrackingNumber).HasColumnName("TrackingNumber").IsRequired(false);
+            builder.Property(o => o.TrackingNumber).HasColumnName("TrackingNumber").IsRequired(false);
 
-            builder.HasIndex(en => en.TrackingNumber).IsUnique();
+            builder.HasIndex(o => o.TrackingNumber).IsUnique();
 
-            builder.Property(en => en.ShippingAddress).HasColumnName("ShippingAdress").HasMaxLength(100).IsUnicode().IsRequired();
+            builder.Property(o => o.ShippingAddress).HasColumnName("ShippingAdress").HasMaxLength(100).IsUnicode().IsRequired();
 
-            builder.Property(en => en.OrderDate).HasColumnName("OrderDate").HasMaxLength(10).IsRequired();
+            builder.Property(o => o.OrderDate).HasColumnName("OrderDate").HasMaxLength(10).IsRequired();
 
-            builder.Property(en => en.CustomerId).HasColumnName("CustomerId").IsRequired();
+            builder.Property(o => o.CustomerId).HasColumnName("CustomerId").IsRequired();
 
             builder.Property(o => o.CustomerId).HasConversion(
                 id => id.Value,
                 value => new CustomerId(value));
+
+            builder.Property(o => o.OrderStatus).HasColumnName("OrderStatus").IsRequired();
+
+            builder.HasMany(o => o.OrderItems)
+                   .WithOne()
+                   .HasForeignKey(x=> x.OrderId)
+                   .IsRequired()
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

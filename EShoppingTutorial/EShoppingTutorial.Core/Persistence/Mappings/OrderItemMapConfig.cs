@@ -20,13 +20,13 @@ namespace EShoppingTutorial.Core.Persistence.Mappings
 
             builder.Property(o => o.Id).ValueGeneratedOnAdd().HasColumnName("Id");
 
-            builder.Property(en => en.ProductId).HasColumnName("ProductId").IsRequired();
+            builder.Property(o => o.ProductId).HasColumnName("ProductId").IsRequired();
 
             builder.Property(o => o.ProductId).HasConversion(
                 id => id.Value,
                 value => new ProductId(value));
 
-            builder.OwnsOne(en => en.Price, price =>
+            builder.OwnsOne(o => o.Price, price =>
             {
                 price.Property(x => x.Amount).HasColumnName("Amount");
 

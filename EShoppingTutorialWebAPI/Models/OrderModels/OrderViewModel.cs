@@ -9,7 +9,7 @@ namespace EShoppingTutorialWebAPI.Models.OrderModels
 
         public Guid? TrackingNumber { get; set; }
 
-        public string ShippingAdress { get; set; }
+        public string ShippingAddress { get; set; }
 
         public DateTime OrderDate { get; set; }
 

@@ -22,7 +22,7 @@ namespace EShoppingTutorial.Core.Domain.Services
 
         public async Task<IEnumerable<Order>> GetAllOrdersAsync()
         {
-            return await _unitOfWork.OrderRepository.GetAllAsync(en => en.OrderItems).ConfigureAwait(false);
+            return await _unitOfWork.OrderRepository.GetAllAsync(x => x.OrderItems).ConfigureAwait(false);
         }
 
         public async Task<QueryResult<Order>> GetPagedOrdersAsync(QueryObjectParams queryObject)

@@ -1,23 +1,15 @@
-﻿namespace SharedKernel.Models
+﻿namespace SharedKernel.Models;
+
+public record PageParam
 {
-    public class PageParam
-	{
-		const int maxPageSize = 50;
+    private const int MaxPageSize = 50;
+    private int _pageSize = 10;
 
-		private int _pageSize = 10;
+    public int PageNumber { get; init; } = 1;
 
-		public int PageSize
-		{
-			get
-			{
-				return _pageSize;
-			}
-			set
-			{
-				_pageSize = (value > maxPageSize) ? maxPageSize : value;
-			}
-		}
-
-		public int PageNumber { get; set; } = 1;
-	}
+    public int PageSize
+    {
+        get => _pageSize;
+        init => _pageSize = value > MaxPageSize ? MaxPageSize : value;
+    }
 }
