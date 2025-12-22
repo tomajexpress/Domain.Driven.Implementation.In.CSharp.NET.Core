@@ -15,10 +15,12 @@ public class Order : IAggregateRoot
 
     public OrderId Id { get; protected set; }
     public Guid? TrackingNumber { get; protected set; }
-    public string ShippingAddress { get; protected set; }
+    public string ShippingAddress { get; protected set; } = string.Empty;
     public CustomerId CustomerId { get; protected set; }
     public DateTime OrderDate { get; protected set; } = DateTime.Now;
     public OrderStatus OrderStatus { get; protected set; }
+
+    // Expose as IReadOnlyCollection to prevent external tampering
     public ICollection<OrderItem> OrderItems => _orderItems.AsReadOnly();
 
     // EF Core requires a parameterless constructor
@@ -33,10 +35,18 @@ public class Order : IAggregateRoot
         CustomerId = customerId;
         ShippingAddress = shippingAddress;
         TrackingNumber = Guid.NewGuid();
-        OrderDate = DateTime.Now;
+        OrderDate = DateTime.UtcNow;
         OrderStatus = OrderStatus.Created;
 
         AddOrderItems(orderItems);
+    }
+
+    private static void ValidateOrderItems(IEnumerable<OrderItem> orderItems)
+    {
+        if (orderItems is null || !orderItems.Any())
+        {
+            throw new BusinessRuleBrokenException("Order must have at least one item.");
+        }
     }
 
     public static Order Create(CustomerId customerId, string shippingAddress)
@@ -56,8 +66,7 @@ public class Order : IAggregateRoot
 
     public void AddOrderItem(OrderItem orderItem)
     {
-        if (orderItem is null)
-            throw new BusinessRuleBrokenException("You must supply an Order Item!");
+        ArgumentNullException.ThrowIfNull(orderItem);
 
         ValidateMaxPriceLimit(orderItem);
         _orderItems.Add(orderItem);
@@ -66,15 +75,19 @@ public class Order : IAggregateRoot
     public void MarkAsCancelled()
     {
         if (OrderStatus != OrderStatus.Created)
-            throw new BusinessRuleBrokenException("Only Created orders can be cancelled.");
+        {
+            throw new BusinessRuleBrokenException("Only orders in 'Created' state can be cancelled.");
+        }
 
         OrderStatus = OrderStatus.Cancelled;
     }
 
     public void MarkAsShipped()
     {
-        if (OrderStatus != OrderStatus.Created && OrderStatus != OrderStatus.Pending)
+        if (OrderStatus is not (OrderStatus.Created or OrderStatus.Pending))
+        {
             throw new BusinessRuleBrokenException($"Order cannot be shipped in its current state: {OrderStatus}.");
+        }
 
         OrderStatus = OrderStatus.Shipped;
     }
@@ -95,24 +108,24 @@ public class Order : IAggregateRoot
         var sumPriceOfOrderItems = _orderItems.Sum(en => en.Price.Amount);
 
         if (sumPriceOfOrderItems + orderItem.Price.Amount > maximumPriceLimit)
+        {
             throw new BusinessRuleBrokenException("Maximum price has been reached!");
+        }
     }
 
     private static void ValidateCustomerId(CustomerId customerId)
     {
         if (customerId is null || customerId.Value == 0)
+        {
             throw new BusinessRuleBrokenException("You must supply Customer Id!");
+        }
     }
 
     private static void ValidateShippingAddress(string shippingAddress)
     {
         if (string.IsNullOrWhiteSpace(shippingAddress))
+        {
             throw new BusinessRuleBrokenException("You must supply Shipping Address!");
-    }
-
-    private static void ValidateOrderItems(IEnumerable<OrderItem> orderItems)
-    {
-        if (orderItems is null || !orderItems.Any())
-            throw new BusinessRuleBrokenException("You must supply an Order Item!");
+        }
     }
 }

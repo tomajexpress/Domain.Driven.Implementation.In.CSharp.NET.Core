@@ -29,7 +29,7 @@ public record Price
 
     public static Price Create(decimal amount, MoneyUnit unit) => new(amount, unit);
 
-    public bool HasValue => Unit != MoneyUnit.UnSpecified && Amount != 0;
+    public bool HasValue => Unit != MoneyUnit.UnSpecified && Amount >= 0;
 
     public override string ToString() =>
         Unit != MoneyUnit.UnSpecified ?
