@@ -1,44 +1,48 @@
 ﻿using EShoppingTutorial.Core.Domain.Enums;
 using SharedKernel.Exceptions;
+using System;
 
-namespace EShoppingTutorial.Core.Domain.ValueObjects
+namespace EShoppingTutorial.Core.Domain.ValueObjects;
+
+public record Price
 {
-    public record Price
+    public decimal Amount { get; protected set; }
+    public MoneyUnit Unit { get; protected set; } = MoneyUnit.UnSpecified;
+
+    // EF Core requires a parameterless constructor
+    protected Price() { }
+
+    public Price(decimal amount, MoneyUnit unit)
     {
-        protected Price() // For Entity Framework Core
+        if (MoneyUnit.UnSpecified == unit)
         {
-
+            throw new BusinessRuleBrokenException("You must supply a valid money unit!");
         }
 
-        public Price(decimal amount, MoneyUnit unit)
+        if (amount < 0)
         {
-            if (MoneyUnit.UnSpecified == unit)
-            {
-                throw new BusinessRuleBrokenException("You must supply a valid money unit!");
-            }
-
-            Amount = amount;
-            Unit = unit;
+            throw new ArgumentException("Price amount cannot be negative.");
         }
 
-        public decimal Amount { get; protected set; }
+        Amount = amount;
+        Unit = unit;
+    }
 
-        public MoneyUnit Unit { get; protected set; } = MoneyUnit.UnSpecified;
+    public static Price Create(decimal amount, MoneyUnit unit) => new(amount, unit);
 
-        public bool HasValue
+    public bool HasValue
+    {
+        get
         {
-            get
-            {
-                return Unit != MoneyUnit.UnSpecified && Amount != 0;
-            }
+            return Unit != MoneyUnit.UnSpecified && Amount != 0;
         }
+    }
 
-        public override string ToString()
-        {
-            return 
-                Unit != MoneyUnit.UnSpecified ? 
-                Amount + " " + MoneySymbols.GetSymbol(Unit) : 
-                Amount.ToString();
-        }
+    public override string ToString()
+    {
+        return 
+            Unit != MoneyUnit.UnSpecified ? 
+            Amount + " " + MoneySymbols.GetSymbol(Unit) : 
+            Amount.ToString();
     }
 }
