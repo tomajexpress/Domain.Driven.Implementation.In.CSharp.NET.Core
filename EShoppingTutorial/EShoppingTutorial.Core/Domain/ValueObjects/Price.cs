@@ -31,11 +31,8 @@ public record Price
 
     public bool HasValue => Unit != MoneyUnit.UnSpecified && Amount != 0;
 
-    public override string ToString()
-    {
-        return 
-            Unit != MoneyUnit.UnSpecified ? 
-            Amount + " " + MoneySymbols.GetSymbol(Unit) : 
-            Amount.ToString();
-    }
+    public override string ToString() =>
+        Unit != MoneyUnit.UnSpecified ?
+        Amount + " " + MoneySymbols.GetSymbol(Unit) :
+        Amount.ToString();
 }
