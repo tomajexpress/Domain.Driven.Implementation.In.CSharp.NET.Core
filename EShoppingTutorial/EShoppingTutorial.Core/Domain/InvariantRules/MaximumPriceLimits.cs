@@ -15,9 +15,9 @@ namespace EShoppingTutorial.Core.Domain.InvariantRules
 
             _maximumPriceLimits = new Dictionary<MoneyUnit, int>
             {
-                { MoneyUnit.Euro, 9000 },
+                { MoneyUnit.EUR, 9000 },
 
-                { MoneyUnit.Dollar, 10000 },
+                { MoneyUnit.USD, 10000 },
 
                 { MoneyUnit.Rial, 12000 },
             };

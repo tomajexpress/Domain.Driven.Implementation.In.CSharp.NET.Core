@@ -33,11 +33,11 @@ public class Repository<TEntity>(DbContext context) : IRepository<TEntity>
         return await query.FirstOrDefaultAsync(predicate).ConfigureAwait(false);
     }
 
-    public async Task<IEnumerable<TEntity>> GetAllAsync() => await _dbSet.ToListAsync().ConfigureAwait(false);
+    public async Task<IEnumerable<TEntity>> GetAllAsync() => await _dbSet.AsNoTracking().ToListAsync().ConfigureAwait(false);
 
     public async Task<IEnumerable<TEntity>> GetAllAsync<TProperty>(Expression<Func<TEntity, TProperty>> include)
     {
-        return await _dbSet.Include(include).ToListAsync().ConfigureAwait(false);
+        return await _dbSet.Include(include).AsNoTracking().ToListAsync().ConfigureAwait(false);
     }
 
     public async Task<TEntity?> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate) =>
@@ -70,6 +70,7 @@ public class Repository<TEntity>(DbContext context) : IRepository<TEntity>
         var items = await query
             .Skip((queryObjectParams.PageNumber - 1) * queryObjectParams.PageSize)
             .Take(queryObjectParams.PageSize)
+            .AsNoTracking()
             .ToListAsync()
             .ConfigureAwait(false);
 

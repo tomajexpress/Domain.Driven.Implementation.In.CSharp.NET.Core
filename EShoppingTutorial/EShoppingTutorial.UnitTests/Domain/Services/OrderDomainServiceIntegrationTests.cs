@@ -32,7 +32,7 @@ namespace EShoppingTutorial.UnitTests.Domain.Services
             var unitOfWork = new UnitOfWork(context);
             var service = new OrderDomainService(unitOfWork);
             var customerId = new CustomerId(1);
-            var orderItems = new[] { new OrderItem(new ProductId(1), new Price(50, MoneyUnit.Euro)) };
+            var orderItems = new[] { new OrderItem(new ProductId(1), new Price(50, MoneyUnit.EUR)) };
             var order = new Order(customerId, shippingAddress: "Germany", orderItems);
 
             // Act
@@ -51,7 +51,7 @@ namespace EShoppingTutorial.UnitTests.Domain.Services
         {
             // Arrange: Seed the database
             var customerId = new CustomerId(1);
-            var orderItems = new[] { new OrderItem(new ProductId(1), new Price(50, MoneyUnit.Euro)) };
+            var orderItems = new[] { new OrderItem(new ProductId(1), new Price(50, MoneyUnit.EUR)) };
             var order = new Order(customerId, shippingAddress: "Germany", orderItems);
 
             using (var context = CreateContext())

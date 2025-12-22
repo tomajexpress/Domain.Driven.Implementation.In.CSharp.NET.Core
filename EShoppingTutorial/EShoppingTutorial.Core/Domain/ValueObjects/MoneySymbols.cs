@@ -16,9 +16,9 @@ namespace EShoppingTutorial.Core.Domain.ValueObjects
             {
                 { MoneyUnit.UnSpecified, string.Empty },
 
-                { MoneyUnit.Dollar, "$" },
+                { MoneyUnit.USD, "$" },
 
-                { MoneyUnit.Euro, "€" },
+                { MoneyUnit.EUR, "€" },
 
                 { MoneyUnit.Rial, "Rial" },
             };

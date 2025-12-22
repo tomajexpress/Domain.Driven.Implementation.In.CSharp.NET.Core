@@ -26,7 +26,7 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
         {
             // arrange
             var productIdMock = new ProductId(1);
-            var priceMock = new Price(1, MoneyUnit.Dollar);
+            var priceMock = new Price(1, MoneyUnit.USD);
             var orderItemMock = new OrderItem(productIdMock, priceMock);
 
             var order = new Order(new CustomerId(1), "Germany", [orderItemMock]);
@@ -44,10 +44,10 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
         {
             // arrange
             ProductId productId = new(1);
-            var price01 = new Price(5000, MoneyUnit.Dollar);
+            var price01 = new Price(5000, MoneyUnit.USD);
             var orderItem1 = Mock.Of<OrderItem>(x=> x.Price == price01);
 
-            var price02 = new Price(6000, MoneyUnit.Dollar);
+            var price02 = new Price(6000, MoneyUnit.USD);
             var orderItem2 = Mock.Of<OrderItem>(x => x.Price == price02);
 
             // act
@@ -95,7 +95,7 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
             // Arrange
             var order = Mock.Of<Order>(); // To directly test the AddOrderItem method, we mock the initialization step of the Order class.
             var productId = new ProductId(1);
-            var orderItem = new OrderItem(productId, new Price(100, MoneyUnit.Euro));
+            var orderItem = new OrderItem(productId, new Price(100, MoneyUnit.EUR));
 
             // Act
             order.AddOrderItem(orderItem);
@@ -112,7 +112,7 @@ namespace EShoppingTutorial.UnitTests.Domain.Entities
             var productId = new ProductId(1);
 
             // Assume the max price for Euro is 9000 for this test
-            var expensiveItem = new OrderItem(productId, new Price(15000, MoneyUnit.Euro));
+            var expensiveItem = new OrderItem(productId, new Price(15000, MoneyUnit.EUR));
 
             // Act & Assert
             var ex = Assert.Throws<BusinessRuleBrokenException>(() => order.AddOrderItem(expensiveItem));

@@ -10,7 +10,7 @@ namespace EShoppingTutorial.UnitTests.Domain.ValueObjects
         public void ToString_ForSpecifiedUnitType_MustReturnCorrectValue()
         {
             // arrange
-            var price = new Price(14, MoneyUnit.Dollar);
+            var price = new Price(14, MoneyUnit.USD);
 
             // act
             var actualResult = price.ToString();

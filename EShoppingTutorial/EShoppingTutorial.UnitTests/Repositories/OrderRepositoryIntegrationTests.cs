@@ -33,7 +33,7 @@ namespace EShoppingTutorial.UnitTests.Repositories
         {
             // arrange
             ProductId productId = new(1);
-            var order = new Order(new CustomerId(1), "Germany", [new OrderItem (productId, new Price(amount: 2000, MoneyUnit.Euro))]);
+            var order = new Order(new CustomerId(1), "Germany", [new OrderItem (productId, new Price(amount: 2000, MoneyUnit.EUR))]);
 
             // act
             _orderRepository.Add(order);

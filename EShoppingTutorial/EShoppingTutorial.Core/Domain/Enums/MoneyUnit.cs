@@ -1,10 +1,9 @@
-﻿namespace EShoppingTutorial.Core.Domain.Enums
+﻿namespace EShoppingTutorial.Core.Domain.Enums;
+
+public enum MoneyUnit
 {
-    public enum MoneyUnit : int
-    {
-        UnSpecified = 0,
-        Rial = 1,
-        Dollar,
-        Euro
-    }
+    UnSpecified = 0,
+    Rial = 1,
+    USD = 2,
+    EUR = 3,
 }

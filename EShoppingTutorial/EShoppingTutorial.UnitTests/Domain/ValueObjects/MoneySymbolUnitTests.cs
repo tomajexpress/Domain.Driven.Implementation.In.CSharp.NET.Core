@@ -9,7 +9,7 @@ namespace EShoppingTutorial.UnitTests.Domain.ValueObjects
         public void GetSymbol_ForSpecifiedType_MustReturnCorrectValue()
         {
             // act
-            var actualResult = MoneySymbols.GetSymbol(Core.Domain.Enums.MoneyUnit.Dollar);
+            var actualResult = MoneySymbols.GetSymbol(Core.Domain.Enums.MoneyUnit.USD);
 
             // assert
             Assert.That(actualResult.Equals("$"));

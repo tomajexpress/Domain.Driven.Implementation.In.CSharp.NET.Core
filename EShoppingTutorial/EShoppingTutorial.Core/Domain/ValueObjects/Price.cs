@@ -10,17 +10,18 @@ namespace EShoppingTutorial.Core.Domain.ValueObjects
 
         }
 
-        public Price(int amount, MoneyUnit unit)
+        public Price(decimal amount, MoneyUnit unit)
         {
             if (MoneyUnit.UnSpecified == unit)
+            {
                 throw new BusinessRuleBrokenException("You must supply a valid money unit!");
+            }
 
             Amount = amount;
-
             Unit = unit;
         }
 
-        public int Amount { get; protected set; }
+        public decimal Amount { get; protected set; }
 
         public MoneyUnit Unit { get; protected set; } = MoneyUnit.UnSpecified;
 

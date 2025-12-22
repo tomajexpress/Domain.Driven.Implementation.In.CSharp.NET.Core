@@ -1,10 +1,6 @@
-﻿namespace SharedKernel.Models
-{
-    /// <summary>
-    /// Marker Interface for Aggregate Roots
-    /// </summary>
-    public interface IAggregateRoot
-    {
+﻿namespace SharedKernel.Models;
 
-    }
-}
+/// <summary>
+/// A marker interface to identify Aggregate Roots.
+/// </summary>
+public interface IAggregateRoot;
