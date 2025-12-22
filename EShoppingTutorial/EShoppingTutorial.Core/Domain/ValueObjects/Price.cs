@@ -1,6 +1,5 @@
 ﻿using EShoppingTutorial.Core.Domain.Enums;
 using SharedKernel.Exceptions;
-using System;
 
 namespace EShoppingTutorial.Core.Domain.ValueObjects;
 
@@ -21,7 +20,7 @@ public record Price
 
         if (amount < 0)
         {
-            throw new ArgumentException("Price amount cannot be negative.");
+            throw new BusinessRuleBrokenException("Price amount cannot be negative.");
         }
 
         Amount = amount;
@@ -30,13 +29,7 @@ public record Price
 
     public static Price Create(decimal amount, MoneyUnit unit) => new(amount, unit);
 
-    public bool HasValue
-    {
-        get
-        {
-            return Unit != MoneyUnit.UnSpecified && Amount != 0;
-        }
-    }
+    public bool HasValue => Unit != MoneyUnit.UnSpecified && Amount != 0;
 
     public override string ToString()
     {
