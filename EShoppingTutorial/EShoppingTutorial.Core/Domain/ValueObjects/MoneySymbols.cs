@@ -1,32 +1,29 @@
 ﻿using System.Collections.Generic;
 using EShoppingTutorial.Core.Domain.Enums;
+namespace EShoppingTutorial.Core.Domain.ValueObjects;
 
-namespace EShoppingTutorial.Core.Domain.ValueObjects
+public static class MoneySymbols
 {
-    public static class MoneySymbols
+    private static readonly Dictionary<MoneyUnit, string> _symbols;
+
+    static MoneySymbols()
     {
-        private static Dictionary<MoneyUnit, string> _symbols;
+        if (_symbols != null) return;
 
-        static MoneySymbols()
+        _symbols = new Dictionary<MoneyUnit, string>
         {
-            if (_symbols != null)
-                return;
+            { MoneyUnit.UnSpecified, string.Empty },
 
-            _symbols = new Dictionary<MoneyUnit, string>
-            {
-                { MoneyUnit.UnSpecified, string.Empty },
+            { MoneyUnit.USD, "$" },
 
-                { MoneyUnit.USD, "$" },
+            { MoneyUnit.EUR, "€" },
 
-                { MoneyUnit.EUR, "€" },
+            { MoneyUnit.Rial, "Rial" },
+        };
+    }
 
-                { MoneyUnit.Rial, "Rial" },
-            };
-        }
-
-        public static string GetSymbol(MoneyUnit moneyUnit)
-        {
-            return _symbols[moneyUnit].ToString();
-        }
+    public static string GetSymbol(MoneyUnit moneyUnit)
+    {
+        return _symbols[moneyUnit].ToString();
     }
 }

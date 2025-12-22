@@ -21,6 +21,7 @@ public class Order : IAggregateRoot
     public OrderStatus OrderStatus { get; protected set; }
     public ICollection<OrderItem> OrderItems => _orderItems.AsReadOnly();
 
+    // EF Core requires a parameterless constructor
     protected Order() { }
 
     public Order(CustomerId customerId, string shippingAddress, IEnumerable<OrderItem> orderItems) : this()
