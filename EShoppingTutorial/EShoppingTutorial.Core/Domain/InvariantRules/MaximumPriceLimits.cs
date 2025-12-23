@@ -1,36 +1,15 @@
 ﻿using EShoppingTutorial.Core.Domain.Enums;
 using SharedKernel.Exceptions;
-using System.Collections.Generic;
 
-namespace EShoppingTutorial.Core.Domain.InvariantRules
+namespace EShoppingTutorial.Core.Domain.InvariantRules;
+
+public static class MaximumPriceLimits
 {
-    public static class MaximumPriceLimits
+    public static decimal GetMaximumPriceLimit(MoneyUnit unit) => unit switch
     {
-        private static Dictionary<MoneyUnit, int> _maximumPriceLimits;
-
-        static MaximumPriceLimits()
-        {
-            if (_maximumPriceLimits != null)
-                return;
-
-            _maximumPriceLimits = new Dictionary<MoneyUnit, int>
-            {
-                { MoneyUnit.EUR, 9000 },
-
-                { MoneyUnit.USD, 10000 },
-
-                { MoneyUnit.Rial, 12000 },
-            };
-        }
-
-        public static int GetMaximumPriceLimit(MoneyUnit unit)
-        {
-            if (unit == MoneyUnit.UnSpecified)
-            {
-                throw new BusinessRuleBrokenException("Money Unit is not defined !");
-            }
-
-            return _maximumPriceLimits[unit];
-        }
-    }
+        MoneyUnit.USD => 10_000m,
+        MoneyUnit.EUR => 9_000m,
+        MoneyUnit.Rial => 8_000m,
+        _ => throw new BusinessRuleBrokenException("MoneyUnit (Currency) is not valid!")
+    };
 }

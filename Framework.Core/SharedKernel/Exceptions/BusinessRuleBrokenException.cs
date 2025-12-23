@@ -1,23 +1,15 @@
 ﻿using System;
 
-namespace SharedKernel.Exceptions
+namespace SharedKernel.Exceptions;
+
+[Serializable]
+public class BusinessRuleBrokenException : BaseException
 {
-    [Serializable]
-    public class BusinessRuleBrokenException : BaseException
+    public BusinessRuleBrokenException(string message) : base(message)
     {
-        public BusinessRuleBrokenException()
-        {
+    }
 
-        }
-
-        public BusinessRuleBrokenException(string message) : base(message)
-        {
-
-        }
-
-        public BusinessRuleBrokenException(string message, Exception innerException) : base(message, innerException)
-        {
-
-        }
+    public BusinessRuleBrokenException(string message, Exception innerException) : base(message, innerException)
+    {
     }
 }
