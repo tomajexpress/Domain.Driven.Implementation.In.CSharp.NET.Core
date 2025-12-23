@@ -1,6 +1,4 @@
-﻿using EShoppingTutorial.Core.Domain.Entities;
-using EShoppingTutorial.Core.Domain.ValueObjects;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EShoppingTutorial.Core.Persistence.Mappings;

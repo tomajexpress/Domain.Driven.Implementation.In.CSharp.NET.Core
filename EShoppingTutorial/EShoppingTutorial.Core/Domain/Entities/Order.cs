@@ -1,13 +1,4 @@
-﻿using EShoppingTutorial.Core.Domain.Enums;
-using EShoppingTutorial.Core.Domain.InvariantRules;
-using EShoppingTutorial.Core.Domain.ValueObjects;
-using SharedKernel.Exceptions;
-using SharedKernel.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace EShoppingTutorial.Core.Domain.Entities;
+﻿namespace EShoppingTutorial.Core.Domain.Entities;
 
 public class Order : IAggregateRoot
 {

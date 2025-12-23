@@ -1,5 +1,6 @@
 using EShoppingTutorial.Core.Domain;
 using EShoppingTutorial.Core.Domain.Services;
+using EShoppingTutorial.Core.Domain.Services.Implementations;
 using EShoppingTutorial.Core.Persistence;
 using EShoppingTutorialWebAPI.Filters;
 using FluentValidation.AspNetCore;

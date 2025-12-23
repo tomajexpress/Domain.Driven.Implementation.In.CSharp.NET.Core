@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using EShoppingTutorial.Core.Domain.Enums;
-namespace EShoppingTutorial.Core.Domain.ValueObjects;
+﻿namespace EShoppingTutorial.Core.Domain.ValueObjects;
 
 public static class MoneySymbols
 {

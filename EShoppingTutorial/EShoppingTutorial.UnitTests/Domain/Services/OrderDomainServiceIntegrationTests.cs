@@ -1,14 +1,4 @@
-﻿using EShoppingTutorial.Core.Domain.Entities;
-using EShoppingTutorial.Core.Domain.Enums;
-using EShoppingTutorial.Core.Domain.Services;
-using EShoppingTutorial.Core.Domain.ValueObjects;
-using EShoppingTutorial.Core.Persistence;
-using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
-using System;
-using System.Threading.Tasks;
-
-namespace EShoppingTutorial.UnitTests.Domain.Services;
+﻿namespace EShoppingTutorial.UnitTests.Domain.Services;
 
 [TestFixture]
 public class OrderDomainServiceIntegrationTests

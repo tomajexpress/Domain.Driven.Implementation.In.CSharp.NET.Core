@@ -1,11 +1,10 @@
-﻿namespace EShoppingTutorial.Core.Domain.Enums
+﻿namespace EShoppingTutorial.Core.Domain.Enums;
+
+public enum OrderStatus
 {
-    public enum OrderStatus
-    {
-        Created = 1,
-        Shipped = 2,
-        Delivered = 3,
-        Cancelled = 4,
-        Pending = 5
-    }
+    Created = 1,
+    Shipped = 2,
+    Delivered = 3,
+    Cancelled = 4,
+    Pending = 5
 }

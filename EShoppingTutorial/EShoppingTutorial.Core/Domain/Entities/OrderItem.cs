@@ -1,8 +1,4 @@
-﻿using EShoppingTutorial.Core.Domain.ValueObjects;
-using SharedKernel.Exceptions;
-using System;
-
-namespace EShoppingTutorial.Core.Domain.Entities;
+﻿namespace EShoppingTutorial.Core.Domain.Entities;
 
 public class OrderItem
 {

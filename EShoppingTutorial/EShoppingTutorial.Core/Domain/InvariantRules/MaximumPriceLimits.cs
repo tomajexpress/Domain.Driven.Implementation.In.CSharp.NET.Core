@@ -1,6 +1,4 @@
-﻿using EShoppingTutorial.Core.Domain.Enums;
-using SharedKernel.Exceptions;
-
+﻿
 namespace EShoppingTutorial.Core.Domain.InvariantRules;
 
 public static class MaximumPriceLimits

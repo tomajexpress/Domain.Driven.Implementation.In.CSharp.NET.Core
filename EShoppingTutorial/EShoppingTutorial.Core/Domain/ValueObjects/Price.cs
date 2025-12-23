@@ -1,7 +1,4 @@
-﻿using EShoppingTutorial.Core.Domain.Enums;
-using SharedKernel.Exceptions;
-
-namespace EShoppingTutorial.Core.Domain.ValueObjects;
+﻿namespace EShoppingTutorial.Core.Domain.ValueObjects;
 
 public record Price
 {

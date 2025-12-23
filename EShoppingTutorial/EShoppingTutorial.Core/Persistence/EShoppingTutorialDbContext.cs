@@ -1,25 +1,17 @@
-﻿using EShoppingTutorial.Core.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
-namespace EShoppingTutorial.Core.Persistence
+namespace EShoppingTutorial.Core.Persistence;
+
+public class EShoppingTutorialDbContext(DbContextOptions<EShoppingTutorialDbContext> dbContextOptions) : DbContext(dbContextOptions)
 {
-    public class EShoppingTutorialDbContext : DbContext
+    public virtual DbSet<Order> Orders { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        public virtual DbSet<Order> Orders { get; set; }
+        //Scans a given assembly for all types that implement IEntityTypeConfiguration, and registers each one automatically
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-        public EShoppingTutorialDbContext(DbContextOptions<EShoppingTutorialDbContext> dbContextOptions) 
-            : base(dbContextOptions)
-        {
-
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            //Scans a given assembly for all types that implement IEntityTypeConfiguration, and registers each one automatically
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
-            base.OnModelCreating(modelBuilder);
-        }
+        base.OnModelCreating(modelBuilder);
     }
 }
