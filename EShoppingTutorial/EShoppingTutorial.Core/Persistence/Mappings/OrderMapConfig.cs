@@ -21,7 +21,7 @@ public class OrderMapConfig : IEntityTypeConfiguration<Order>
 
         builder.HasIndex(o => o.TrackingNumber).IsUnique();
 
-        builder.Property(o => o.ShippingAddress).HasColumnName("ShippingAdress").HasMaxLength(100).IsUnicode().IsRequired();
+        builder.Property(o => o.ShippingAddress).HasColumnName("ShippingAddress").HasMaxLength(100).IsUnicode().IsRequired();
 
         builder.Property(o => o.OrderDate).HasColumnName("OrderDate").HasMaxLength(10).IsRequired();
 
