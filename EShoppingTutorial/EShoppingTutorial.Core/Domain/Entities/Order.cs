@@ -17,7 +17,7 @@ public class Order : IAggregateRoot
     public Guid? TrackingNumber { get; protected set; }
     public string ShippingAddress { get; protected set; } = string.Empty;
     public CustomerId CustomerId { get; protected set; }
-    public DateTime OrderDate { get; protected set; } = DateTime.Now;
+    public DateTime OrderDate { get; protected set; } = DateTime.UtcNow;
     public OrderStatus OrderStatus { get; protected set; }
 
     // Expose as IReadOnlyCollection to prevent external tampering
@@ -32,12 +32,7 @@ public class Order : IAggregateRoot
         ValidateShippingAddress(shippingAddress);
         ValidateOrderItems(orderItems);
 
-        CustomerId = customerId;
-        ShippingAddress = shippingAddress;
-        TrackingNumber = Guid.NewGuid();
-        OrderDate = DateTime.UtcNow;
-        OrderStatus = OrderStatus.Created;
-
+        InitializeOrderInstance(customerId, shippingAddress);
         AddOrderItems(orderItems);
     }
 
@@ -49,25 +44,27 @@ public class Order : IAggregateRoot
         }
     }
 
+    private void InitializeOrderInstance(CustomerId customerId, string shippingAddress)
+    {
+        CustomerId = customerId;
+        ShippingAddress = shippingAddress;
+        TrackingNumber = Guid.NewGuid();
+        OrderDate = DateTime.UtcNow;
+        OrderStatus = OrderStatus.Created;
+    }
+
     public static Order Create(CustomerId customerId, string shippingAddress)
     {
+        var order = new Order();
         ValidateCustomerId(customerId);
         ValidateShippingAddress(shippingAddress);
-
-        return new Order
-        {
-            CustomerId = customerId,
-            ShippingAddress = shippingAddress,
-            TrackingNumber = Guid.NewGuid(),
-            OrderDate = DateTime.Now,
-            OrderStatus = OrderStatus.Created
-        };
+        order.InitializeOrderInstance(customerId, shippingAddress);
+        return order;
     }
 
     public void AddOrderItem(OrderItem orderItem)
     {
         ArgumentNullException.ThrowIfNull(orderItem);
-
         ValidateMaxPriceLimit(orderItem);
         _orderItems.Add(orderItem);
     }
