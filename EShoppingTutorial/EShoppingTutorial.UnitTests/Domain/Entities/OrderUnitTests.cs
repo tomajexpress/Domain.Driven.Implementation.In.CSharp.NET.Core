@@ -1,12 +1,4 @@
-﻿using EShoppingTutorial.Core.Domain.Entities;
-using EShoppingTutorial.Core.Domain.Enums;
-using EShoppingTutorial.Core.Domain.ValueObjects;
-using Moq;
-using NUnit.Framework;
-using SharedKernel.Exceptions;
-using System;
-
-namespace EShoppingTutorial.UnitTests.Domain.Entities;
+﻿namespace EShoppingTutorial.UnitTests.Domain.Entities;
 
 [TestFixture]
 public class OrderUnitTests
