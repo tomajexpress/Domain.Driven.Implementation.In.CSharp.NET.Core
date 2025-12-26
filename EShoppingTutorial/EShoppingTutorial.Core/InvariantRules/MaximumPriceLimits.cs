@@ -1,5 +1,4 @@
-﻿
-namespace EShoppingTutorial.Core.Domain.InvariantRules;
+﻿namespace EShoppingTutorial.Core.Domain.InvariantRules;
 
 public static class MaximumPriceLimits
 {

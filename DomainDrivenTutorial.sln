@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenericRepositoryEntityFram
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EShoppingTutorial", "EShoppingTutorial", "{563C32CB-B8B9-4223-823F-9F56383B2274}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShoppingTutorial.Core", "EShoppingTutorial\EShoppingTutorial.Core\EShoppingTutorial.Core.csproj", "{24D2DBBC-E18A-43DF-B049-5B00B4D2B3B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShoppingTutorial.Core.Domain", "EShoppingTutorial\EShoppingTutorial.Core\EShoppingTutorial.Core.Domain.csproj", "{24D2DBBC-E18A-43DF-B049-5B00B4D2B3B2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShoppingTutorial.UnitTests", "EShoppingTutorial\EShoppingTutorial.UnitTests\EShoppingTutorial.UnitTests.csproj", "{25E7E9C0-FBC5-4925-ABCB-47F88DE08C3C}"
 EndProject

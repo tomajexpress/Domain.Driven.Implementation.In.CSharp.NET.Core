@@ -1,11 +1,5 @@
 ﻿using EShoppingTutorial.Core.Domain;
-using EShoppingTutorial.Core.Domain.Entities;
 using EShoppingTutorial.Core.Domain.Repositories;
-using EShoppingTutorial.Core.Domain.Services;
-using EShoppingTutorial.Core.Domain.ValueObjects;
-using Moq;
-using NUnit.Framework;
-using System.Threading.Tasks;
 
 namespace EShoppingTutorial.UnitTests.Domain.Services;
 
