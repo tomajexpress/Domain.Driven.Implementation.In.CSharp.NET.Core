@@ -6,10 +6,9 @@ public class UnitOfWork : IUnitOfWork, IAsyncDisposable
 
     public IOrderRepository OrderRepository { get; private set; }
 
-
     public UnitOfWork(EShoppingTutorialDbContext context)
     {
-        _context = context;
+        _context = context ?? throw new ArgumentNullException(nameof(context));
         OrderRepository = new OrderRepository(_context);
     }
 
@@ -23,10 +22,6 @@ public class UnitOfWork : IUnitOfWork, IAsyncDisposable
         return await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
     }
 
-    /// <summary>
-    /// No matter an exception has been raised or not, this method always will dispose the DbContext 
-    /// </summary>
-    /// <returns></returns>
     public ValueTask DisposeAsync()
     {
         return _context.DisposeAsync();

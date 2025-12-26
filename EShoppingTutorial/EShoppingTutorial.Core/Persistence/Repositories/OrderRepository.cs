@@ -1,4 +1,5 @@
 ﻿using GenericRepositoryEntityFramework;
+using Microsoft.EntityFrameworkCore;
 
 namespace EShoppingTutorial.Core.Persistence.Repositories;
 
@@ -9,11 +10,18 @@ public class OrderRepository(EShoppingTutorialDbContext context) : Repository<Or
         get { return Context as EShoppingTutorialDbContext; }
     }
 
-    public override void Add(Order entity)
+    public async Task<Order?> GetOrderWithItemsAsync(OrderId id)
     {
-        // We can override repository virtual methods in order to customize repository behavior, Template Method Pattern
-        // Code here
+        return await context.Orders
+            .Include(o => o.OrderItems)
+            .FirstOrDefaultAsync(o => o.Id == id);
+    }
 
-        base.Add(entity);
+    public async Task<IEnumerable<Order>> GetOrdersByCustomerIdAsync(CustomerId customerId)
+    {
+        return await context.Orders
+            .Where(o => o.CustomerId == customerId)
+            .OrderByDescending(o => o.OrderDate)
+            .ToListAsync();
     }
 }
