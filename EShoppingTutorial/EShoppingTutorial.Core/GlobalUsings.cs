@@ -15,5 +15,3 @@ global using SharedKernel.Exceptions;
 global using SharedKernel.Models;
 global using EShoppingTutorial.Core.Domain.InvariantRules;
 global using EShoppingTutorial.Core.Domain.Repositories;
-global using EShoppingTutorial.Core.Domain;
-global using EShoppingTutorial.Core.Persistence.Repositories;

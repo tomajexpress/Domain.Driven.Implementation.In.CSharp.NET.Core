@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Framework.Core\SharedKernel\SharedKernel.csproj" />
+    <ProjectReference Include="..\EShoppingTutorial.Core.Persistence\EShoppingTutorial.Core.Persistence.csproj" />
     <ProjectReference Include="..\EShoppingTutorial.Core\EShoppingTutorial.Core.csproj" />
   </ItemGroup>
 

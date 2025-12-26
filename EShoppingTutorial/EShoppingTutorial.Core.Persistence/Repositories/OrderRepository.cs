@@ -5,7 +5,7 @@ namespace EShoppingTutorial.Core.Persistence.Repositories;
 
 public class OrderRepository(EShoppingTutorialDbContext context) : Repository<Order>(context), IOrderRepository
 {
-    public EShoppingTutorialDbContext EShoppingTutorialDbContext
+    public EShoppingTutorialDbContext? EShoppingTutorialDbContext
     {
         get { return Context as EShoppingTutorialDbContext; }
     }
