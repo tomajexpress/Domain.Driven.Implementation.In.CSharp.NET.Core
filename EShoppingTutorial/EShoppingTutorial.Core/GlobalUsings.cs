@@ -5,7 +5,7 @@ global using System.Linq;
 global using System.Threading;
 global using System.Threading.Tasks;    
 
-// Testing Frameworks
+// Frameworks
 
 // Domain Specific Namespaces
 global using EShoppingTutorial.Core.Domain.Entities;

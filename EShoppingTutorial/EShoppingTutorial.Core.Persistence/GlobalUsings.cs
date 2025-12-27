@@ -1,6 +1,6 @@
 ﻿// Standard .NET namespaces
 
-// Testing Frameworks
+// Frameworks
 
 // Domain Specific Namespaces
 global using EShoppingTutorial.Core.Domain.Entities;

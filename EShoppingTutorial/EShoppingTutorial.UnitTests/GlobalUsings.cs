@@ -3,7 +3,7 @@ global using System;
 global using System.Threading.Tasks;
 
 
-// Testing Frameworks
+// Frameworks
 global using NUnit.Framework;
 global using Moq;
 global using Microsoft.EntityFrameworkCore;

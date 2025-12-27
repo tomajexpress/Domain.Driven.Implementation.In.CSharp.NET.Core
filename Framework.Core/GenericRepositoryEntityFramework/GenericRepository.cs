@@ -1,14 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SharedKernel.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
+﻿namespace GenericRepositoryEntityFramework;
 
-namespace GenericRepositoryEntityFramework;
-
-public class Repository<TEntity>(DbContext context) : IRepository<TEntity>
+public class GenericRepository<TEntity>(DbContext context) : IGenericRepository<TEntity>
     where TEntity : class, IAggregateRoot
 {
     protected readonly DbContext Context = context ?? throw new ArgumentNullException(nameof(context));

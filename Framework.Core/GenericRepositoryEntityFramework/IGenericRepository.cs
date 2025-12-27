@@ -1,12 +1,6 @@
-﻿using SharedKernel.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
+﻿namespace GenericRepositoryEntityFramework;
 
-namespace GenericRepositoryEntityFramework;
-
-public interface IRepository<TEntity> where TEntity : class, IAggregateRoot
+public interface IGenericRepository<TEntity> where TEntity : class, IAggregateRoot
 {
     void Add(TEntity entity);
     void Update(TEntity entity);

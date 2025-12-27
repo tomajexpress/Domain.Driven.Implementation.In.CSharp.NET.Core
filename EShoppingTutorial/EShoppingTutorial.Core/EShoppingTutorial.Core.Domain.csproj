@@ -9,7 +9,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework.Core\GenericRepositoryEntityFramework\GenericRepositoryEntityFramework.csproj" />
+    <ProjectReference Include="..\..\Framework.Core\GenericRepositoryEntityFramework\GenericRepositoryEntityFramework.csproj">
+		<PrivateAssets>all</PrivateAssets>
+	</ProjectReference>
+	  
     <ProjectReference Include="..\..\Framework.Core\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
 

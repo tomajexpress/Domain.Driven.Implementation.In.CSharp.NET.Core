@@ -1,9 +1,8 @@
-﻿namespace SharedKernel.Models
+﻿namespace SharedKernel.Models;
+
+public class SortParam
 {
-    public class SortParam
-    {
-        public bool? SortOrderDescending { get; set; }
-        
-        public string OrderProperty { get; set; }
-    }
+    public bool? SortOrderDescending { get; set; }
+    
+    public string OrderProperty { get; set; }
 }

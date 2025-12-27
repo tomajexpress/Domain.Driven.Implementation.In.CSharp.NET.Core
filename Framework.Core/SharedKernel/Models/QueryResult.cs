@@ -1,22 +1,15 @@
 ﻿using System.Collections.Generic;
+namespace SharedKernel.Models;
 
-namespace SharedKernel.Models
+public class QueryResult<T>
 {
-    public class QueryResult<T>
+    public IEnumerable<T> Entities { get; protected set; }
+    public int TotalCount { get; protected set; }
+
+    public QueryResult(IEnumerable<T> entities, int totalCount)
     {
-        public IEnumerable<T> Entities { get; set; }
-        public int TotalCount { get; set; }
+        TotalCount = totalCount;
 
-        public QueryResult()
-        {
-
-        }
-
-        public QueryResult(IEnumerable<T> entities, int totalCount)
-        {
-            TotalCount = totalCount;
-
-            Entities = entities;
-        }
+        Entities = entities;
     }
 }
