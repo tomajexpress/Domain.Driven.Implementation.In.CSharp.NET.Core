@@ -10,3 +10,4 @@ global using Microsoft.EntityFrameworkCore;
 
 // Domain Specific Namespaces
 global using SharedKernel.Models;
+global using GenericRepository.Abstractions;

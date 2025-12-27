@@ -5,7 +5,7 @@
 namespace EShoppingTutorial.Core.Migrations
 {
     /// <inheritdoc />
-    public partial class secondmigrationaddingcascadeddeletebehavoir : Migration
+    public partial class Secondmigrationaddingcascadeddeletebehavoir : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

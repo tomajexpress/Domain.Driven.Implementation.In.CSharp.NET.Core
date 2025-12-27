@@ -56,7 +56,7 @@ public class GenericRepository<TEntity>(DbContext context) : IGenericRepository<
 
         if (queryObjectParams.SortingParams is { Count: > 0 })
         {
-            query = SortingExtension.GetOrdering(query, queryObjectParams.SortingParams);
+            query = SortingExtension.GetOrdering(query, queryObjectParams.SortingParams)!;
         }
 
         var items = await query

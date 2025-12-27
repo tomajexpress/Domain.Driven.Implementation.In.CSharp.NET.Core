@@ -1,4 +1,4 @@
-﻿using GenericRepositoryEntityFramework;
+﻿using GenericRepository.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
 namespace EShoppingTutorial.Core.Persistence.Repositories;

@@ -1,6 +1,4 @@
-﻿using EShoppingTutorial.Core.Domain.Repositories;
-
-namespace EShoppingTutorial.Core.Domain;
+﻿namespace EShoppingTutorial.Core.Domain;
 
 public interface IUnitOfWork
 {

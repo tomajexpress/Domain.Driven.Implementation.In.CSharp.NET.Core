@@ -1,10 +1,10 @@
-﻿namespace GenericRepositoryEntityFramework;
+﻿namespace GenericRepository.EntityFramework;
 
 internal static class SortingExtension
 {
-    internal static IQueryable<T> GetOrdering<T>(IQueryable<T> source, List<SortParam> SortParams)
+    internal static IQueryable<T>? GetOrdering<T>(IQueryable<T> source, List<SortParam> SortParams)
     {
-        IOrderedQueryable<T> myorder = null;
+        IOrderedQueryable<T>? myorder = null;
 
         foreach (var SortParam in SortParams)
         {

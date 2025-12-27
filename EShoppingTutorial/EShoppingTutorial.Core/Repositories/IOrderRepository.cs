@@ -1,6 +1,4 @@
-﻿using GenericRepositoryEntityFramework;
-
-namespace EShoppingTutorial.Core.Domain.Repositories;
+﻿namespace EShoppingTutorial.Core.Domain.Repositories;
 
 public interface IOrderRepository : IGenericRepository<Order>
 {

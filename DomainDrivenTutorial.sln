@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.1.11312.151 d18.0
+VisualStudioVersion = 18.1.11312.151
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework.Core", "Framework.Core", "{9E43B017-E13C-453B-9C1C-A50BF9DB705F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel", "Framework.Core\SharedKernel\SharedKernel.csproj", "{7D6087A0-DA91-4578-9E9B-D56F37727160}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenericRepositoryEntityFramework", "Framework.Core\GenericRepositoryEntityFramework\GenericRepositoryEntityFramework.csproj", "{9BB07CED-F378-449B-966D-BF7F5B6EBCAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenericRepository.EntityFramework", "Framework.Core\GenericRepositoryEntityFramework\GenericRepository.EntityFramework.csproj", "{9BB07CED-F378-449B-966D-BF7F5B6EBCAD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EShoppingTutorial", "EShoppingTutorial", "{563C32CB-B8B9-4223-823F-9F56383B2274}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShoppingTutorialWebAPI", "EShoppingTutorialWebAPI\EShoppingTutorialWebAPI.csproj", "{3E6452FE-6ED2-446F-9C25-47AEBAB4BE05}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShoppingTutorial.Core.Persistence", "EShoppingTutorial\EShoppingTutorial.Core.Persistence\EShoppingTutorial.Core.Persistence.csproj", "{8835B641-1F80-4E79-BF9A-B80D76541238}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericRepository.Abstractions", "Framework.Core\GenericRepository\GenericRepository.Abstractions.csproj", "{A12271E1-D764-4757-AFA4-203DBB555B26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{8835B641-1F80-4E79-BF9A-B80D76541238}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8835B641-1F80-4E79-BF9A-B80D76541238}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8835B641-1F80-4E79-BF9A-B80D76541238}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A12271E1-D764-4757-AFA4-203DBB555B26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A12271E1-D764-4757-AFA4-203DBB555B26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A12271E1-D764-4757-AFA4-203DBB555B26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A12271E1-D764-4757-AFA4-203DBB555B26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{25E7E9C0-FBC5-4925-ABCB-47F88DE08C3C} = {563C32CB-B8B9-4223-823F-9F56383B2274}
 		{3E6452FE-6ED2-446F-9C25-47AEBAB4BE05} = {563C32CB-B8B9-4223-823F-9F56383B2274}
 		{8835B641-1F80-4E79-BF9A-B80D76541238} = {563C32CB-B8B9-4223-823F-9F56383B2274}
+		{A12271E1-D764-4757-AFA4-203DBB555B26} = {9E43B017-E13C-453B-9C1C-A50BF9DB705F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {58DDD7D4-5B51-440D-8E00-95270B5E1AD0}

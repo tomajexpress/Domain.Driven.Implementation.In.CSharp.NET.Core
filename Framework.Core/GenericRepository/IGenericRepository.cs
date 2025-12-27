@@ -1,4 +1,4 @@
-﻿namespace GenericRepositoryEntityFramework;
+﻿namespace GenericRepository.Abstractions;
 
 public interface IGenericRepository<TEntity> where TEntity : class, IAggregateRoot
 {

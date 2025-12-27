@@ -13,7 +13,7 @@ namespace EShoppingTutorial.Core.Migrations
 {
     [DbContext(typeof(EShoppingTutorialDbContext))]
     [Migration("20251217144946_first migration ")]
-    partial class firstmigration
+    partial class Firstmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -13,7 +13,7 @@ namespace EShoppingTutorial.Core.Migrations
 {
     [DbContext(typeof(EShoppingTutorialDbContext))]
     [Migration("20251220221750_second migration - adding cascaded delete behavoir")]
-    partial class secondmigrationaddingcascadeddeletebehavoir
+    partial class Secondmigrationaddingcascadeddeletebehavoir
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

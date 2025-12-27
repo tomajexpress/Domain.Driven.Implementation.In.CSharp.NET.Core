@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework.Core\GenericRepositoryEntityFramework\GenericRepository.EntityFramework.csproj" />
-    <ProjectReference Include="..\EShoppingTutorial.Core\EShoppingTutorial.Core.Domain.csproj" />
+    <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
 
 </Project>
