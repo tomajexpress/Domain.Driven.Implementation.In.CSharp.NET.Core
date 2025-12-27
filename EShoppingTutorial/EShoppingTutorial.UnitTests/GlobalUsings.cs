@@ -2,7 +2,6 @@
 global using System;
 global using System.Threading.Tasks;
 
-
 // Frameworks
 global using NUnit.Framework;
 global using Moq;
