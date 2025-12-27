@@ -1,4 +1,4 @@
-﻿namespace GenericRepositoryEntityFramework;
+﻿namespace GenericRepository.EntityFramework;
 
 public class GenericRepository<TEntity>(DbContext context) : IGenericRepository<TEntity>
     where TEntity : class, IAggregateRoot
