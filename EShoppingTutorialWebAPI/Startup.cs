@@ -1,107 +1,100 @@
-namespace EShoppingTutorialWebAPI
+namespace EShoppingTutorialWebAPI;
+public class Startup
 {
-    public class Startup
+    public Startup(IConfiguration configuration)
     {
-        public Startup(IConfiguration configuration)
+        Configuration = configuration;
+    }
+
+    public IConfiguration Configuration { get; }
+
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddControllers(options => options.Filters.Add(new AopExceptionHandlerFilter()));
+
+        // This scans the Web API project for all AbstractValidator classes
+        services.AddValidatorsFromAssemblyContaining<OrderSaveRequestModelValidator>();
+
+        // Register AutoMapper: scans loaded assemblies for Profile implementations.
+
+        services.AddAutoMapper(cfg =>
         {
-            Configuration = configuration;
-        }
+            AutoMappingProfileConfigs.AddAutoMapperConfigs(cfg);
+        });
 
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        // Register the Swagger generator, defining 1 or more Swagger documents 
+        services.AddSwaggerGen(c =>
         {
-            services.AddControllers(options => options.Filters.Add(new AopExceptionHandlerFilter()));
-
-            // This scans the Web API project for all AbstractValidator classes
-            services.AddValidatorsFromAssemblyContaining<OrderSaveRequestModelValidator>();
-
-            // Register AutoMapper: scans loaded assemblies for Profile implementations.
-
-            services.AddAutoMapper(cfg =>
+            c.SwaggerDoc("v1", new OpenApiInfo
             {
-                AutoMappingProfileConfigs.AddAutoMapperConfigs(cfg);
-            });
-
-            // Register the Swagger generator, defining 1 or more Swagger documents 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo
+                Version = "v1",
+                Title = "EShopping Tutorial WebAPI",
+                Description = "ASP.NET Core Web API",
+                Contact = new OpenApiContact
                 {
-                    Version = "v1",
-                    Title = "EShopping Tutorial WebAPI",
-                    Description = "ASP.NET Core Web API",
-                    TermsOfService = new Uri("https://www.linkedin.com/in/aman-toumaj-92114051/"),
-                    Contact = new OpenApiContact
-                    {
-                        Name = "EShopping Tutorial Web API",
-                        Email = string.Empty,
-                        Url = new Uri("https://www.linkedin.com/in/aman-toumaj-92114051/"),
-                    },
-                    License = new OpenApiLicense
-                    {
-                        Name = "Aman Toumaj",
-                        Url = new Uri("https://www.linkedin.com/in/aman-toumaj-92114051/"),
-                    }
-                });
-
-                // Set the comments path for the Swagger JSON and UI.
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                if (File.Exists(xmlPath))
+                    Name = "EShopping Tutorial Web API",
+                    Email = string.Empty,
+                    Url = new Uri("https://github.com/tomajexpress/Domain.Driven.Implementation.In.CSharp.NET.Core"),
+                },
+                License = new OpenApiLicense
                 {
-                    c.IncludeXmlComments(xmlPath);
+                    Name = "Aman Toumaj",
+                    Url = new Uri("https://www.linkedin.com/in/aman-toumaj-92114051/"),
                 }
             });
 
-            // This line registers IMapper and scans the assembly where 'Program' is located
-            // for any classes that inherit from 'Profile' and loads their mappings.
-
-            // Register the Swagger services
-            services.AddSwaggerDocument();
-
-            services.AddDbContext<EShoppingTutorialDbContext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:EShoppingTutorialDB"]));
-
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-            services.AddScoped<IOrderDomainService, OrderDomainService>();
-
-            services.AddApplication();
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
+            // Set the comments path for the Swagger JSON and UI.
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            if (File.Exists(xmlPath))
             {
-                app.UseDeveloperExceptionPage();
+                c.IncludeXmlComments(xmlPath);
             }
+        });
 
-            app.UseHttpsRedirection();
+        // Register the Swagger services
+        services.AddSwaggerDocument();
 
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
+        services.AddOpenApiDocument();
 
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-                c.RoutePrefix = string.Empty;
-            });
+        services.AddDbContext<EShoppingTutorialDbContext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:EShoppingTutorialDB"]));
 
-            app.UseStaticFiles();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            // Register the Swagger generator and the Swagger UI middlewares
-            app.UseOpenApi();
+        services.AddScoped<IOrderDomainService, OrderDomainService>();
 
-            app.UseRouting();
+        services.AddApplication();
+    }
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
         }
+
+        app.UseHttpsRedirection();
+
+        // Enable middleware to serve generated Swagger as a JSON endpoint.
+        app.UseSwagger();
+
+        // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+        // specifying the Swagger JSON endpoint.
+        app.UseSwaggerUI(c =>
+        {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            c.RoutePrefix = string.Empty;
+        });
+
+        app.UseStaticFiles();
+
+        app.UseRouting();
+
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
     }
 }
