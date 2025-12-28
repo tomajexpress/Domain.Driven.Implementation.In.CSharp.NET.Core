@@ -1,18 +1,15 @@
-﻿using FluentValidation;
+﻿namespace EShoppingTutorialWebAPI.Models.OrderModels;
 
-namespace EShoppingTutorialWebAPI.Models.OrderModels
+public class OrderItemSaveRequestModelValidator : AbstractValidator<OrderItemSaveRequestModel>
 {
-    public class OrderItemSaveRequestModelValidator : AbstractValidator<OrderItemSaveRequestModel>
+    public OrderItemSaveRequestModelValidator()
     {
-        public OrderItemSaveRequestModelValidator()
-        {
-            RuleFor(x => x.ProductId)
-            .NotNull()
-            .GreaterThan(0)
-            .WithMessage("Please enter a product");
+        RuleFor(x => x.ProductId)
+        .NotNull()
+        .GreaterThan(0)
+        .WithMessage("Please enter a product");
 
-            RuleFor(x => x.Price)
-            .NotNull().WithMessage("Please enter price");            
-        }
+        RuleFor(x => x.Price)
+        .NotNull().WithMessage("Please enter price");            
     }
 }

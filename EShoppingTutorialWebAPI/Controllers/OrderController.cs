@@ -43,12 +43,18 @@ namespace EShoppingTutorialWebAPI.Controllers
         }
 
         [HttpPost("Add")]
-        public async Task<IActionResult> Add([FromBody] OrderSaveRequestModel orderResource)
+        public async Task<IActionResult> Add([FromBody] OrderSaveRequestModel orderSaveRequest,
+            [FromServices] IValidator<OrderSaveRequestModel> validator)
         {
-            var order = mapper.Map<Order>(orderResource);
+            var validationResult = await validator.ValidateAsync(orderSaveRequest);
 
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+
+            var order = mapper.Map<Order>(orderSaveRequest);
             await mediator.Send(new CreateOrderCommand(order));
-
             return Ok();
         }
 

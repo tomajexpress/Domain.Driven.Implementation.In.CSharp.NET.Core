@@ -1,13 +1,10 @@
-﻿using EShoppingTutorial.Core.Domain.Enums;
+﻿namespace EShoppingTutorialWebAPI.Models.OrderModels;
 
-namespace EShoppingTutorialWebAPI.Models.OrderModels
+public class PriceSaveRequestModel
 {
-    public class PriceSaveRequestModel
-    {
-        /// <example>100</example>
-        public int Amount { get; set; }
+    /// <example>100</example>
+    public int Amount { get; set; }
 
-        /// <example>MoneyUnit.Euro</example>
-        public MoneyUnit? Unit { get; set; } = MoneyUnit.UnSpecified;
-    }
+    /// <example>MoneyUnit.Euro</example>
+    public MoneyUnit? Unit { get; set; } = MoneyUnit.UnSpecified;
 }

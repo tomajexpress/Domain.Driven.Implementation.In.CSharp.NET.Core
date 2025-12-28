@@ -1,22 +1,3 @@
-using EShoppingTutorial.Core.Application;
-using EShoppingTutorial.Core.Domain.Services;
-using EShoppingTutorial.Core.Domain.Services.Implementations;
-using EShoppingTutorial.Core.Persistence;
-using EShoppingTutorialWebAPI.Filters;
-using FluentValidation;
-using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi;
-using System;
-using System.IO;
-using System.Reflection;
-
 namespace EShoppingTutorialWebAPI
 {
     public class Startup
@@ -33,14 +14,8 @@ namespace EShoppingTutorialWebAPI
         {
             services.AddControllers(options => options.Filters.Add(new AopExceptionHandlerFilter()));
 
-            // 1. Registers all validators in the Assembly where 'OrderSaveRequestModelValidator' lives
+            // This scans the Web API project for all AbstractValidator classes
             services.AddValidatorsFromAssemblyContaining<OrderSaveRequestModelValidator>();
-
-            // 2. (Optional) Enables automatic validation for Controllers
-            // This makes the API return a 400 Bad Request automatically if validation fails
-            services.AddFluentValidationAutoValidation();
-
-            services.AddFluentValidationClientsideAdapters();
 
             // Register AutoMapper: scans loaded assemblies for Profile implementations.
 

@@ -1,11 +1,10 @@
-﻿namespace EShoppingTutorialWebAPI.Models.OrderModels
+﻿namespace EShoppingTutorialWebAPI.Models.OrderModels;
+
+public class OrderSaveRequestModel
 {
-    public class OrderSaveRequestModel
-    {
-        public string ShippingAdress { get; set; } = string.Empty;
+    public string ShippingAdress { get; set; } = string.Empty;
 
-        public int CustomerId { get; set; }
+    public int CustomerId { get; set; }
 
-        public IEnumerable<OrderItemSaveRequestModel> OrderItemsDtoModel { get; set; }
-    }
+    public IEnumerable<OrderItemSaveRequestModel> OrderItemsDtoModel { get; set; }
 }

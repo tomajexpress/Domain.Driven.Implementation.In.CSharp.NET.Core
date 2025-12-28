@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace EShoppingTutorialWebAPI.Models.OrderModels;
 
-namespace EShoppingTutorialWebAPI.Models.OrderModels
+public class OrderViewModel
 {
-    public class OrderViewModel
-    {
-        public int Id { get; set; }
+    public int Id { get; set; }
 
-        public Guid? TrackingNumber { get; set; }
+    public Guid? TrackingNumber { get; set; }
 
-        public string ShippingAddress { get; set; }
+    public string ShippingAddress { get; set; }
 
-        public DateTime OrderDate { get; set; }
+    public DateTime OrderDate { get; set; }
 
-        public IEnumerable<OrderItemViewModel> OrderItems { get; set; }
-    }
+    public IEnumerable<OrderItemViewModel> OrderItems { get; set; }
 }
