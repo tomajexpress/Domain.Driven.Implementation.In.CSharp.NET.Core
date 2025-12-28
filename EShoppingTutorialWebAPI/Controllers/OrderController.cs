@@ -1,20 +1,8 @@
-﻿using AutoMapper;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Linq;
-
-using SharedKernel.Models;
-using EShoppingTutorial.Core.Domain.Entities;
-using EShoppingTutorialWebAPI.Models.OrderModels;
-using EShoppingTutorial.Core.Domain.ValueObjects;
-using EShoppingTutorial.Core.Application.Orders.Commands.CreateOrder;
+﻿using EShoppingTutorial.Core.Application.Orders.Commands.CreateOrder;
 using EShoppingTutorial.Core.Application.Orders.Commands.DeleteOrder;
 using EShoppingTutorial.Core.Application.Orders.Queries.GetAllOrders;
 using EShoppingTutorial.Core.Application.Orders.Queries.GetOrderById;
 using EShoppingTutorial.Core.Application.Orders.Queries.GetPagedOrders;
-
 
 namespace EShoppingTutorialWebAPI.Controllers
 {
