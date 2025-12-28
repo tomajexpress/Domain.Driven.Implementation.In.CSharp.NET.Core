@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace EShoppingTutorialWebAPI.Models.OrderModels
+﻿namespace EShoppingTutorialWebAPI.Models.OrderModels
 {
     public class OrderSaveRequestModel
     {
