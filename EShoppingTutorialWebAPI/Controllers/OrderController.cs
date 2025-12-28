@@ -1,54 +1,44 @@
 ﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using EShoppingTutorial.Core.Domain.Entities;
-using EShoppingTutorialWebAPI.Models.OrderModels;
-using SharedKernel.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
-using EShoppingTutorial.Core.Domain.Services;
+
+using SharedKernel.Models;
+using EShoppingTutorial.Core.Domain.Entities;
+using EShoppingTutorialWebAPI.Models.OrderModels;
 using EShoppingTutorial.Core.Domain.ValueObjects;
+using EShoppingTutorial.Core.Application.Orders.Commands.CreateOrder;
+using EShoppingTutorial.Core.Application.Orders.Commands.DeleteOrder;
+using EShoppingTutorial.Core.Application.Orders.Queries.GetAllOrders;
+using EShoppingTutorial.Core.Application.Orders.Queries.GetOrderById;
+using EShoppingTutorial.Core.Application.Orders.Queries.GetPagedOrders;
+
 
 namespace EShoppingTutorialWebAPI.Controllers
 {
     [ApiController]
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class OrderController : ControllerBase
+    public class OrderController(IMapper mapper, IMediator mediator) : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly IOrderDomainService _orderDomainService;
-
-        public OrderController(IMapper mapper, IOrderDomainService orderDomainService)
-        {
-            _mapper = mapper;
-            _orderDomainService = orderDomainService;
-        }
-
-        [HttpGet]
-        [Route("{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetOrder(int id)
         {
-            var order = await _orderDomainService.GetOrderByIdAsync(new OrderId(id)).ConfigureAwait(false);
+            var order = await mediator.Send(new GetOrderByIdQuery(new OrderId(id)));
 
-            if (order == null)
-                return NotFound();
+            if (order == null) return NotFound();
 
-            var mappedOrder = _mapper.Map<OrderViewModel>(order);
-
-            return Ok(mappedOrder);
+            return Ok(mapper.Map<OrderViewModel>(order));
         }
 
-        [HttpGet]
-        [Route("GetAll")]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
-            var orders = await _orderDomainService.GetAllOrdersAsync().ConfigureAwait(false);
+            var orders = await mediator.Send(new GetAllOrdersQuery());
 
-            if (orders is null)
-                return NotFound();
-
-            var mappedOrders = _mapper.Map<IEnumerable<OrderViewModel>>(orders);
+            var mappedOrders = mapper.Map<IEnumerable<OrderViewModel>>(orders);
 
             return Ok(new QueryResult<OrderViewModel>(mappedOrders, mappedOrders.Count()));
         }
@@ -57,39 +47,29 @@ namespace EShoppingTutorialWebAPI.Controllers
         [Route("GetPaged")]
         public async Task<IActionResult> GetPaged([FromBody] QueryObjectParams queryObject)
         {
-            var queryResult = await _orderDomainService.GetPagedOrdersAsync(queryObject).ConfigureAwait(false);
+            var queryResult = await mediator.Send(new GetPagedOrdersQuery(queryObject));
 
-            if (queryResult is null)
-                return NotFound();
+            var mappedEntities = mapper.Map<IEnumerable<OrderViewModel>>(queryResult.Entities);
 
-            var mappedOrders = _mapper.Map<IEnumerable<OrderViewModel>>(queryResult.Entities);
-
-            return Ok(new QueryResult<OrderViewModel>(mappedOrders, queryResult.TotalCount));
+            return Ok(new QueryResult<OrderViewModel>(mappedEntities, queryResult.TotalCount));
         }
 
-        [HttpPost]
-        [Route("Add")]
+        [HttpPost("Add")]
         public async Task<IActionResult> Add([FromBody] OrderSaveRequestModel orderResource)
         {
-            var order = _mapper.Map<OrderSaveRequestModel, Order>(orderResource);
+            var order = mapper.Map<Order>(orderResource);
 
-            await _orderDomainService.AddOrderAsync(order).ConfigureAwait(false);
+            await mediator.Send(new CreateOrderCommand(order));
 
             return Ok();
         }
 
-        [HttpDelete]
-        [Route("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var isDeleted = await _orderDomainService.DeleteOrderAsync(new OrderId(id)).ConfigureAwait(false);
+            var isDeleted = await mediator.Send(new DeleteOrderCommand(new OrderId(id)));
 
-            if (!isDeleted)
-            {
-                return NotFound();
-            }
-
-            return Ok();
+            return isDeleted ? Ok() : NotFound();
         }
     }
 }

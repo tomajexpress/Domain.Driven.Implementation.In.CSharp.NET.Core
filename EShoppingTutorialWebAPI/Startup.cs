@@ -1,3 +1,5 @@
+using EShoppingTutorial.Core.Application;
+using EShoppingTutorial.Core.Application.Orders.Commands.CreateOrder;
 using EShoppingTutorial.Core.Domain;
 using EShoppingTutorial.Core.Domain.Services;
 using EShoppingTutorial.Core.Domain.Services.Implementations;
@@ -10,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi;
 using System;
@@ -90,6 +93,8 @@ namespace EShoppingTutorialWebAPI
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<IOrderDomainService, OrderDomainService>();
+
+            services.AddApplication();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
