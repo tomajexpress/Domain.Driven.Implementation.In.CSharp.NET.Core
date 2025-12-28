@@ -1,60 +1,41 @@
-﻿using System;
-using System.Linq;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.EntityFrameworkCore;
-using SharedKernel.Exceptions;
+﻿namespace EShoppingTutorialWebAPI.Filters;
 
-namespace EShoppingTutorialWebAPI.Filters
+public class AopExceptionHandlerFilter : IExceptionFilter, IOrderedFilter
 {
-    public class AopExceptionHandlerFilter : IActionFilter, IOrderedFilter
+    public int Order { get; } = int.MaxValue - 10;
+
+    public void OnException(ExceptionContext context)
     {
-        public int Order { get; } = int.MaxValue - 10;
+        if (context.Exception is null) 
+            return;
 
-        public void OnActionExecuting(ActionExecutingContext context) { }
-
-        public void OnActionExecuted(ActionExecutedContext context)
+        // 1. Handle Domain/Business Rule violations
+        if (context.Exception is BusinessRuleBrokenException exception)
         {
-            if (context.Exception is BusinessRuleBrokenException exception)
+            var result = new
             {
-                var dictionary = new ModelStateDictionary();
-
-                dictionary.AddModelError("Message", exception.Message);
-
-                dictionary.Keys.Append("errors");
-
-                context.Result = new BadRequestObjectResult(dictionary);
-
-                context.ExceptionHandled = true;
-
-                return;
-            }
-
-            if (context.Exception is DbUpdateConcurrencyException)
-            {
-                var dictionary = new ModelStateDictionary();
-
-                dictionary.AddModelError("Message", "Concurrency violation error when updating information, please retrieve the data and try again ");
-
-                dictionary.Keys.Append("errors");
-
-                context.Result = new BadRequestObjectResult(dictionary);
-
-                context.ExceptionHandled = true;
-
-                return;
-            }
-
-            if (context.Exception is Exception)
-            {
-                context.Result = new StatusCodeResult(StatusCodes.Status500InternalServerError);
-
-                context.ExceptionHandled = true;
-
-                return;
-            }
+                error = "Business Rule Violation",
+                message = exception.Message
+            };
+            context.Result = new BadRequestObjectResult(result);
+            context.ExceptionHandled = true;
+            return;
         }
+
+        // 2. Handle Database Concurrency issues
+        if (context.Exception is DbUpdateConcurrencyException)
+        {
+            context.Result = new ConflictObjectResult(new
+            {
+                error = "Concurrency Error",
+                message = "The record was modified by another user. Please refresh and try again."
+            });
+            context.ExceptionHandled = true;
+            return;
+        }
+
+        // 3. Fallback for unexpected errors
+        context.Result = new StatusCodeResult(StatusCodes.Status500InternalServerError);
+        context.ExceptionHandled = true;
     }
 }

@@ -1,10 +1,4 @@
-﻿using AutoMapper;
-using EShoppingTutorial.Core.Domain.Entities;
-using EShoppingTutorial.Core.Domain.ValueObjects;
-using EShoppingTutorialWebAPI.Models.OrderModels;
-using System.Collections.Generic;
-
-namespace EShoppingTutorialWebAPI
+﻿namespace EShoppingTutorialWebAPI
 {
     internal static class AutoMappingProfileConfigs
     {

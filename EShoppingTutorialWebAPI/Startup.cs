@@ -1,4 +1,5 @@
 namespace EShoppingTutorialWebAPI;
+
 public class Startup
 {
     public Startup(IConfiguration configuration)
@@ -11,7 +12,7 @@ public class Startup
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddControllers(options => options.Filters.Add(new AopExceptionHandlerFilter()));
+        services.AddControllers(options => options.Filters.Add<AopExceptionHandlerFilter>());
 
         // This scans the Web API project for all AbstractValidator classes
         services.AddValidatorsFromAssemblyContaining<OrderSaveRequestModelValidator>();
@@ -70,6 +71,8 @@ public class Startup
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        app.UseMiddleware<ExceptionHandlingMiddleware>();
+
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
