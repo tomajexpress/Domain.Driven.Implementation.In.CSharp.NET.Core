@@ -17,7 +17,7 @@ public class OrderMapConfig : IEntityTypeConfiguration<Order>
 
         builder.Property(o => o.Id).ValueGeneratedOnAdd().HasColumnName("Id");
 
-        builder.Property(o => o.TrackingNumber).HasColumnName("TrackingNumber").IsRequired(false);
+        builder.Property(o => o.TrackingNumber).HasColumnName("TrackingNumber").IsRequired(true);
 
         builder.HasIndex(o => o.TrackingNumber).IsUnique();
 

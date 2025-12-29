@@ -6,5 +6,5 @@ public class OrderItemViewModel
 
     public int ProductId { get; set; }
 
-    public Price Price { get; set; }
+    public required Price Price { get; set; }
 }

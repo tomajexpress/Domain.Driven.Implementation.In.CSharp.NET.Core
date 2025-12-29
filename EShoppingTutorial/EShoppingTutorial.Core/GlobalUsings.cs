@@ -1,6 +1,5 @@
 ﻿// Standard .NET namespaces
-
-// Frameworks
+global using System.Diagnostics.CodeAnalysis;
 
 // Domain Specific Namespaces
 global using EShoppingTutorial.Core.Domain.Entities;

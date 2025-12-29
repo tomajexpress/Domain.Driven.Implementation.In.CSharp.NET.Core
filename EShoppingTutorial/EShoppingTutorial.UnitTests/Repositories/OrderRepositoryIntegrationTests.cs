@@ -1,12 +1,4 @@
-﻿using EShoppingTutorial.Core.Domain.Entities;
-using EShoppingTutorial.Core.Domain.Enums;
-using EShoppingTutorial.Core.Domain.ValueObjects;
-using EShoppingTutorial.Core.Persistence;
-using EShoppingTutorial.Core.Persistence.Repositories;
-using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
-using System;
-using System.Threading.Tasks;
+﻿using EShoppingTutorial.Core.Persistence.Repositories;
 
 namespace EShoppingTutorial.UnitTests.Repositories
 {

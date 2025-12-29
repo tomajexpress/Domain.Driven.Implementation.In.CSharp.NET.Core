@@ -2,9 +2,7 @@
 
 public class PriceSaveRequestModel
 {
-    /// <example>100</example>
-    public int Amount { get; set; }
+    public decimal Amount { get; set; }
 
-    /// <example>MoneyUnit.Euro</example>
     public MoneyUnit? Unit { get; set; } = MoneyUnit.UnSpecified;
 }
