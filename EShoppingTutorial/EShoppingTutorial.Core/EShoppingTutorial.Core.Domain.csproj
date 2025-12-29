@@ -15,4 +15,8 @@
     <ProjectReference Include="..\..\Framework.Core\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>

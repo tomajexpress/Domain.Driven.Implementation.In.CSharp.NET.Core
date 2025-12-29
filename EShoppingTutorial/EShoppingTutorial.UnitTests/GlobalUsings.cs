@@ -12,5 +12,4 @@ global using EShoppingTutorial.Core.Domain.Entities;
 global using EShoppingTutorial.Core.Domain.Enums;
 global using EShoppingTutorial.Core.Domain.ValueObjects;
 global using SharedKernel.Exceptions;
-global using EShoppingTutorial.Core.Domain.Services.Implementations;
 global using EShoppingTutorial.Core.Persistence;
