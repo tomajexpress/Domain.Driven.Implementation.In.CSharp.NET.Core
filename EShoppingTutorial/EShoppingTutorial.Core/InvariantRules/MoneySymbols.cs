@@ -1,4 +1,4 @@
-﻿namespace EShoppingTutorial.Core.Domain.ValueObjects;
+﻿namespace EShoppingTutorial.Core.Domain.InvariantRules;
 
 public static class MoneySymbols
 {

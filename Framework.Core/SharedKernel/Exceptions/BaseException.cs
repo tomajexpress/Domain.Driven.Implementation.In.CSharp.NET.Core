@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharedKernel.Exceptions
+﻿namespace SharedKernel.Exceptions
 {
     [Serializable]
     public class BaseException : ApplicationException

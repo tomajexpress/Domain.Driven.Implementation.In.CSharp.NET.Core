@@ -2,8 +2,8 @@
 
 public record Price
 {
-    public decimal Amount { get; protected set; }
-    public MoneyUnit Unit { get; protected set; } = MoneyUnit.UnSpecified;
+    public decimal Amount { get; init; }
+    public MoneyUnit Unit { get; init; } = MoneyUnit.UnSpecified;
 
     // EF Core requires a parameterless constructor
     protected Price() { }

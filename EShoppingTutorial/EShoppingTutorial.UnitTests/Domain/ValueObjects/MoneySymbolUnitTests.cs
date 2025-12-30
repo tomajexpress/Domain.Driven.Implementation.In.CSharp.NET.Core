@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using EShoppingTutorial.Core.Domain.ValueObjects;
+﻿using EShoppingTutorial.Core.Domain.InvariantRules;
 
 namespace EShoppingTutorial.UnitTests.Domain.ValueObjects;
 
@@ -10,7 +9,7 @@ public class MoneySymbolUnitTests
     public void GetSymbol_ForSpecifiedType_MustReturnCorrectValue()
     {
         // act
-        var actualResult = MoneySymbols.GetSymbol(Core.Domain.Enums.MoneyUnit.USD);
+        var actualResult = MoneySymbols.GetSymbol(MoneyUnit.USD);
 
         // assert
         Assert.That(actualResult.Equals("$"));
@@ -20,7 +19,7 @@ public class MoneySymbolUnitTests
     public void GetSymbol_For_UnSpecifiedType_MustReturnEmptyString()
     {
         // act
-        var actualResult = MoneySymbols.GetSymbol(Core.Domain.Enums.MoneyUnit.UnSpecified);
+        var actualResult = MoneySymbols.GetSymbol(MoneyUnit.UnSpecified);
 
         // assert
         Assert.That(actualResult.Equals(string.Empty));
