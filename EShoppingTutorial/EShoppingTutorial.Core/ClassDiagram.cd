@@ -22,7 +22,7 @@
     </TypeIdentifier>
   </Class>
   <Interface Name="SharedKernel.Models.IAggregateRoot" Collapsed="true">
-    <Position X="14" Y="0.5" Width="1.5" />
+    <Position X="2" Y="1.5" Width="1.5" />
     <TypeIdentifier />
   </Interface>
   <Enum Name="EShoppingTutorial.Core.Domain.Enums.OrderStatus">
