@@ -55,7 +55,7 @@ public class Order : IAggregateRoot
 
     public void MarkAsCancelled()
     {
-        if (OrderStatus != OrderStatus.Created)
+        if (OrderStatus is not OrderStatus.Created)
         {
             throw new BusinessRuleBrokenException("Only orders in 'Created' state can be cancelled.");
         }
@@ -63,9 +63,19 @@ public class Order : IAggregateRoot
         OrderStatus = OrderStatus.Cancelled;
     }
 
+    public void MarkAsPending()
+    {
+        if (OrderStatus is not OrderStatus.Created)
+        {
+            throw new BusinessRuleBrokenException("Only orders in 'Created' state can be suspended.");
+        }
+
+        OrderStatus = OrderStatus.Pending;
+    }
+
     public void MarkAsShipped()
     {
-        if (OrderStatus is not (OrderStatus.Created or OrderStatus.Pending))
+        if (OrderStatus is not OrderStatus.Pending)
         {
             throw new BusinessRuleBrokenException($"Order cannot be shipped in its current state: {OrderStatus}.");
         }

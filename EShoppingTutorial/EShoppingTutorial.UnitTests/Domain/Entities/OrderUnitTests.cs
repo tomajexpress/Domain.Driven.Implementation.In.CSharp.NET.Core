@@ -51,9 +51,8 @@ public class OrderUnitTests
         Assert.That(ex.Message, Does.Contain("Maximum price has been reached"));
     }
 
-    [TestCase(OrderStatus.Created)]
     [TestCase(OrderStatus.Pending)]
-    public void MarkAsShipped_ShouldSetStatusToShipped_WhenOrderIsCreatedOrPending(OrderStatus initialStatus)
+    public void MarkAsShipped_ShouldSetStatusToShipped_WhenOrderIsPending(OrderStatus initialStatus)
     {
         // Arrange
         var order = Mock.Of<Order>(x => x.OrderStatus == initialStatus); // To directly test the MarkAsShipped method, we mock the initialization step of the Order class.
@@ -133,5 +132,19 @@ public class OrderUnitTests
         // Act & Assert
         var ex = Assert.Throws<BusinessRuleBrokenException>(order.MarkAsCancelled);
         Assert.That(ex.Message.Contains("Only orders in 'Created' state can be cancelled", StringComparison.CurrentCultureIgnoreCase));
+    }
+
+    [TestCase(OrderStatus.Shipped)]
+    [TestCase(OrderStatus.Delivered)]
+    [TestCase(OrderStatus.Cancelled)]
+    [TestCase(OrderStatus.Pending)]
+    public void MarkAsSuspended_ShouldThrowException_WhenOrderIsNotCreatedState(OrderStatus initialStatus)
+    {
+        // Arrange
+        var order = Mock.Of<Order>(x => x.OrderStatus == initialStatus); // To directly test the MarkAsPending method, we mock the initialization step of the Order class.
+
+        // Act & Assert
+        var ex = Assert.Throws<BusinessRuleBrokenException>(order.MarkAsPending);
+        Assert.That(ex.Message.Contains("Only orders in 'Created' state can be suspended", StringComparison.CurrentCultureIgnoreCase));
     }
 }
