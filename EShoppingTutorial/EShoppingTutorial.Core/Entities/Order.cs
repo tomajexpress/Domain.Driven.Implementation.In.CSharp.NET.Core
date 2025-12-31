@@ -73,6 +73,32 @@ public class Order : IAggregateRoot
         OrderStatus = OrderStatus.Shipped;
     }
 
+    public async Task ApplyTaxAsync(ITaxCalculationService taxService)
+    {
+        if (OrderStatus != OrderStatus.Created)
+        {
+            throw new BusinessRuleBrokenException("Tax can only be applied to new orders.");
+        }
+
+        var currentTotal = _orderItems.Sum(x => x.Price.Amount);
+        var currency = _orderItems.First().Price.Unit;
+
+        // Delegate the complex calculation to the Domain Service
+        var taxAmount = await taxService.CalculateTaxAsync(ShippingAddress, currentTotal, currency);
+
+        // System Product ID for Tax. The "Shadow Product" Approach. Create a row in your database specifically named 'Tax' and use its real ID
+        const int TaxProductId = 99999; 
+
+        // Add tax as a special OrderItem or update a Tax property
+        // For this example, let's assume we add it as an order item:
+        var taxItem = new OrderItem(
+            productId: new ProductId(TaxProductId), // System Product ID for Tax
+            price: taxAmount
+        );
+
+        _orderItems.Add(taxItem);
+    }
+
     private void AddOrderItems(IEnumerable<OrderItem> orderItems)
     {
         foreach (var orderItem in orderItems)

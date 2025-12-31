@@ -24,7 +24,7 @@
 
             cfg.CreateMap<OrderItemSaveRequestModel, OrderItem>();
 
-            cfg.CreateMap<PriceSaveRequestModel, Price>().ConvertUsing(x => new Price(x.Amount, x.Unit.Value));
+            cfg.CreateMap<PriceSaveRequestModel, Price>().ConvertUsing(x => new Price(x.Amount, x.Unit));
         }
     }
 }

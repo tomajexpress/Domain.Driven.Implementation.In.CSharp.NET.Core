@@ -27,6 +27,7 @@ public class Program
 
         // 7. Register Application Services and Repositories
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+        builder.Services.AddTransient<ITaxCalculationService, ExternalTaxProvider>();
 
         // -------- Build the app --------
 

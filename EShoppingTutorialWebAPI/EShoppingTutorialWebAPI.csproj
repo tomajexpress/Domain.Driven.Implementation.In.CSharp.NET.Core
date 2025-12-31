@@ -27,6 +27,7 @@
     <ProjectReference Include="..\EShoppingTutorial\EShoppingTutorial.Core.Application\EShoppingTutorial.Core.Application.csproj" />
     <ProjectReference Include="..\EShoppingTutorial\EShoppingTutorial.Core.Persistence\EShoppingTutorial.Core.Persistence.csproj" />
     <ProjectReference Include="..\EShoppingTutorial\EShoppingTutorial.Core\EShoppingTutorial.Core.Domain.csproj" />
+    <ProjectReference Include="..\EShoppingTutorial\EShoppingTutorial.Infrastructure\EShoppingTutorial.Infrastructure.csproj" />
     <ProjectReference Include="..\Framework.Core\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
 

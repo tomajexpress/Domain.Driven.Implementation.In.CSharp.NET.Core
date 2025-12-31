@@ -6,5 +6,5 @@ public class OrderSaveRequestModel
 
     public int CustomerId { get; set; }
 
-    public IEnumerable<OrderItemSaveRequestModel> OrderItemsDtoModel { get; set; }
+    public required IEnumerable<OrderItemSaveRequestModel> OrderItemsDtoModel { get; set; }
 }
