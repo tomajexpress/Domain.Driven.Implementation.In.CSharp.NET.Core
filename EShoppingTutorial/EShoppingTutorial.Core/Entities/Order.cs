@@ -38,19 +38,37 @@ public class Order : IAggregateRoot
         AddOrderItems(orderItems);
     }
 
-    private static void ValidateOrderItems(IEnumerable<OrderItem> orderItems)
-    {
-        if (orderItems is null || !orderItems.Any())
-        {
-            throw new BusinessRuleBrokenException("Order must have at least one item.");
-        }
-    }
-
     public void AddOrderItem(OrderItem orderItem)
     {
         ArgumentNullException.ThrowIfNull(orderItem);
         ValidateMaxPriceLimit(orderItem);
         _orderItems.Add(orderItem);
+    }
+
+    public async Task ApplyTaxAsync(ITaxCalculationService taxService)
+    {
+        if (OrderStatus != OrderStatus.Created)
+        {
+            throw new BusinessRuleBrokenException("Tax can only be applied to new orders.");
+        }
+
+        var currentTotal = _orderItems.Sum(x => x.Price.Amount);
+        var currency = _orderItems.First().Price.Unit;
+
+        // Delegate the complex calculation to the Domain Service
+        var taxAmount = await taxService.CalculateTaxAsync(ShippingAddress, currentTotal, currency);
+
+        // System Product ID for Tax. The "Shadow Product" Approach. Create a row in your database specifically named 'Tax' and use its real ID
+        const int TaxProductId = 99999;
+
+        // Add tax as a special OrderItem or update a Tax property
+        // For this example, let's assume we add it as an order item:
+        var taxItem = new OrderItem(
+            productId: new ProductId(TaxProductId), // System Product ID for Tax
+            price: taxAmount
+        );
+
+        _orderItems.Add(taxItem);
     }
 
     public void MarkAsCancelled()
@@ -83,38 +101,20 @@ public class Order : IAggregateRoot
         OrderStatus = OrderStatus.Shipped;
     }
 
-    public async Task ApplyTaxAsync(ITaxCalculationService taxService)
-    {
-        if (OrderStatus != OrderStatus.Created)
-        {
-            throw new BusinessRuleBrokenException("Tax can only be applied to new orders.");
-        }
-
-        var currentTotal = _orderItems.Sum(x => x.Price.Amount);
-        var currency = _orderItems.First().Price.Unit;
-
-        // Delegate the complex calculation to the Domain Service
-        var taxAmount = await taxService.CalculateTaxAsync(ShippingAddress, currentTotal, currency);
-
-        // System Product ID for Tax. The "Shadow Product" Approach. Create a row in your database specifically named 'Tax' and use its real ID
-        const int TaxProductId = 99999; 
-
-        // Add tax as a special OrderItem or update a Tax property
-        // For this example, let's assume we add it as an order item:
-        var taxItem = new OrderItem(
-            productId: new ProductId(TaxProductId), // System Product ID for Tax
-            price: taxAmount
-        );
-
-        _orderItems.Add(taxItem);
-    }
-
     private void AddOrderItems(IEnumerable<OrderItem> orderItems)
     {
         foreach (var orderItem in orderItems)
         {
             ValidateMaxPriceLimit(orderItem);
             _orderItems.Add(orderItem);
+        }
+    }
+
+    private static void ValidateOrderItems(IEnumerable<OrderItem> orderItems)
+    {
+        if (orderItems is null || !orderItems.Any())
+        {
+            throw new BusinessRuleBrokenException("Order must have at least one item.");
         }
     }
 
