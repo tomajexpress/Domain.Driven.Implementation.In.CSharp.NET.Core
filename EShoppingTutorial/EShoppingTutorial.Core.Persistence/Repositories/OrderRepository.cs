@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EShoppingTutorial.Core.Persistence.Repositories;
 
-public class OrderRepository(EShoppingTutorialDbContext context) : GenericRepository<Order>(context), IOrderRepository
+internal class OrderRepository(EShoppingTutorialDbContext context) : GenericRepository<Order>(context), IOrderRepository
 {
     public EShoppingTutorialDbContext? EShoppingTutorialDbContext
     {

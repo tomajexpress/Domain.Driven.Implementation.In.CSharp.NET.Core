@@ -1,6 +1,4 @@
-﻿using EShoppingTutorial.Core.Persistence.Repositories;
-
-namespace EShoppingTutorial.UnitTests.Repositories
+﻿namespace EShoppingTutorial.UnitTests.Repositories
 {
     public class OrderRepositoryIntegrationTests
     {

@@ -4,12 +4,17 @@ public class UnitOfWork : IUnitOfWork, IAsyncDisposable
 {
     private readonly EShoppingTutorialDbContext _context;
 
-    public IOrderRepository OrderRepository { get; private set; }
+    // Lazy holders for our repositories
+    private readonly Lazy<IOrderRepository> _orderRepository;
+
+    public IOrderRepository OrderRepository => _orderRepository.Value;
 
     public UnitOfWork(EShoppingTutorialDbContext context)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
-        OrderRepository = new OrderRepository(_context);
+
+        // Define how to create the repository, but don't create it yet
+        _orderRepository = new Lazy<IOrderRepository>(() => new OrderRepository(_context));
     }
 
     public async Task<int> CompleteAsync()

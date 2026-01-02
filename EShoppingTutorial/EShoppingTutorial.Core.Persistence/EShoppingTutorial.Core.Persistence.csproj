@@ -9,6 +9,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Framework.Core\GenericRepositoryEntityFramework\GenericRepository.EntityFramework.csproj" />
     <ProjectReference Include="..\EShoppingTutorial.Core\EShoppingTutorial.Core.Domain.csproj" />
+	  
+	  <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+		  <_Parameter1>EShoppingTutorial.UnitTests</_Parameter1>
+	  </AssemblyAttribute>
   </ItemGroup>
 
 </Project>

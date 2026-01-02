@@ -18,19 +18,19 @@ public class OrderItem
     {
         ProductId = productId ?? throw new ArgumentNullException(nameof(productId));
         Price = price ?? throw new ArgumentNullException(nameof(price));
-        CheckForBrokenRules();
+        Validate();
     }
 
-    private void CheckForBrokenRules()
+    private void Validate()
     {
         if (ProductId.Value <= 0)
         {
-            throw new BusinessRuleBrokenException("You must supply valid Product!");
+            throw new BusinessRuleBrokenException("Product ID must be a positive value.");
         }
 
         if (!Price.HasValue)
         {
-            throw new BusinessRuleBrokenException("You must supply valid Price!");
+            throw new BusinessRuleBrokenException("Price cannot be negative.");
         }
     }
 }
