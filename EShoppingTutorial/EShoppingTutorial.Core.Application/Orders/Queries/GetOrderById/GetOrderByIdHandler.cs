@@ -1,11 +1,15 @@
 ﻿namespace EShoppingTutorial.Core.Application.Orders.Queries.GetOrderById;
 
-public class GetOrderByIdHandler(IUnitOfWork unitOfWork) : IRequestHandler<GetOrderByIdQuery, Order?>
+public class GetOrderByIdHandler(IUnitOfWork unitOfWork, IMapper mapper) : IRequestHandler<GetOrderByIdQuery, OrderViewModel?>
 {
-    public async Task<Order?> Handle(GetOrderByIdQuery request, CancellationToken cancellationToken)
+    public async Task<OrderViewModel?> Handle(GetOrderByIdQuery request, CancellationToken ct)
     {
-        return await unitOfWork.OrderRepository
-            .GetAsync(predicate: x => x.Id == request.Id, includes: x => x.OrderItems)
+        var order = await unitOfWork.OrderRepository
+            .GetAsync(predicate: x => x.Id == new OrderId(request.Id), includes: x => x.OrderItems)
             .ConfigureAwait(false);
+
+        if (order == null) return null;
+
+        return mapper.Map<OrderViewModel>(order);
     }
 }

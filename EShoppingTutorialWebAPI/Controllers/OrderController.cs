@@ -9,53 +9,35 @@ namespace EShoppingTutorialWebAPI.Controllers
     [ApiController]
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class OrderController(IMapper mapper, IMediator mediator) : ControllerBase
+    public class OrderController(IMediator mediator) : ControllerBase
     {
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrder(int id)
         {
-            var order = await mediator.Send(new GetOrderByIdQuery(new OrderId(id)));
+            var viewModel = await mediator.Send(new GetOrderByIdQuery(id));
 
-            if (order == null) return NotFound();
-
-            return Ok(mapper.Map<OrderViewModel>(order));
+            return viewModel is null ? NotFound() : Ok(viewModel);
         }
 
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
-            var orders = await mediator.Send(new GetAllOrdersQuery());
-
-            var mappedOrders = mapper.Map<IEnumerable<OrderViewModel>>(orders);
-
-            return Ok(new QueryResult<OrderViewModel>(mappedOrders, mappedOrders.Count()));
+            return Ok(await mediator.Send(new GetAllOrdersQuery()));
         }
 
         [HttpPost]
         [Route("GetPaged")]
         public async Task<IActionResult> GetPaged([FromBody] QueryObjectParams queryObject)
         {
-            var queryResult = await mediator.Send(new GetPagedOrdersQuery(queryObject));
-
-            var mappedEntities = mapper.Map<IEnumerable<OrderViewModel>>(queryResult.Entities);
-
-            return Ok(new QueryResult<OrderViewModel>(mappedEntities, queryResult.TotalCount));
+            return Ok(await mediator.Send(new GetPagedOrdersQuery(queryObject)));
         }
 
         [HttpPost("Add")]
-        public async Task<IActionResult> Add([FromBody] OrderSaveRequestModel orderSaveRequest,
-            [FromServices] IValidator<OrderSaveRequestModel> validator)
+        public async Task<IActionResult> Add([FromBody] CreateOrderCommand command)
         {
-            var validationResult = await validator.ValidateAsync(orderSaveRequest);
-
-            if (!validationResult.IsValid)
-            {
-                return BadRequest(validationResult.Errors);
-            }
-
-            var order = mapper.Map<Order>(orderSaveRequest);
-            await mediator.Send(new CreateOrderCommand(order));
-            return Ok();
+            // Validation happens automatically via Pipeline
+            // Mapping to Entity happens inside the Handler
+            return Ok(await mediator.Send(command));
         }
 
         [HttpDelete("{id}")]

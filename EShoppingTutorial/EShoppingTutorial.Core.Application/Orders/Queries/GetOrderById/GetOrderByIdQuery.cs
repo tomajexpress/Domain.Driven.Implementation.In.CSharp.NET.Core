@@ -1,3 +1,3 @@
 ﻿namespace EShoppingTutorial.Core.Application.Orders.Queries.GetOrderById;
 
-public record GetOrderByIdQuery(OrderId Id) : IRequest<Order?>;
+public record GetOrderByIdQuery(int Id) : IRequest<OrderViewModel?>;

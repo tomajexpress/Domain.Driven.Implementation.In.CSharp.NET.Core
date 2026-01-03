@@ -6,34 +6,28 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // 1. Add Database Connection
+        // Add Database Connection
         builder.Services.AddDbContext<EShoppingTutorialDbContext>(opts => opts.UseSqlServer(builder.Configuration["ConnectionStrings:EShoppingTutorialDB"]));
 
-        // 2. Add MediatR (Assembly Scanning)
-        builder.Services.AddCoreApplication();
+        // Add Core Application (Assembly Scanning)
+        builder.Services.AddCoreApplicationConfigs();
 
-        // 3. Add Controllers with our AOP Exception Filter
-        builder.Services.AddControllers(options => options.Filters.Add<AopExceptionHandlerFilter>());
+        // Presentation Layer Configs 
+        builder.Services.AddControllers();
+        builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+        builder.Services.AddProblemDetails();
 
-        // 4. Add Fluent Validation. This scans the Web API project for all AbstractValidator classes
-        builder.Services.AddValidatorsFromAssemblyContaining<OrderSaveRequestModelValidator>();
-
-        // 5. Add AutoMapper
-        builder.Services.AddAutoMapper(AutoMappingProfileConfigs.AddAutoMapperConfigs);
-
-        // 6. Add Swagger/OpenAPI for testing
+        // Add Swagger/OpenAPI for testing
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
-        // 7. Register Application Services and Repositories
+        // Register Application Services and Repositories
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
         builder.Services.AddTransient<ITaxCalculationService, ExternalTaxProvider>();
 
         // -------- Build the app --------
 
         var app = builder.Build();
-
-        app.UseMiddleware<ExceptionHandlingMiddleware>();
 
         if (app.Environment.IsDevelopment())
         {
@@ -46,6 +40,7 @@ public class Program
             });
         }
 
+        app.UseExceptionHandler();
         app.UseHttpsRedirection();
         app.UseAuthorization();
         app.MapControllers();

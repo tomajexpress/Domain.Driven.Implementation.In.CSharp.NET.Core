@@ -1,11 +1,16 @@
 ﻿namespace EShoppingTutorial.Core.Application.Orders.Queries.GetAllOrders;
 
-public class GetAllOrdersHandler(IUnitOfWork unitOfWork) : IRequestHandler<GetAllOrdersQuery, IEnumerable<Order>>
+public class GetAllOrdersHandler(IUnitOfWork unitOfWork, IMapper mapper)
+    : IRequestHandler<GetAllOrdersQuery, QueryResult<OrderViewModel>>
 {
-    public async Task<IEnumerable<Order>> Handle(GetAllOrdersQuery request, CancellationToken cancellationToken)
+    public async Task<QueryResult<OrderViewModel>> Handle(GetAllOrdersQuery request, CancellationToken ct)
     {
-        return await unitOfWork.OrderRepository
+        var orders = await unitOfWork.OrderRepository
             .GetAllAsync(x => x.OrderItems)
             .ConfigureAwait(false);
+
+        var mappedItems = mapper.Map<IEnumerable<OrderViewModel>>(orders);
+
+        return new QueryResult<OrderViewModel>(mappedItems, mappedItems.Count());
     }
 }

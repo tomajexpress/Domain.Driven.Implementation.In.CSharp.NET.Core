@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-namespace SharedKernel.Models;
+﻿namespace SharedKernel.Models;
 
 public class QueryResult<T>
 {

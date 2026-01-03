@@ -1,17 +1,29 @@
 ﻿namespace EShoppingTutorial.Core.Application.Orders.Commands.CreateOrder;
 
 public class CreateOrderHandler(IUnitOfWork unitOfWork, 
-            ITaxCalculationService taxCalculationService) 
-            : IRequestHandler<CreateOrderCommand>
+            ITaxCalculationService taxCalculationService,
+            IMapper mapper) 
+            : IRequestHandler<CreateOrderCommand, int>
 {
-    public async Task Handle(CreateOrderCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
     {
         // The handler executes the logic of the domain service and coordinates the asynchronous tax calculation.
 
-        await request.Order.ApplyTaxAsync(taxCalculationService);
+        var items = mapper.Map<List<OrderItem>>(request.Items);
 
-        unitOfWork.OrderRepository.Add(request.Order);
+        var order = new Order(
+            new CustomerId(request.CustomerId),
+            request.ShippingAddress,
+            items
+        );
+
+        // This is where the 'External State' dependency is handled
+        await order.ApplyTaxAsync(taxCalculationService);
+
+        unitOfWork.OrderRepository.Add(order);
 
         await unitOfWork.CompleteAsync(cancellationToken).ConfigureAwait(false);
+
+        return order.Id.Value;
     }
 }
