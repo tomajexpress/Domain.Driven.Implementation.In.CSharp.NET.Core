@@ -17,4 +17,3 @@ global using EShoppingTutorial.Core.Application.Orders.Commands.CreateOrder;
 global using EShoppingTutorial.Core.Application.Orders.Queries;
 global using EShoppingTutorial.Core.Application.Common;
 global using EShoppingTutorial.Core.Application.Orders;
-
