@@ -40,6 +40,7 @@ public class Program
             });
         }
 
+        app.MapOrderEndpoints();
         app.UseExceptionHandler();
         app.UseHttpsRedirection();
         app.UseAuthorization();
