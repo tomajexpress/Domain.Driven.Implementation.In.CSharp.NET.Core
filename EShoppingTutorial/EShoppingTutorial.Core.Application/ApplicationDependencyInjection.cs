@@ -1,9 +1,4 @@
-﻿using EShoppingTutorial.Core.Application.Common;
-using EShoppingTutorial.Core.Application.Orders;
-using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
-
-namespace EShoppingTutorial.Core.Application;
+﻿namespace EShoppingTutorial.Core.Application;
 
 public static class ApplicationDependencyInjection
 {
