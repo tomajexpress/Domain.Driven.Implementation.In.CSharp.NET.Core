@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EShoppingTutorial.Core.Persistence.Mappings;
 
-public class OrderMapConfig : IEntityTypeConfiguration<Order>
+public class OrderConfiguration : IEntityTypeConfiguration<Order>
 {
     public void Configure(EntityTypeBuilder<Order> builder)
     {
