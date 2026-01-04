@@ -1,5 +1,8 @@
 ﻿namespace EShoppingTutorial.Core.Domain.Enums;
 
+/// <summary>
+/// Represents the life cycle of an Order.
+/// </summary>
 public enum OrderStatus
 {
     Created = 1,
