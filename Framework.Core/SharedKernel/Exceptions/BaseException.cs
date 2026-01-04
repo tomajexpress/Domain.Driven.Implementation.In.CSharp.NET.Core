@@ -1,21 +1,8 @@
-﻿namespace SharedKernel.Exceptions
-{
-    [Serializable]
-    public class BaseException : ApplicationException
-    {
-        public BaseException()
-        {
+﻿namespace SharedKernel.Exceptions;
 
-        }
-
-        public BaseException(string message) : base(message)
-        {
-
-        }
-
-        public BaseException(string message, Exception innerException) : base(message, innerException)
-        {
-
-        }
-    }
-}
+/// <summary>
+/// Base exception for all domain-specific exceptions.
+/// Inheriting from Exception is the modern standard over ApplicationException.
+/// </summary>
+public class BaseException(string? message = null, Exception? innerException = null)
+    : Exception(message, innerException);
