@@ -3,16 +3,16 @@
 public record Price
 {
     public decimal Amount { get; init; }
-    public MoneyUnit Unit { get; init; } = MoneyUnit.UnSpecified;
+    public Currency Currency { get; init; } = Currency.Unspecified;
 
     // EF Core requires a parameterless constructor
     protected Price() { }
 
-    public Price(decimal amount, MoneyUnit unit)
+    public Price(decimal amount, Currency currency)
     {
-        if (MoneyUnit.UnSpecified == unit)
+        if (Currency.Unspecified == currency)
         {
-            throw new BusinessRuleBrokenException("You must supply a valid money unit!");
+            throw new BusinessRuleBrokenException("You must supply a valid money currency!");
         }
 
         if (amount < 0)
@@ -21,13 +21,13 @@ public record Price
         }
 
         Amount = amount;
-        Unit = unit;
+        Currency = currency;
     }
 
-    public bool HasValue => Unit != MoneyUnit.UnSpecified && Amount >= 0;
+    public bool HasValue => Currency != Currency.Unspecified && Amount >= 0;
 
     public override string ToString() =>
-        Unit != MoneyUnit.UnSpecified ?
-        Amount + " " + MoneySymbols.GetSymbol(Unit) :
+        Currency != Currency.Unspecified ?
+        Amount + " " + MoneySymbols.GetSymbol(Currency) :
         Amount.ToString();
 }

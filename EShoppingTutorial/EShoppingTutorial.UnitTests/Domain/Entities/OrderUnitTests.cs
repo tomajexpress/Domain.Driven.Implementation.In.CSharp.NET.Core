@@ -19,7 +19,7 @@ public class OrderUnitTests
     {
         // arrange
         var productIdMock = new ProductId(1);
-        var priceMock = new Price(1, MoneyUnit.USD);
+        var priceMock = new Price(1, Currency.USD);
         var orderItemMock = new OrderItem(productIdMock, priceMock);
 
         var order = new Order(new CustomerId(1), "123 Clean Architecture Lane", [orderItemMock]);
@@ -41,7 +41,7 @@ public class OrderUnitTests
         // To directly test the AddOrderItem method, we mock the initialization step of the Order class.
         var order = Mock.Of<Order>(); 
 
-        var expensivePrice = new Price(11000m, MoneyUnit.USD);
+        var expensivePrice = new Price(11000m, Currency.USD);
         var productId = new ProductId(99);
         var orderItem = new OrderItem(productId, expensivePrice);
 
@@ -83,7 +83,7 @@ public class OrderUnitTests
         // Arrange
         var order = Mock.Of<Order>(); // To directly test the AddOrderItem method, we mock the initialization step of the Order class.
         var productId = new ProductId(1);
-        var orderItem = new OrderItem(productId, new Price(100, MoneyUnit.EUR));
+        var orderItem = new OrderItem(productId, new Price(100, Currency.EUR));
 
         // Act
         order.AddOrderItem(orderItem);
@@ -100,7 +100,7 @@ public class OrderUnitTests
         var productId = new ProductId(1);
 
         // Assume the max price for Euro is 9000 for this test
-        var expensiveItem = new OrderItem(productId, new Price(15000, MoneyUnit.EUR));
+        var expensiveItem = new OrderItem(productId, new Price(15000, Currency.EUR));
 
         // Act & Assert
         var ex = Assert.Throws<BusinessRuleBrokenException>(() => order.AddOrderItem(expensiveItem));

@@ -31,8 +31,8 @@ public class OrderItemDtoValidator : AbstractValidator<OrderItemDto>
             .GreaterThan(0).WithMessage("Please enter a valid amount!");
 
         RuleFor(x => x.Currency)
-            .NotEmpty().WithMessage("Please enter a currency unit")
-            .IsEnumName(typeof(MoneyUnit), caseSensitive: false)
-            .WithMessage("Please enter a valid money unit!");
+            .NotEmpty().WithMessage("Please enter a currency code")
+            .IsEnumName(typeof(Currency), caseSensitive: false)
+            .WithMessage("Please enter a valid currency code!");
     }
 }

@@ -6,7 +6,7 @@ namespace EShoppingTutorial.Infrastructure.ExternalServices;
 
 public class ExternalTaxProvider : ITaxCalculationService
 {
-    public async Task<Price> CalculateTaxAsync(string shippingAddress, decimal orderTotal, MoneyUnit unit)
+    public async Task<Price> CalculateTaxAsync(string shippingAddress, decimal orderTotal, Currency currency)
     {
         // In a real scenario, this would call an API like TaxJar or Avalara
         // var response = await _httpClient.GetFromJsonAsync<TaxResponse>(...);
@@ -16,6 +16,6 @@ public class ExternalTaxProvider : ITaxCalculationService
 
         var amount = orderTotal * mockTaxRate;
 
-        return new Price(amount, unit);
+        return new Price(amount, currency);
     }
 }

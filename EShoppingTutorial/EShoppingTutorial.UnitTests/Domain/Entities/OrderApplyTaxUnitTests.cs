@@ -19,16 +19,16 @@ public class OrderApplyTaxUnitTests
         var address = "123 Tech Street, New York";
         var items = new List<OrderItem>
         {
-            new OrderItem(new ProductId(1), new Price(100, MoneyUnit.USD))
+            new OrderItem(new ProductId(1), new Price(100, Currency.USD))
         };
 
         var order = new Order(customerId, address, items);
 
-        var expectedTax = new Price(10, MoneyUnit.USD);
+        var expectedTax = new Price(10, Currency.USD);
 
         // Setup the mock to return 10 USD tax
         _taxServiceMock
-            .Setup(s => s.CalculateTaxAsync(address, 100, MoneyUnit.USD))
+            .Setup(s => s.CalculateTaxAsync(address, 100, Currency.USD))
             .ReturnsAsync(expectedTax);
 
         // Act
@@ -42,7 +42,7 @@ public class OrderApplyTaxUnitTests
         Assert.That(taxItem.Price.Amount, Is.EqualTo(10));
 
         // Verify the service was actually called once
-        _taxServiceMock.Verify(s => s.CalculateTaxAsync(address, 100, MoneyUnit.USD), Times.Once);
+        _taxServiceMock.Verify(s => s.CalculateTaxAsync(address, 100, Currency.USD), Times.Once);
     }
 
     [Test]
@@ -53,7 +53,7 @@ public class OrderApplyTaxUnitTests
 
         var items = new List<OrderItem>
         {
-            new OrderItem(new ProductId(1), new Price (100, MoneyUnit.USD))
+            new OrderItem(new ProductId(1), new Price (100, Currency.USD))
         };
 
         var order = new Order(customerId, "Address", items);

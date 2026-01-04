@@ -2,11 +2,11 @@
 
 public static class MaximumPriceLimits
 {
-    public static decimal GetMaximumPriceLimit(MoneyUnit unit) => unit switch
+    public static decimal GetMaximumPriceLimit(Currency curency) => curency switch
     {
-        MoneyUnit.USD => 10_000m,
-        MoneyUnit.EUR => 9_000m,
-        MoneyUnit.Rial => 8_000m,
+        Currency.USD => 10_000m,
+        Currency.EUR => 9_000m,
+        Currency.Rial => 8_000m,
         _ => throw new BusinessRuleBrokenException("MoneyUnit (Currency) is not valid!")
     };
 }

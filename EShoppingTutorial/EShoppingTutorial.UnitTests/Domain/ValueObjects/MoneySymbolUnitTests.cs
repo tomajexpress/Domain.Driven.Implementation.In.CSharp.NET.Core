@@ -9,7 +9,7 @@ public class MoneySymbolUnitTests
     public void GetSymbol_ForSpecifiedType_MustReturnCorrectValue()
     {
         // act
-        var actualResult = MoneySymbols.GetSymbol(MoneyUnit.USD);
+        var actualResult = MoneySymbols.GetSymbol(Currency.USD);
 
         // assert
         Assert.That(actualResult.Equals("$"));
@@ -19,7 +19,7 @@ public class MoneySymbolUnitTests
     public void GetSymbol_For_UnSpecifiedType_MustReturnEmptyString()
     {
         // act
-        var actualResult = MoneySymbols.GetSymbol(MoneyUnit.UnSpecified);
+        var actualResult = MoneySymbols.GetSymbol(Currency.Unspecified);
 
         // assert
         Assert.That(actualResult.Equals(string.Empty));

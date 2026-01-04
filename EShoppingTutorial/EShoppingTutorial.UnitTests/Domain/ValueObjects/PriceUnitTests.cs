@@ -11,7 +11,7 @@ public class PriceUnitTests
     public void ToString_ForSpecifiedUnitType_MustReturnCorrectValue()
     {
         // arrange
-        var price = new Price(14, MoneyUnit.USD);
+        var price = new Price(14, Currency.USD);
 
         // act
         var actualResult = price.ToString();

@@ -8,7 +8,7 @@ public static class OrderMappingProfile
         cfg.CreateMap<OrderItemDto, OrderItem>()
            .ConstructUsing(src => new OrderItem(
                new ProductId(src.ProductId),
-               new Price(src.Amount, Enum.Parse<MoneyUnit>(src.Currency))
+               new Price(src.Amount, Enum.Parse<Currency>(src.Currency))
            ));
 
         cfg.CreateMap<OrderId, int>().ConvertUsing(id => id.Value);
@@ -17,7 +17,7 @@ public static class OrderMappingProfile
 
         cfg.CreateMap<Price, PriceDto>()
             .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.Amount))
-            .ForMember(dest => dest.Currency, opt => opt.MapFrom(src => src.Unit.ToString()));
+            .ForMember(dest => dest.Currency, opt => opt.MapFrom(src => src.Currency.ToString()));
 
         // Entity -> ViewModel
         cfg.CreateMap<Order, OrderViewModel>()

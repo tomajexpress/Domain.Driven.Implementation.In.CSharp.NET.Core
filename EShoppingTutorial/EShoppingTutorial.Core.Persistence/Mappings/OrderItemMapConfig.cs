@@ -26,9 +26,9 @@ public class OrderItemMapConfig : IEntityTypeConfiguration<OrderItem>
 
         builder.OwnsOne(o => o.Price, price =>
         {
-            price.Property(x => x.Amount).HasColumnName("Amount");
+            price.Property(x => x.Amount).HasColumnName("Price_Amount");
 
-            price.Property(x => x.Unit).HasColumnName("Unit");
+            price.Property(x => x.Currency).HasColumnName("Price_Currency");
         });
 
         // Configure OrderId as foreign key

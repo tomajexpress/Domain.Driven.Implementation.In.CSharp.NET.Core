@@ -53,7 +53,7 @@ public class Order : IAggregateRoot
         }
 
         var currentTotal = _orderItems.Sum(x => x.Price.Amount);
-        var currency = _orderItems.First().Price.Unit;
+        var currency = _orderItems.First().Price.Currency;
 
         // Delegate the complex calculation to the Domain Service
         var taxAmount = await taxService.CalculateTaxAsync(ShippingAddress, currentTotal, currency);
@@ -120,8 +120,8 @@ public class Order : IAggregateRoot
 
     private void ValidateMaxPriceLimit(OrderItem orderItem)
     {
-        var unit = orderItem.Price.Unit;
-        var maximumPriceLimit = MaximumPriceLimits.GetMaximumPriceLimit(unit);
+        var currency = orderItem.Price.Currency;
+        var maximumPriceLimit = MaximumPriceLimits.GetMaximumPriceLimit(currency);
         var sumPriceOfOrderItems = _orderItems.Sum(en => en.Price.Amount);
 
         if (sumPriceOfOrderItems + orderItem.Price.Amount > maximumPriceLimit)

@@ -4,6 +4,7 @@ using EShoppingTutorial.Core.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EShoppingTutorial.Core.Migrations
 {
     [DbContext(typeof(EShoppingTutorialDbContext))]
-    partial class EShoppingTutorialDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260104190059_renamging MoneyUnit to Currency")]
+    partial class renamgingMoneyUnittoCurrency
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,11 +104,11 @@ namespace EShoppingTutorial.Core.Migrations
 
                             b1.Property<decimal>("Amount")
                                 .HasColumnType("decimal(18,2)")
-                                .HasColumnName("Price_Amount");
+                                .HasColumnName("Amount");
 
                             b1.Property<int>("Currency")
                                 .HasColumnType("int")
-                                .HasColumnName("Price_Currency");
+                                .HasColumnName("Currency");
 
                             b1.HasKey("OrderItemId");
 

@@ -2,26 +2,26 @@
 
 public static class MoneySymbols
 {
-    private static readonly Dictionary<MoneyUnit, string> _symbols;
+    private static readonly Dictionary<Currency, string> _symbols;
 
     static MoneySymbols()
     {
         if (_symbols != null) return;
 
-        _symbols = new Dictionary<MoneyUnit, string>
+        _symbols = new Dictionary<Currency, string>
         {
-            { MoneyUnit.UnSpecified, string.Empty },
+            { Currency.Unspecified, string.Empty },
 
-            { MoneyUnit.USD, "$" },
+            { Currency.USD, "$" },
 
-            { MoneyUnit.EUR, "€" },
+            { Currency.EUR, "€" },
 
-            { MoneyUnit.Rial, "Rial" },
+            { Currency.Rial, "Rial" },
         };
     }
 
-    public static string GetSymbol(MoneyUnit moneyUnit)
+    public static string GetSymbol(Currency currency)
     {
-        return _symbols[moneyUnit].ToString();
+        return _symbols[currency].ToString();
     }
 }
