@@ -51,11 +51,11 @@ public class Order : IAggregateRoot
             throw new BusinessRuleBrokenException("Tax can only be applied to new orders.");
         }
 
-        var currentTotal = _orderItems.Sum(x => x.Price.Amount);
+        var currentTotal = _orderItems.Sum(x => x.Price.Value);
         var currency = _orderItems.First().Price.Currency;
 
         // Delegate the complex calculation to the Domain Service
-        var taxAmount = await taxService.CalculateTaxAsync(ShippingAddress, currentTotal, currency);
+        var taxValue = await taxService.CalculateTaxAsync(ShippingAddress, currentTotal, currency);
 
         // System Product ID for Tax. The "Shadow Product" Approach. Create a row in your database specifically named 'Tax' and use its real ID
         const int TaxProductId = 99999;
@@ -64,7 +64,7 @@ public class Order : IAggregateRoot
         // For this example, let's assume we add it as an order item:
         var taxItem = new OrderItem(
             productId: new ProductId(TaxProductId), // System Product ID for Tax
-            price: taxAmount
+            price: taxValue
         );
 
         _orderItems.Add(taxItem);
@@ -121,9 +121,9 @@ public class Order : IAggregateRoot
     {
         var currency = orderItem.Price.Currency;
         var maximumPriceLimit = MaximumPriceLimits.GetMaximumPriceLimit(currency);
-        var sumPriceOfOrderItems = _orderItems.Sum(en => en.Price.Amount);
+        var sumPriceOfOrderItems = _orderItems.Sum(en => en.Price.Value);
 
-        if (sumPriceOfOrderItems + orderItem.Price.Amount > maximumPriceLimit)
+        if (sumPriceOfOrderItems + orderItem.Price.Value > maximumPriceLimit)
         {
             throw new BusinessRuleBrokenException("Maximum price has been reached!");
         }

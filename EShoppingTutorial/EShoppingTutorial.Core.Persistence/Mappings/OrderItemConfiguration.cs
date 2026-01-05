@@ -26,7 +26,7 @@ public class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
 
         builder.OwnsOne(o => o.Price, price =>
         {
-            price.Property(x => x.Amount).HasColumnName("Price_Amount");
+            price.Property(x => x.Value).HasColumnName("Price_Value");
 
             price.Property(x => x.Currency).HasColumnName("Price_Currency");
         });

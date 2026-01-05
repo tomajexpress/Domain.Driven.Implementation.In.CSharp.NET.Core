@@ -2,6 +2,6 @@
 
 public record PriceDto
 {
-    public decimal Amount { get; set; }
+    public decimal Value { get; set; }
     public required string Currency { get; set; }
 }

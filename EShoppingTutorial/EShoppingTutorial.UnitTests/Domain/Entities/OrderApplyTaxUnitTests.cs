@@ -39,7 +39,7 @@ public class OrderApplyTaxUnitTests
 
         var taxItem = order.OrderItems.FirstOrDefault(x => x.ProductId.Value == 99999);
         Assert.That(taxItem, Is.Not.Null);
-        Assert.That(taxItem.Price.Amount, Is.EqualTo(10));
+        Assert.That(taxItem.Price.Value, Is.EqualTo(10));
 
         // Verify the service was actually called once
         _taxServiceMock.Verify(s => s.CalculateTaxAsync(address, 100, Currency.USD), Times.Once);

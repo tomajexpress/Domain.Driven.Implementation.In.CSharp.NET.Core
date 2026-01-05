@@ -23,7 +23,7 @@
         {
             // arrange
             ProductId productId = new(1);
-            var order = new Order(new CustomerId(1), Mock.Of<Address>(), [new OrderItem (productId, new Price(amount: 2000, Currency.EUR))]);
+            var order = new Order(new CustomerId(1), Mock.Of<Address>(), [new OrderItem (productId, new Price(value: 2000, Currency.EUR))]);
 
             // act
             _orderRepository.Add(order);

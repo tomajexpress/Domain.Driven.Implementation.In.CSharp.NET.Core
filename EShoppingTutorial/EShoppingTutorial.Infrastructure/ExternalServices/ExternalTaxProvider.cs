@@ -14,8 +14,8 @@ public class ExternalTaxProvider : ITaxCalculationService
 
         decimal mockTaxRate = shippingAddress.Country.Equals("USA") ? 0.08m : 0.15m;
 
-        var amount = orderTotal * mockTaxRate;
+        var value = orderTotal * mockTaxRate;
 
-        return new Price(amount, currency);
+        return new Price(value, currency);
     }
 }

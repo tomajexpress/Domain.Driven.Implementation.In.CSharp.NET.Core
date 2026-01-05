@@ -11,7 +11,7 @@ public static class OrderMappingProfile
         cfg.CreateMap<OrderItemDto, OrderItem>()
            .ConstructUsing(src => new OrderItem(
                new ProductId(src.ProductId),
-               new Price(src.Amount, Enum.Parse<Currency>(src.Currency, true))
+               new Price(src.Value, Enum.Parse<Currency>(src.Currency, true))
            ));
 
         // Scalar Value Object Mappings
@@ -20,7 +20,7 @@ public static class OrderMappingProfile
         cfg.CreateMap<OrderItemId, int>().ConvertUsing(id => id.Value);
 
         cfg.CreateMap<Price, PriceDto>()
-            .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.Amount))
+            .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Value))
             .ForMember(dest => dest.Currency, opt => opt.MapFrom(src => src.Currency.ToString()));
 
         // Entity -> ViewModel

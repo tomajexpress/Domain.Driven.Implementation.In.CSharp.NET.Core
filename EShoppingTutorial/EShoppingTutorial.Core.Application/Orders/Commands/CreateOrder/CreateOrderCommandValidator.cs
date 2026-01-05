@@ -42,11 +42,11 @@ public class OrderItemDtoValidator : AbstractValidator<OrderItemDto>
         RuleFor(x => x.ProductId)
             .GreaterThan(0).WithMessage("Please enter a valid product");
 
-        RuleFor(x => x.Amount)
-            .GreaterThan(0).WithMessage("Please enter a valid amount!");
+        RuleFor(x => x.Value)
+            .GreaterThan(0).WithMessage("Please enter a valid money value!");
 
         RuleFor(x => x.Currency)
-            .NotEmpty().WithMessage("Please enter a currency code")
+            .NotEmpty().WithMessage("Please enter a money currency code")
             .IsEnumName(typeof(Currency), caseSensitive: false)
             .WithMessage("Please enter a valid currency code!");
     }

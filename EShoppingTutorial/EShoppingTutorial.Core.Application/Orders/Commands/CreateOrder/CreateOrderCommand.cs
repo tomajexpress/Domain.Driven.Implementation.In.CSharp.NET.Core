@@ -10,5 +10,5 @@ public record CreateOrderCommand(
 
 public record OrderItemDto(
     int ProductId,
-    decimal Amount,
+    decimal Value,
     string Currency);

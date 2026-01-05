@@ -27,7 +27,7 @@ public class PriceUnitTests
         var result = price1 + price2;
 
         // Assert
-        Assert.That(result.Amount, Is.EqualTo(150));
+        Assert.That(result.Value, Is.EqualTo(150));
         Assert.That(result.Currency, Is.EqualTo(Currency.USD));
     }
 
@@ -58,17 +58,17 @@ public class PriceUnitTests
         var result = price1 - price2;
 
         // Assert
-        Assert.That(result.Amount, Is.EqualTo(70));
+        Assert.That(result.Value, Is.EqualTo(70));
         Assert.That(result.Currency, Is.EqualTo(Currency.USD));
     }
 
     [TestCase(-1)]
     [TestCase(-100)]
-    public void Constructor_ShouldThrowException_WhenAmountIsNegative(decimal negativeAmount)
+    public void Constructor_ShouldThrowException_WhenValueIsNegative(decimal negativeValue)
     {
         // Act & Assert
-        var ex = Assert.Throws<BusinessRuleBrokenException>(() => new Price(negativeAmount, Currency.USD));
+        var ex = Assert.Throws<BusinessRuleBrokenException>(() => new Price(negativeValue, Currency.USD));
 
-        Assert.That(ex.Message, Is.EqualTo("Price amount cannot be negative."));
+        Assert.That(ex.Message, Is.EqualTo("Price value cannot be negative."));
     }
 }
