@@ -6,13 +6,13 @@ namespace EShoppingTutorial.Infrastructure.ExternalServices;
 
 public class ExternalTaxProvider : ITaxCalculationService
 {
-    public async Task<Price> CalculateTaxAsync(string shippingAddress, decimal orderTotal, Currency currency)
+    public async Task<Price> CalculateTaxAsync(Address shippingAddress, decimal orderTotal, Currency currency)
     {
         // In a real scenario, this would call an API like TaxJar or Avalara
         // var response = await _httpClient.GetFromJsonAsync<TaxResponse>(...);
         // For this example, we will mock the tax calculation
 
-        decimal mockTaxRate = shippingAddress.Contains("USA") ? 0.08m : 0.15m;
+        decimal mockTaxRate = shippingAddress.Country.Equals("USA") ? 0.08m : 0.15m;
 
         var amount = orderTotal * mockTaxRate;
 

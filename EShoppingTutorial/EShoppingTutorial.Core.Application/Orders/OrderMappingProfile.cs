@@ -4,13 +4,17 @@ public static class OrderMappingProfile
 {
     public static void AddMappingConfigs(IMapperConfigurationExpression cfg)
     {
+        // Address -> AddressDto (Simple property matching)
+        cfg.CreateMap<Address, AddressDto>();
+
         // OrderItemDto -> OrderItem
         cfg.CreateMap<OrderItemDto, OrderItem>()
            .ConstructUsing(src => new OrderItem(
                new ProductId(src.ProductId),
-               new Price(src.Amount, Enum.Parse<Currency>(src.Currency))
+               new Price(src.Amount, Enum.Parse<Currency>(src.Currency, true))
            ));
 
+        // Scalar Value Object Mappings
         cfg.CreateMap<OrderId, int>().ConvertUsing(id => id.Value);
         cfg.CreateMap<ProductId, int>().ConvertUsing(id => id.Value);
         cfg.CreateMap<OrderItemId, int>().ConvertUsing(id => id.Value);
@@ -22,6 +26,7 @@ public static class OrderMappingProfile
         // Entity -> ViewModel
         cfg.CreateMap<Order, OrderViewModel>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.Value))
+            // AutoMapper automatically matches ShippingAddress (Address) to ShippingAddress (AddressDto)
             .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(src => src.OrderItems));
 
         // OrderItem -> OrderItemViewModel

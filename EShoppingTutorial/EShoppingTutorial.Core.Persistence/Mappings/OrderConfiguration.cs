@@ -21,7 +21,13 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
 
         builder.HasIndex(o => o.TrackingNumber).IsUnique();
 
-        builder.Property(o => o.ShippingAddress).HasColumnName("ShippingAddress").HasMaxLength(100).IsUnicode().IsRequired();
+        builder.OwnsOne(o => o.ShippingAddress, a =>
+        {
+            a.Property(p => p.Street).HasColumnName("Street").HasMaxLength(100).IsRequired();
+            a.Property(p => p.City).HasColumnName("City").HasMaxLength(50).IsRequired();
+            a.Property(p => p.Country).HasColumnName("Country").HasMaxLength(50).IsRequired();
+            a.Property(p => p.ZipCode).HasColumnName("ZipCode").HasMaxLength(10).IsRequired();
+        });
 
         builder.Property(o => o.OrderDate).HasColumnName("OrderDate").HasMaxLength(10).IsRequired();
 

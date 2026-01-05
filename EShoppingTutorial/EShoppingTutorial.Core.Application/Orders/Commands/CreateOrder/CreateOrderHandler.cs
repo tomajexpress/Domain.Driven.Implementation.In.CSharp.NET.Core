@@ -13,7 +13,7 @@ public class CreateOrderHandler(IUnitOfWork unitOfWork,
 
         var order = new Order(
             new CustomerId(request.CustomerId),
-            request.ShippingAddress,
+            new Address(request.Street, request.City, request.Country, request.ZipCode),
             items
         );
 

@@ -16,7 +16,7 @@ public class OrderApplyTaxUnitTests
     {
         // Arrange
         var customerId = new CustomerId(1);
-        var address = "123 Tech Street, New York";
+        var address = new Address("123 Tech St", "New York", "USA", "10001");
         var items = new List<OrderItem>
         {
             new OrderItem(new ProductId(1), new Price(100, Currency.USD))
@@ -50,13 +50,13 @@ public class OrderApplyTaxUnitTests
     {
         // Arrange
         var customerId = new CustomerId(1);
-
+        var address = new Address("123 Tech St", "New York", "USA", "10001");
         var items = new List<OrderItem>
         {
             new OrderItem(new ProductId(1), new Price (100, Currency.USD))
         };
 
-        var order = new Order(customerId, "Address", items);
+        var order = new Order(customerId, address, items);
 
         // Manually move state to Pending in order to simulate non-created state
         order.MarkAsPending();

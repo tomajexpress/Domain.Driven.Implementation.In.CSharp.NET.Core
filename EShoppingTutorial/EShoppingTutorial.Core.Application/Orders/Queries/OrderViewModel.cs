@@ -3,6 +3,6 @@
 public record OrderViewModel(
     int Id,
     Guid TrackingNumber,
-    string ShippingAddress,
+    AddressDto ShippingAddress,
     DateTime OrderDate,
     IEnumerable<OrderItemViewModel> OrderItems);

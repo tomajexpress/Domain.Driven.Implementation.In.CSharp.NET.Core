@@ -7,7 +7,7 @@ public class Order : IAggregateRoot
 
     // Mandatory inputs for creation
     public required CustomerId CustomerId { get; init; }
-    public required string ShippingAddress { get; init; }
+    public required Address ShippingAddress { get; init; }
 
     // Managed internally by business logic
     public Guid TrackingNumber { get; init; }
@@ -22,10 +22,9 @@ public class Order : IAggregateRoot
     protected Order() { }
 
     [SetsRequiredMembers]
-    public Order(CustomerId customerId, string shippingAddress, IEnumerable<OrderItem> orderItems) : this()
+    public Order(CustomerId customerId, Address shippingAddress, IEnumerable<OrderItem> orderItems) : this()
     {
         ValidateCustomerId(customerId);
-        ValidateShippingAddress(shippingAddress);
         ValidateOrderItems(orderItems);
 
         CustomerId = customerId;
@@ -135,14 +134,6 @@ public class Order : IAggregateRoot
         if (customerId is null || customerId.Value == 0)
         {
             throw new BusinessRuleBrokenException("You must supply Customer Id!");
-        }
-    }
-
-    private static void ValidateShippingAddress(string shippingAddress)
-    {
-        if (string.IsNullOrWhiteSpace(shippingAddress))
-        {
-            throw new BusinessRuleBrokenException("You must supply Shipping Address!");
         }
     }
 }

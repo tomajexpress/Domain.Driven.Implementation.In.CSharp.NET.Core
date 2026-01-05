@@ -7,7 +7,7 @@ public class OrderUnitTests
     public void InstantiatingOrder_WithEmptyOrderItems_ExpectsBusinessRuleBrokenException()
     {
         // arrange & act
-        static void testDelegate() => new Order(new CustomerId(1), shippingAddress: "123 Clean Architecture Lane", orderItems: []);
+        static void testDelegate() => new Order(new CustomerId(1), Mock.Of<Address>(), orderItems: []);
 
         // assert
         var ex = Assert.Throws<BusinessRuleBrokenException>(testDelegate);
@@ -22,7 +22,7 @@ public class OrderUnitTests
         var priceMock = new Price(1, Currency.USD);
         var orderItemMock = new OrderItem(productIdMock, priceMock);
 
-        var order = new Order(new CustomerId(1), "123 Clean Architecture Lane", [orderItemMock]);
+        var order = new Order(new CustomerId(1), Mock.Of<Address>(), [orderItemMock]);
 
         // act
         void testDelegate() => order.OrderItems.Add(orderItemMock);

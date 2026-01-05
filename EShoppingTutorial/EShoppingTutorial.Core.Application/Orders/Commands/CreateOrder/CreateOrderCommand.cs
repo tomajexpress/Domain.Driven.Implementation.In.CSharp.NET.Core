@@ -2,7 +2,10 @@
 
 public record CreateOrderCommand(
     int CustomerId,
-    string ShippingAddress,
+    string Street,
+    string City,
+    string Country,
+    string ZipCode,
     List<OrderItemDto> Items) : IRequest<int>;
 
 public record OrderItemDto(
