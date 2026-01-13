@@ -1,0 +1,35 @@
+name: .NET CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    env:
+      Solution_Name: DomainDrivenTutorial.sln
+      Test_Project_Path: EShoppingTutorial.UnitTests/EShoppingTutorial.UnitTests.csproj
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Install .NET 10
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 10.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.Solution_Name }}
+
+    - name: Build
+      run: dotnet build ${{ env.Solution_Name }} --configuration Release --no-restore
+
+    - name: Execute unit tests
+      run: dotnet test ${{ env.Test_Project_Path }} --configuration Release --no-build
