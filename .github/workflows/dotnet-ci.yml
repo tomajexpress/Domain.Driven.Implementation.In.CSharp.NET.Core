@@ -20,9 +20,9 @@ jobs:
       with:
         fetch-depth: 0
         
-    # This new step will show us exactly where the files are
+    # Modern PowerShell way to list all csproj files recursively
     - name: Debug - List Files
-      run: dir /s /b *.csproj
+      run: Get-ChildItem -Recurse -Filter *.csproj | ForEach-Object { $_.FullName }
 
     - name: Install .NET 10
       uses: actions/setup-dotnet@v4
