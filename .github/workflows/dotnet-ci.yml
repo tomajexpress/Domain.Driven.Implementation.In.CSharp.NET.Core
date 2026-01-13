@@ -21,8 +21,8 @@ jobs:
         fetch-depth: 0
         
     # Modern PowerShell way to list all csproj files recursively
-    - name: Debug - List Files
-      run: Get-ChildItem -Recurse -Filter *.csproj | ForEach-Object { $_.FullName }
+    #- name: Debug - List Files
+    # run: Get-ChildItem -Recurse -Filter *.csproj | ForEach-Object { $_.FullName }
 
     - name: Install .NET 10
       uses: actions/setup-dotnet@v4
