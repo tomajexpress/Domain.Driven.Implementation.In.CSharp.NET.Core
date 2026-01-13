@@ -12,7 +12,7 @@ jobs:
 
     env:
       Solution_Name: DomainDrivenTutorial.sln
-      Test_Project_Path: EShoppingTutorial.UnitTests/EShoppingTutorial.UnitTests.csproj
+      Test_Project_Path: EShoppingTutorial/EShoppingTutorial.UnitTests/EShoppingTutorial.UnitTests.csproj
 
     steps:
     - name: Checkout
