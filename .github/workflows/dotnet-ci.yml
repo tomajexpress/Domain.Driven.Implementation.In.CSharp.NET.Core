@@ -12,6 +12,7 @@ jobs:
 
     env:
       Solution_Name: DomainDrivenTutorial.sln
+      # Path is updated to the subfolder structure we discovered
       Test_Project_Path: EShoppingTutorial/EShoppingTutorial.UnitTests/EShoppingTutorial.UnitTests.csproj
 
     steps:
@@ -32,19 +33,30 @@ jobs:
       run: dotnet build ${{ env.Solution_Name }} --configuration Release --no-restore
 
     - name: Execute unit tests
-      run: dotnet test ${{ env.Test_Project_Path }} --configuration Release --no-build --collect:"XPlat Code Coverage" --results-directory ./TestResults -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Exclude="[*]*Migrations.*"
+      # Format=opencover adds Method-level metadata that Cobertura often misses
+      run: >
+        dotnet test ${{ env.Test_Project_Path }} 
+        --configuration Release 
+        --no-build 
+        --collect:"XPlat Code Coverage" 
+        --results-directory ./TestResults 
+        -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover,cobertura
 
     - name: ReportGenerator
       uses: danielpalme/ReportGenerator-GitHub-Action@5.2.4
       with:
-        reports: '**/TestResults/*/coverage.cobertura.xml'
+        reports: 'TestResults/**/coverage.*.xml'
         targetdir: 'coveragereport'
-        # Adding 'HtmlSummary' and 'Clover' often forces the inclusion of Method metrics
-        reporttypes: 'MarkdownSummary;HtmlInline_AzurePipelines;HtmlSummary;Clover'
+        # MarkdownSummaryGithub creates the specific file for the step summary
+        reporttypes: 'MarkdownSummaryGithub;HtmlInline_AzurePipelines;HtmlSummary'
 
     - name: Upload coverage report
       uses: actions/upload-artifact@v4
       with:
         name: code-coverage-report
         path: coveragereport
-        
+
+    - name: Write to Job Summary
+      # This step physically pushes the report into the GitHub 'Summary' tab
+      run: cat coveragereport/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
+      shell: bash
