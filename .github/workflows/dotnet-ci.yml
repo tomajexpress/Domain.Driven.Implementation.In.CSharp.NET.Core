@@ -19,10 +19,6 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-        
-    # Modern PowerShell way to list all csproj files recursively
-    #- name: Debug - List Files
-    # run: Get-ChildItem -Recurse -Filter *.csproj | ForEach-Object { $_.FullName }
 
     - name: Install .NET 10
       uses: actions/setup-dotnet@v4
@@ -36,17 +32,18 @@ jobs:
       run: dotnet build ${{ env.Solution_Name }} --configuration Release --no-restore
 
     - name: Execute unit tests
-          run: dotnet test ${{ env.Test_Project_Path }} --configuration Release --no-build --collect:"XPlat Code Coverage"
+      run: dotnet test ${{ env.Test_Project_Path }} --configuration Release --no-build --collect:"XPlat Code Coverage"
 
-        - name: ReportGenerator
-          uses: danielpalme/ReportGenerator-GitHub-Action@5.2.4
-          with:
-            reports: '**/TestResults/*/coverage.cobertura.xml' # Find the coverage file
-            targetdir: 'coveragereport' # Where to put the output
-            reporttypes: 'MarkdownSummary;HtmlInline_AzurePipelines'
+    - name: ReportGenerator
+      uses: danielpalme/ReportGenerator-GitHub-Action@5.2.4
+      with:
+        reports: '**/TestResults/*/coverage.cobertura.xml'
+        targetdir: 'coveragereport'
+        reporttypes: 'MarkdownSummary;HtmlInline_AzurePipelines'
 
-        - name: Upload coverage report
-          uses: actions/upload-artifact@v4
-          with:
-            name: code-coverage-report
-            path: coveragereport
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v4
+      with:
+        name: code-coverage-report
+        path: coveragereport
+        
