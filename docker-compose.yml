@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+  eshoppingtutorialwebapi:
+    image: ${DOCKER_REGISTRY-}eshoppingtutorialwebapi
+    build:
+      context: .
+      dockerfile: EShoppingTutorialWebAPI/Dockerfile
+    depends_on:
+      - db
+# SQL Server for Linux
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=YourStrong@Passw0rd
+    ports:
+      - "1433:1433"
