@@ -6,12 +6,15 @@ public class OrderUnitTests
     [Test]
     public void InstantiatingOrder_WithEmptyOrderItems_ExpectsBusinessRuleBrokenException()
     {
-        // arrange & act
-        static void testDelegate() => new Order(new CustomerId(1), Mock.Of<Address>(), orderItems: []);
+        var dummyAddress = new Address("Street", "City", "Country", "ZipCode");
+        var customerId = new CustomerId(1);
 
-        // assert
+        // Act
+        TestDelegate testDelegate = () => new Order(customerId, dummyAddress, orderItems: []);
+
+        // Assert
         var ex = Assert.Throws<BusinessRuleBrokenException>(testDelegate);
-        Assert.That(ex.Message.Contains("Order must have at least one item", StringComparison.CurrentCultureIgnoreCase));
+        ex.Message.Should().Contain("Order must have at least one item");
     }
 
     [Test]
@@ -22,10 +25,12 @@ public class OrderUnitTests
         var priceMock = new Price(1, Currency.USD);
         var orderItemMock = new OrderItem(productIdMock, priceMock);
 
-        var order = new Order(new CustomerId(1), Mock.Of<Address>(), [orderItemMock]);
+        var dummyAddress = new Address("Street", "City", "Country", "ZipCode");
+        var order = new Order(new CustomerId(1), dummyAddress, [orderItemMock]);
 
         // act
-        void testDelegate() => order.OrderItems.Add(orderItemMock);
+        var orderItems = order.OrderItems as ICollection<OrderItem>;
+        void testDelegate() => orderItems.Add(orderItemMock);
 
         // assert
         var ex = Assert.Throws<NotSupportedException>(testDelegate);

@@ -1,6 +1,6 @@
 ﻿namespace EShoppingTutorial.Core.Application.Orders.Queries.GetAllOrders;
 
-public class GetAllOrdersHandler(IUnitOfWork unitOfWork, IMapper mapper)
+internal class GetAllOrdersHandler(IUnitOfWork unitOfWork, IMapper mapper)
     : IRequestHandler<GetAllOrdersQuery, QueryResult<OrderViewModel>>
 {
     public async Task<QueryResult<OrderViewModel>> Handle(GetAllOrdersQuery request, CancellationToken ct)

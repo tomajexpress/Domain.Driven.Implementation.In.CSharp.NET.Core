@@ -1,6 +1,6 @@
 ﻿namespace EShoppingTutorial.Core.Application.Orders.Commands.CreateOrder;
 
-public class CreateOrderHandler(IUnitOfWork unitOfWork, 
+internal class CreateOrderHandler(IUnitOfWork unitOfWork, 
             ITaxCalculationService taxCalculationService,
             IMapper mapper) 
             : IRequestHandler<CreateOrderCommand, int>

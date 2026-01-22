@@ -8,6 +8,7 @@ global using System.Threading.Tasks;
 global using NUnit.Framework;
 global using Moq;
 global using Microsoft.EntityFrameworkCore;
+global using FluentAssertions;
 
 // Domain Specific Namespaces
 global using EShoppingTutorial.Core.Domain.Entities;

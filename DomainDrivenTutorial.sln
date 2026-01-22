@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShoppingTutorial.Infrastru
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{81DDED9D-158B-E303-5F62-77A2896D2A5A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShoppingTutorial.ArchTests", "EShoppingTutorial\EShoppingTutorial.ArchTests\EShoppingTutorial.ArchTests.csproj", "{7DE2D839-9AF3-4D02-9BC1-B559ECD1E31C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DE2D839-9AF3-4D02-9BC1-B559ECD1E31C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DE2D839-9AF3-4D02-9BC1-B559ECD1E31C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DE2D839-9AF3-4D02-9BC1-B559ECD1E31C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DE2D839-9AF3-4D02-9BC1-B559ECD1E31C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +93,7 @@ Global
 		{A12271E1-D764-4757-AFA4-203DBB555B26} = {9E43B017-E13C-453B-9C1C-A50BF9DB705F}
 		{311A5E04-1743-4674-BE72-2A4FD050A911} = {563C32CB-B8B9-4223-823F-9F56383B2274}
 		{F31C106C-CAA0-48B8-8046-8C2A6D394874} = {563C32CB-B8B9-4223-823F-9F56383B2274}
+		{7DE2D839-9AF3-4D02-9BC1-B559ECD1E31C} = {563C32CB-B8B9-4223-823F-9F56383B2274}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {58DDD7D4-5B51-440D-8E00-95270B5E1AD0}

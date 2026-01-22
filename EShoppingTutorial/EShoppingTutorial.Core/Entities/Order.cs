@@ -16,7 +16,7 @@ public class Order : IAggregateRoot
 
     // Expose as IReadOnlyCollection to prevent external tampering
     private readonly List<OrderItem> _orderItems = [];
-    public ICollection<OrderItem> OrderItems => _orderItems.AsReadOnly();
+    public IEnumerable<OrderItem> OrderItems => _orderItems.AsReadOnly();
 
     // EF Core requires a parameterless constructor
     protected Order() { }
