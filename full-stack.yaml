@@ -1,0 +1,128 @@
+# --- THE API SERVICE (Load Balancer) ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eshopping-api-service
+spec:
+  type: LoadBalancer    
+  selector:
+    app: eshopping-api
+  ports:
+    - protocol: TCP
+      port: 8081        # Port you use in the browser
+      targetPort: 8080  # Port inside the .NET container
+---
+# --- THE INGRESS (Domain Router) ---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: eshopping-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: eshopping.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: eshopping-api-service
+            port:
+              number: 8081
+---
+# --- THE DATABASE SERVICE ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sql-service
+spec:
+  selector:
+    app: mssql
+  ports:
+    - protocol: TCP
+      port: 1433
+      targetPort: 1433
+---
+# --- THE DATABASE (StatefulSet with Persistent Storage) ---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mssql
+spec:
+  serviceName: "sql-service"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mssql
+  template:
+    metadata:
+      labels:
+        app: mssql
+    spec:
+      containers:
+      - name: mssql
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        ports:
+        - containerPort: 1433
+        env:
+        - name: ACCEPT_EULA
+          value: "Y"
+        - name: MSSQL_SA_PASSWORD
+          value: "YourStrong@Passw0rd"
+        volumeMounts:
+        - name: mssql-storage
+          mountPath: /var/opt/mssql # SQL Server's internal data directory
+  volumeClaimTemplates:
+  - metadata:
+      name: mssql-storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi # This creates a permanent disk on your host
+---
+# --- THE API DEPLOYMENT (3 Replicas) ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eshopping-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: eshopping-api
+  template:
+    metadata:
+      labels:
+        app: eshopping-api
+    spec:
+      initContainers:
+      - name: wait-for-sql
+        image: busybox:latest
+        command: ['sh', '-c', "until nc -z sql-service 1433; do echo waiting for sql; sleep 2; done;"]
+      containers:
+      - name: api
+        image: eshopping-api:v1  # Uses the tag we successfully built
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Development"
+        - name: ASPNETCORE_URLS
+          value: "http://0.0.0.0:8080"
+        - name: ConnectionStrings__EShoppingTutorialDB
+          value: "Server=sql-service;Database=EShoppingTutorialDB;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True"
+        livenessProbe:
+          httpGet:
+            path: /index.html 
+            port: 8080
+          initialDelaySeconds: 40
+          periodSeconds: 15
+        readinessProbe:
+          httpGet:
+            path: /index.html
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
