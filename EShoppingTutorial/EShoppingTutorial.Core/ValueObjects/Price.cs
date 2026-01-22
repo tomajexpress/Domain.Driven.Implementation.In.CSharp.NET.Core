@@ -1,6 +1,6 @@
 ﻿namespace EShoppingTutorial.Core.Domain.ValueObjects;
 
-public record Price
+public sealed record Price
 {
     public decimal Value { get; init; }
     public Currency Currency { get; init; } = Currency.Unspecified;

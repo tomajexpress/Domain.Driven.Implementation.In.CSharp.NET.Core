@@ -1,6 +1,6 @@
 ﻿namespace EShoppingTutorial.Core.Application.Orders.Queries.GetOrderById;
 
-public class GetOrderByIdHandler(IUnitOfWork unitOfWork, IMapper mapper) : IRequestHandler<GetOrderByIdQuery, OrderViewModel?>
+internal class GetOrderByIdHandler(IUnitOfWork unitOfWork, IMapper mapper) : IRequestHandler<GetOrderByIdQuery, OrderViewModel?>
 {
     public async Task<OrderViewModel?> Handle(GetOrderByIdQuery request, CancellationToken ct)
     {

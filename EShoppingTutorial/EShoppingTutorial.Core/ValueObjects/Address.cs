@@ -1,6 +1,6 @@
 ﻿namespace EShoppingTutorial.Core.Domain.ValueObjects;
 
-public record Address
+public sealed record Address
 {
     public string Street { get; init; } = default!;
     public string City { get; init; } = default!;

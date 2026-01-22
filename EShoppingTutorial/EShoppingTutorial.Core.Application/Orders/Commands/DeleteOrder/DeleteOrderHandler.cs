@@ -1,6 +1,6 @@
 ﻿namespace EShoppingTutorial.Core.Application.Orders.Commands.DeleteOrder;
 
-public class DeleteOrderHandler(IUnitOfWork unitOfWork) : IRequestHandler<DeleteOrderCommand, bool>
+internal class DeleteOrderHandler(IUnitOfWork unitOfWork) : IRequestHandler<DeleteOrderCommand, bool>
 {
     public async Task<bool> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
     {

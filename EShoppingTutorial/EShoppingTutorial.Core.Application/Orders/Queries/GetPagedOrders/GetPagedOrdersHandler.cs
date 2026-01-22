@@ -1,6 +1,6 @@
 ﻿namespace EShoppingTutorial.Core.Application.Orders.Queries.GetPagedOrders;
 
-public class GetPagedOrdersHandler(IUnitOfWork unitOfWork, IMapper mapper)
+internal class GetPagedOrdersHandler(IUnitOfWork unitOfWork, IMapper mapper)
     : IRequestHandler<GetPagedOrdersQuery, QueryResult<OrderViewModel>>
 {
     public async Task<QueryResult<OrderViewModel>> Handle(GetPagedOrdersQuery request, CancellationToken ct)
