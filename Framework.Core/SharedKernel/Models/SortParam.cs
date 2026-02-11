@@ -1,6 +1,6 @@
 ﻿namespace SharedKernel.Models;
 
-public class SortParam
+public record SortParam
 {
     public bool? SortOrderDescending { get; set; }
     
