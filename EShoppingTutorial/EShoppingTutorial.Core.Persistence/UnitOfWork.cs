@@ -6,8 +6,10 @@ public class UnitOfWork : IUnitOfWork, IAsyncDisposable
 
     // Lazy holders for our repositories
     private readonly Lazy<IOrderRepository> _orderRepository;
-
     public IOrderRepository OrderRepository => _orderRepository.Value;
+
+    private readonly Lazy<IProductRepository> _productRepository;
+    public IProductRepository ProductRepository =>  _productRepository.Value;
 
     public UnitOfWork(EShoppingTutorialDbContext context)
     {
@@ -15,6 +17,7 @@ public class UnitOfWork : IUnitOfWork, IAsyncDisposable
 
         // Define how to create the repository, but don't create it yet
         _orderRepository = new Lazy<IOrderRepository>(() => new OrderRepository(_context));
+        _productRepository = new Lazy<IProductRepository>(() => new ProductRepository(_context));
     }
 
     public async Task<int> CompleteAsync()

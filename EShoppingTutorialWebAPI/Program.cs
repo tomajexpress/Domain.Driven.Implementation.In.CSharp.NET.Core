@@ -50,6 +50,8 @@ public class Program
         }
 
         app.MapOrderEndpoints();
+        app.MapProductEndpoints();
+
         app.UseExceptionHandler();
         app.UseHttpsRedirection();
         app.UseAuthorization();

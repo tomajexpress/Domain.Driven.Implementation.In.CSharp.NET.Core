@@ -1,4 +1,6 @@
-﻿namespace EShoppingTutorial.Core.Application;
+﻿using EShoppingTutorial.Core.Application.Products;
+
+namespace EShoppingTutorial.Core.Application;
 
 public static class ApplicationDependencyInjection
 {
@@ -14,6 +16,8 @@ public static class ApplicationDependencyInjection
         services.AddValidatorsFromAssembly(applicationAssembly);
 
         services.AddAutoMapper(OrderMappingProfile.AddMappingConfigs);
+
+        services.AddAutoMapper(ProductMappingProfile.AddMappingConfigs);
 
         return services;
     }
